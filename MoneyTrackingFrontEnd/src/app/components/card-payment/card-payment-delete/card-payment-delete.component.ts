@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { CardPaymentService } from 'src/app/services/card-payment.service';
 
 @Component({
   selector: 'app-card-payment-delete',
@@ -7,9 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CardPaymentDeleteComponent implements OnInit {
 
-  constructor() { }
+  bankName:string;
+  amount:number;
+
+  constructor(
+    private cardPaymentService: CardPaymentService,
+    @Inject(MAT_DIALOG_DATA) public deleteData: any,
+    private dialogRef:MatDialogRef<CardPaymentDeleteComponent>,
+    private toastrService: ToastrService
+  ) { }
 
   ngOnInit(): void {
+    this.bankName=this.deleteData.bankName;
+    this.amount=this.deleteData.amount;
+  }
+  deleteCardPayment(){
+
+    this.cardPaymentService.delete(this.deleteData).subscribe(
+      (response) => {
+        this.toastrService.success(response.message, 'Başarılı');
+
+       this.dialogRef.close('delete');
+      },
+
+    );
+
+
   }
 
 }
