@@ -1,2 +1,9 @@
-<app-toolbar></app-toolbar>
+<mat-drawer-container autosize>
+  <mat-drawer #sidenav mode="over" opened>
 <app-sidenav></app-sidenav>
+</mat-drawer>
+  <mat-drawer-content>
+    <app-toolbar (sidenavToggle)="sidenav.toggle()"></app-toolbar>
+     <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

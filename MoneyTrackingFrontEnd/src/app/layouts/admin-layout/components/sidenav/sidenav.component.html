@@ -1,1 +1,73 @@
-<p>sidenav works!</p>
+
+<mat-selection-list [multiple]="false">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon mat-list-icon>currency_exchange</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description> Kasa </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list-option
+        *ngFor="let safetyboxs of safetyBox"
+        [routerLink]="[safetyboxs.path]"
+      >
+        <mat-icon mat-list-icon>{{ safetyboxs.icon }}</mat-icon>
+        {{ safetyboxs.name }}
+      </mat-list-option>
+    </mat-expansion-panel>
+    <mat-divider style="background-color: #69f0ae"></mat-divider>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon mat-list-icon>local_shipping</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description> Sevkiyat </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list-option *ngFor="let shippings of shipping" routerLink="/">
+        <mat-icon mat-list-icon>{{ shippings.icon }}</mat-icon>
+        {{ shippings.name }}
+      </mat-list-option>
+    </mat-expansion-panel>
+    <mat-divider style="background-color: #69f0ae"></mat-divider>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon mat-list-icon>person</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description> Personel </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list-option *ngFor="let staffs of staff">
+        <mat-icon mat-list-icon>{{ staffs.icon }}</mat-icon>
+        {{ staffs.name }}
+      </mat-list-option>
+    </mat-expansion-panel>
+    <mat-divider style="background-color: #69f0ae"></mat-divider>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon mat-list-icon>person</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description> Kullanıcı </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list-option *ngFor="let users of user">
+        <mat-icon mat-list-icon>{{ users.icon }}</mat-icon>
+        {{ users.name }}
+      </mat-list-option>
+    </mat-expansion-panel>
+    <mat-divider style="background-color: #69f0ae"></mat-divider>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon mat-list-icon>person</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description> Ayarlar </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list-option *ngFor="let settings of setting">
+        <mat-icon mat-list-icon>{{ settings.icon }}</mat-icon>
+        {{ settings.name }}
+      </mat-list-option>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-selection-list>

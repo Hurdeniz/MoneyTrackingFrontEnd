@@ -5,6 +5,11 @@ import { AdminLayoutRoutingModule } from './admin-layout-routing.module';
 
 import { ComponentsModule } from './components/components.module';
 import { AdminLayoutComponent } from './admin-layout.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
+
+
+
 
 
 @NgModule({
@@ -14,7 +19,11 @@ import { AdminLayoutComponent } from './admin-layout.component';
   imports: [
     CommonModule,
     AdminLayoutRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    MatSidenavModule,
+    MatIconModule
+
+
   ]
 })
 export class AdminLayoutModule { }

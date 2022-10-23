@@ -1,11 +1,136 @@
 import { Component, OnInit } from '@angular/core';
 
+declare interface RouteInfo {
+  name: string;
+  icon: string;
+  path:string;
+}
+
+
+
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
+
+  safetyBox:RouteInfo[]=[
+    {
+      name:'Kredi Kartı',
+      icon:'credit_card',
+      path:'cardPayment'
+    },
+    {
+      name:'Masraf',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'E-Gelecek',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Para Yatırma',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Firma Ödemesi',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Merkez Ödemesi',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Kasa Açık',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Notlar',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Kasa Topla',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Kasa Çıkış',
+      icon:'receipt_long',
+      path:''
+    },
+  ];
+  shipping:RouteInfo[]=[
+    {
+      name:'Sevkiyat Listesi ',
+      icon:'credit_card',
+      path:''
+    },
+    {
+      name:'Sor Listesi',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Sevkiyatlar',
+      icon:'receipt_long',
+      path:''
+    },
+    {
+      name:'Memnuniyet',
+      icon:'receipt_long',
+      path:''
+    }
+
+  ];
+  staff:RouteInfo[]=[
+    {
+      name:'Personeller ',
+      icon:'credit_card',
+      path:''
+    },
+    {
+      name:'Shift',
+      icon:'receipt_long',
+      path:''
+    },
+
+
+  ];
+  user:RouteInfo[]=[
+    {
+      name:'Kulanıcılar',
+      icon:'credit_card',
+      path:''
+    }
+
+
+
+  ];
+  setting:RouteInfo[]=[
+    {
+      name:'Profil Ayarları',
+      icon:'credit_card',
+      path:''
+    },
+    {
+      name:'Şifre Değiştir',
+      icon:'credit_card',
+      path:''
+    }
+
+
+
+  ];
+
+
 
   constructor() { }
 
