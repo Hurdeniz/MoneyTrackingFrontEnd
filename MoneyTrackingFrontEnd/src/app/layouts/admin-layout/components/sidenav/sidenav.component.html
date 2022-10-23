@@ -18,14 +18,14 @@
     </mat-expansion-panel>
     <mat-divider style="background-color: #69f0ae"></mat-divider>
 
-    <mat-expansion-panel>
+     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon mat-list-icon>local_shipping</mat-icon>
         </mat-panel-title>
         <mat-panel-description> Sevkiyat </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let shippings of shipping" routerLink="/">
+      <mat-list-option *ngFor="let shippings of shipping" routerLink="{{shippings.path}}">
         <mat-icon mat-list-icon>{{ shippings.icon }}</mat-icon>
         {{ shippings.name }}
       </mat-list-option>

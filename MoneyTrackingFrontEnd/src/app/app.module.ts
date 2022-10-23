@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { CardPaymentComponent } from './components/card-payment/card-payment.component';
 
 
 
@@ -19,6 +20,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     AppComponent,
+    CardPaymentComponent,
 
   ],
   imports: [

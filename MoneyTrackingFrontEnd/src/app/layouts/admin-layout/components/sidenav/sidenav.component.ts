@@ -6,6 +6,59 @@ declare interface RouteInfo {
   path:string;
 }
 
+// export const ROUTES: RouteInfo[] = [
+//   {
+//     name:'Kredi KartıAS',
+//     icon:'credit_card',
+//     path:'/cardPayments'
+
+//   },
+//   {
+//     name:'Masraf',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'E-Gelecek',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Para Yatırma',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Firma Ödemesi',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Merkez Ödemesi',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Kasa Açık',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Notlar',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Kasa Topla',
+//     icon:'receipt_long',
+//     path:''
+//   },
+//   {
+//     name:'Kasa Çıkış',
+//     icon:'receipt_long',
+//     path:''
+//   },
+// ]
 
 
 @Component({
@@ -15,11 +68,13 @@ declare interface RouteInfo {
 })
 export class SidenavComponent implements OnInit {
 
+  menuItems: any[];
+
   safetyBox:RouteInfo[]=[
     {
       name:'Kredi Kartı',
       icon:'credit_card',
-      path:'cardPayment'
+      path:'cardPayments'
     },
     {
       name:'Masraf',
@@ -71,7 +126,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Sevkiyat Listesi ',
       icon:'credit_card',
-      path:''
+      path:'cardPayments'
     },
     {
       name:'Sor Listesi',
@@ -135,6 +190,7 @@ export class SidenavComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  //  this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
 
 }
