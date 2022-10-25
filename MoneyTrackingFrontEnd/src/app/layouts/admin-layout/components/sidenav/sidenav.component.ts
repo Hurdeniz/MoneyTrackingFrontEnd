@@ -74,12 +74,12 @@ export class SidenavComponent implements OnInit {
     {
       name:'Kredi Kartı',
       icon:'credit_card',
-      path:'cardPayments'
+      path:'CardPayment'
     },
     {
       name:'Masraf',
       icon:'receipt_long',
-      path:''
+      path:'Expenditure'
     },
     {
       name:'E-Gelecek',

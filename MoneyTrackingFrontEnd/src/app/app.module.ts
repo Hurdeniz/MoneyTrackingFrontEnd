@@ -11,7 +11,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { CardPaymentComponent } from './components/card-payment/card-payment.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
@@ -25,6 +24,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 
 
@@ -33,7 +33,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
-    CardPaymentComponent,
+
 
   ],
   imports: [
@@ -68,6 +68,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   providers: [
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor,multi:true},
     {provide: 'apiUrl',useValue:'https://localhost:7256/api/'}
   ],
   bootstrap: [AppComponent]

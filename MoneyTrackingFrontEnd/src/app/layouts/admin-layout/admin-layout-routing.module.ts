@@ -7,9 +7,14 @@ import { AdminLayoutComponent } from './admin-layout.component';
 const routes: Routes = [
   {path:"", component:AdminLayoutComponent,children:[
     {
-      path: "cardPayments",
+      path: "CardPayment",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/card-payment/card-payment.module").then(m => m.CardPaymentModule)
+    },
+    {
+      path: "Expenditure",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/expenditure/expenditure.module").then(m => m.ExpenditureModule)
     },
 
   ]
