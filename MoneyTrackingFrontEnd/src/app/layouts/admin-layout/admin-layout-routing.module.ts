@@ -16,6 +16,11 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/expenditure/expenditure.module").then(m => m.ExpenditureModule)
     },
+    {
+      path: "FutureMoney",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/future-money/future-money.module").then(m => m.FutureMoneyModule)
+    },
 
   ]
 

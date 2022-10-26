@@ -1,38 +1,37 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { CardPaymentRoutingModule } from './card-payment-routing.module';
-import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
-import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
+import { FutureMoneyRoutingModule } from './future-money-routing.module';
+import { FutureMoneyViewComponent } from './future-money-view/future-money-view.component';
+import { FutureMoneyDeleteComponent } from './future-money-delete/future-money-delete.component';
 
 import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDividerModule} from '@angular/material/divider';
-import { CardPaymentComponent } from './card-payment.component';
-import {MatTableModule} from '@angular/material/table';
+import {MatCardModule} from '@angular/material/card';
+import { NgxSpinnerModule } from "ngx-spinner";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import {MatTableModule} from '@angular/material/table';
+import { FutureMoneyComponent } from './future-money.component';
 
 
 @NgModule({
   declarations: [
-    CardPaymentComponent,
-    CardPaymentViewComponent,
-    CardPaymentDeleteComponent
+    FutureMoneyComponent,
+    FutureMoneyViewComponent,
+    FutureMoneyDeleteComponent
   ],
   imports: [
     CommonModule,
-    CardPaymentRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    FutureMoneyRoutingModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -40,15 +39,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDialogModule,
     MatSelectModule,
     MatDividerModule,
-    MatTableModule,
     MatCardModule,
+    NgxSpinnerModule,
     MatProgressBarModule,
     MatPaginatorModule,
-    MatTooltipModule
-
-
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-
+    MatTableModule
+  ]
 })
-export class CardPaymentModule { }
+export class FutureMoneyModule { }

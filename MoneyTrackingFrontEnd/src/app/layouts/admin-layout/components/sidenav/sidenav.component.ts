@@ -68,8 +68,6 @@ declare interface RouteInfo {
 })
 export class SidenavComponent implements OnInit {
 
-  menuItems: any[];
-
   safetyBox:RouteInfo[]=[
     {
       name:'Kredi Kartı',
@@ -84,7 +82,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'E-Gelecek',
       icon:'receipt_long',
-      path:''
+      path:'FutureMoney'
     },
     {
       name:'Para Yatırma',
@@ -190,7 +188,7 @@ export class SidenavComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  //  this.menuItems = ROUTES.filter(menuItem => menuItem);
+
   }
 
 }
