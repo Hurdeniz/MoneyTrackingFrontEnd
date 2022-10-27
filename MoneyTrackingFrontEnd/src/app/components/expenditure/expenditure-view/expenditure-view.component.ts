@@ -84,7 +84,6 @@ export class ExpenditureViewComponent implements OnInit {
   add() {
 
     if (!this.editData) {
-      debugger
       if (this.expenditureForm.valid) {
         let expenditureModel = Object.assign({}, this.expenditureForm.value);
         this.expenditureService.add(expenditureModel).subscribe(

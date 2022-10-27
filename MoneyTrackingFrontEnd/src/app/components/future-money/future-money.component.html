@@ -115,6 +115,14 @@
 
           </ng-container>
 
+          <ng-container matColumnDef="customerName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Adı Soyadı</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.customerName }}
+            </td>
+
+          </ng-container>
+
           <ng-container matColumnDef="promissoryNoteNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Senet Numarası</th>
             <td mat-cell *matCellDef="let element">

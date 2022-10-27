@@ -19,7 +19,7 @@ import { FutureMoneyViewComponent } from './future-money-view/future-money-view.
 })
 export class FutureMoneyComponent implements OnInit {
   futureMoneyDetailsDto: FutureMoneyDetailsDto[] = [];
-  displayedColumns: string[] = ['futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'promissoryNoteNumber','transactionAmount', 'amountPaid','futureAmount','description', 'action'];
+  displayedColumns: string[] = ['futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerName','promissoryNoteNumber','transactionAmount', 'amountPaid','futureAmount','description', 'action'];
   dataSource: MatTableDataSource<FutureMoneyDetailsDto> = new MatTableDataSource<FutureMoneyDetailsDto>();
   dataLoaded = false;
   searchHide = false;
@@ -96,7 +96,8 @@ export class FutureMoneyComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(FutureMoneyViewComponent, {
-        width: '30%',
+        width: '40%',
+
 
       })
       .afterClosed()
@@ -111,7 +112,7 @@ export class FutureMoneyComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(FutureMoneyViewComponent, {
-        width: '30%',
+        width: '40%',
         data: row,
       })
       .afterClosed()
