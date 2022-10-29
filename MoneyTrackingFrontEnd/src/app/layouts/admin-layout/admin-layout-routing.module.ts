@@ -26,6 +26,16 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/money-deposited/money-deposited.module").then(m => m.MoneyDepositedModule)
     },
+    {
+      path: "CustomerPay",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/customer-pay/customer-pay.module").then(m => m.CustomerPayModule)
+    },
+    {
+      path: "CentralPay",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/central-pay/central-pay.module").then(m => m.CentralPayModule)
+    },
 
   ]
 

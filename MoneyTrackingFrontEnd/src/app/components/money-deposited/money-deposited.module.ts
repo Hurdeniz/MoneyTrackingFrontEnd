@@ -17,6 +17,7 @@ import {MatCardModule} from '@angular/material/card';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import { MoneyDepositedComponent } from './money-deposited.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -44,6 +45,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatCardModule,
     NgxSpinnerModule,
     MatProgressBarModule,
+    MatSortModule,
     MatPaginatorModule,
     MatTableModule,
     MatTooltipModule

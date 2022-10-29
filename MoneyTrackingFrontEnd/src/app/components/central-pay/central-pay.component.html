@@ -1,0 +1,164 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.8)" size = "medium" color = "#7b1fa2" type = "square-jelly-box" [fullScreen] = "true"><p style="color: #fff" > Yükleniyor... </p></ngx-spinner>
+
+
+
+
+<div class="box">
+
+  <mat-card style="width: 100%">
+
+    <mat-card-actions align="end" style="margin: 0; justify-content: space-between;">
+      <div class="col-start" style="display:flex; align-items: center;" >
+        <mat-card-title style="margin: 0px;">Merkez Ödemeleri</mat-card-title>
+
+      </div>
+
+      <div class="col">
+      <button
+        mat-button
+        style="margin: 0px"
+        matTooltip="Yeni"
+        matTooltipPosition="above"
+        (click)="openAddDialog()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        style="margin: 0px"
+        matTooltip="Yazdır"
+        matTooltipPosition="above"
+      >
+        <mat-icon>print</mat-icon>
+      </button>
+      <button
+        mat-button
+        matTooltip="Gönder"
+        matTooltipPosition="above"
+        style="margin: 0px"
+      >
+        <mat-icon>file_upload</mat-icon>
+      </button>
+      <button
+        mat-button
+        style="margin: 0px"
+        matTooltip="Yenile"
+        matTooltipPosition="above"
+        (click)="searchHide = false "
+        (click)="getAll()"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        style="margin: 0px"
+        matTooltip="Ara"
+        matTooltipPosition="above"
+        (click)="searchHide = !searchHide"
+        (click)="filterText=''" (click)="filterCardPayments()"
+
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    </mat-card-actions>
+
+    <mat-card-content>
+      <mat-progress-bar
+        *ngIf="dataLoaded == false"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      <div  style="display:flex; justify-content: center ; align-items: center;">
+        <mat-form-field
+          *ngIf="searchHide"
+          appearance="outline"
+          style="width: 60%"
+          color="accent"
+        >
+          <mat-label>Ara</mat-label>
+          <input matInput  [(ngModel)]="filterText"(keyup)="filterCardPayments()" placeholder="Aranacak Kelimeyi Yazınız." />
+          <button  matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''" (click)="filterCardPayments()">
+            <mat-icon>{{filterText ? 'clear' : 'search'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="mat-elevation-z8">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          style="width: 100%; height: 100%"
+        >
+
+
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.date | date :'yyyy-MM-dd'  }}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tutar</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.amount | currency }}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Açıklama</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.description }}
+            </td>
+
+          </ng-container>
+
+
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                color="accent"
+                matTooltip="Düzenle"
+                matTooltipPosition="left"
+                (click)="openEditDialog(element)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                matTooltip="Sil"
+                matTooltipPosition="right"
+                (click)="openDeleteDialog(element)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        </table>
+
+        <mat-paginator
+          [pageSize]="10"
+          [pageSizeOptions]="[10, 20, 30, 50 , 100]"
+          showFirstLastButtons
+          aria-label="Select page">
+
+        >
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

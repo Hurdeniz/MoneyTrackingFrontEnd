@@ -17,6 +17,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import { CardPaymentComponent } from './card-payment.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
@@ -43,6 +44,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTableModule,
     MatCardModule,
     MatProgressBarModule,
+    MatSortModule,
     MatPaginatorModule,
     MatTooltipModule
 

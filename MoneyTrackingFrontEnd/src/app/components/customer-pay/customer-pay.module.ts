@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { ExpenditureComponent } from './expenditure.component';
-import { ExpenditureViewComponent } from './expenditure-view/expenditure-view.component';
-import { ExpenditureDeleteComponent } from './expenditure-delete/expenditure-delete.component';
-import { ExpenditureRoutingModule } from './expenditure-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { CustomerPayRoutingModule } from './customer-pay-routing.module';
+import { CustomerPayComponent } from './customer-pay.component';
+import { CustomerPayViewComponent } from './customer-pay-view/customer-pay-view.component';
+import { CustomerPayDeleteComponent } from './customer-pay-delete/customer-pay-delete.component';
+
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -19,19 +21,18 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
 
 
 @NgModule({
-  declarations: [
-    ExpenditureComponent,
-    ExpenditureViewComponent,
-    ExpenditureDeleteComponent
-  ],
+  declarations: [CustomerPayComponent, CustomerPayViewComponent, CustomerPayDeleteComponent],
   imports: [
     CommonModule,
-    FormsModule,
+    CustomerPayRoutingModule,
     ReactiveFormsModule,
-    ExpenditureRoutingModule,
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -44,8 +45,8 @@ import {MatTableModule} from '@angular/material/table';
     MatProgressBarModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
-
+    MatTableModule,
+    MatTooltipModule
   ]
 })
-export class ExpenditureModule { }
+export class CustomerPayModule { }

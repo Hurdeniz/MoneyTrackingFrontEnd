@@ -6,36 +6,26 @@ import { FutureMoneyService } from 'src/app/services/future-money.service';
 @Component({
   selector: 'app-future-money-delete',
   templateUrl: './future-money-delete.component.html',
-  styleUrls: ['./future-money-delete.component.scss']
+  styleUrls: ['./future-money-delete.component.scss'],
 })
 export class FutureMoneyDeleteComponent implements OnInit {
-
-  transactionAmount:number;
+  transactionAmount: number;
 
   constructor(
-    private futureMoneyService:FutureMoneyService,
+    private futureMoneyService: FutureMoneyService,
     @Inject(MAT_DIALOG_DATA) public deleteData: any,
-    private dialogRef:MatDialogRef<FutureMoneyDeleteComponent>,
+    private dialogRef: MatDialogRef<FutureMoneyDeleteComponent>,
     private toastrService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
- this.transactionAmount=this.deleteData.transactionAmount;
+    this.transactionAmount = this.deleteData.transactionAmount;
   }
 
-  deleteCardPayment(){
-
-    this.futureMoneyService.delete(this.deleteData).subscribe(
-      (response) => {
-        this.toastrService.success(response.message, 'Başarılı');
-
-       this.dialogRef.close('delete');
-      },
-
-    );
-
-
+  delete() {
+    this.futureMoneyService.delete(this.deleteData).subscribe((response) => {
+      this.toastrService.success(response.message, 'Başarılı');
+      this.dialogRef.close('delete');
+    });
   }
-
 }

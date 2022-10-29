@@ -12,13 +12,11 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
-
-
-
-
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
+
   ],
   imports: [
     BrowserAnimationsModule,
@@ -31,8 +29,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ToastrModule.forRoot({
       progressBar:true,
       closeButton:true,
-      timeOut:3000
-    //  positionClass: 'toast-bottom-right', //alt sağda göster.
+      timeOut:3000,
+      positionClass: 'toast-bottom-right', //alt sağda göster.
     }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

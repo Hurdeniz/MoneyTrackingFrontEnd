@@ -17,6 +17,7 @@ import {MatCardModule} from '@angular/material/card';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import { FutureMoneyComponent } from './future-money.component';
 
@@ -43,6 +44,7 @@ import { FutureMoneyComponent } from './future-money.component';
     NgxSpinnerModule,
     MatProgressBarModule,
     MatPaginatorModule,
+    MatSortModule,
     MatTableModule
   ]
 })

@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { ExpenditureComponent } from './expenditure.component';
-import { ExpenditureViewComponent } from './expenditure-view/expenditure-view.component';
-import { ExpenditureDeleteComponent } from './expenditure-delete/expenditure-delete.component';
-import { ExpenditureRoutingModule } from './expenditure-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { CentralPayRoutingModule } from './central-pay-routing.module';
+import { CentralPayComponent } from './central-pay.component';
+import { CentralPayViewComponent } from './central-pay-view/central-pay-view.component';
+import { CentralPayDeleteComponent } from './central-pay-delete/central-pay-delete.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -19,19 +20,18 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
 
 
 @NgModule({
-  declarations: [
-    ExpenditureComponent,
-    ExpenditureViewComponent,
-    ExpenditureDeleteComponent
-  ],
+  declarations: [CentralPayComponent, CentralPayViewComponent, CentralPayDeleteComponent],
   imports: [
     CommonModule,
-    FormsModule,
+    CentralPayRoutingModule,
     ReactiveFormsModule,
-    ExpenditureRoutingModule,
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -43,9 +43,9 @@ import {MatTableModule} from '@angular/material/table';
     NgxSpinnerModule,
     MatProgressBarModule,
     MatPaginatorModule,
-    MatSortModule,
-    MatTableModule
-
-  ]
+    MatTableModule,
+    MatTooltipModule,
+    MatSortModule
+  ],
 })
-export class ExpenditureModule { }
+export class CentralPayModule {}

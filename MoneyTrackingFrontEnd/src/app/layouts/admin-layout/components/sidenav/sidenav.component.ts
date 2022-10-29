@@ -92,12 +92,12 @@ export class SidenavComponent implements OnInit {
     {
       name:'Firma Ödemesi',
       icon:'receipt_long',
-      path:''
+      path:'CustomerPay'
     },
     {
       name:'Merkez Ödemesi',
       icon:'receipt_long',
-      path:''
+      path:'CentralPay'
     },
     {
       name:'Kasa Açık',
