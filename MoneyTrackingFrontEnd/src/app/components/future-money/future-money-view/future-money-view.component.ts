@@ -85,6 +85,7 @@ export class FutureMoneyViewComponent implements OnInit {
         futureAmount:['',Validators.required],
         futureMoneyRegistrationDate:['',Validators.required],
         description: [''],
+        status:[this.editData.status],
       });
     }
   }
@@ -110,8 +111,6 @@ export class FutureMoneyViewComponent implements OnInit {
   add() {
 
     if (!this.editData) {
-      console.log(this.futureMoneyForm.value);
-      debugger
       if (this.futureMoneyForm.valid) {
         let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
         this.futureMoneyService.add(futureMoneyModel).subscribe(
@@ -146,6 +145,7 @@ export class FutureMoneyViewComponent implements OnInit {
     if (this.futureMoneyForm.valid) {
       let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
       this.futureMoneyService.update(futureMoneyModel).subscribe(
+
         (response) => {
           this.toastrService.success(response.message, 'Başarılı');
           this.futureMoneyForm.reset();

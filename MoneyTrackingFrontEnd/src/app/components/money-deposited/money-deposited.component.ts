@@ -7,20 +7,19 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Bank } from 'src/app/models/bank';
-import { CardPaymetDetailsDto } from 'src/app/models/Dtos/cardPaymentDetailsDto';
+import { MoneyDepositedDetailsDto } from 'src/app/models/Dtos/moneyDepositedDetailsDto';
 import { AuthService } from 'src/app/services/auth.service';
-import { CardPaymentService } from 'src/app/services/card-payment.service';
-import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
-import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
-
+import { MoneyDepositedService } from 'src/app/services/money-deposited.service';
+import { MoneyDepositedDeleteComponent } from './money-deposited-delete/money-deposited-delete.component';
+import { MoneyDepositedViewComponent } from './money-deposited-view/money-deposited-view.component';
 
 @Component({
-  selector: 'app-card-payment',
-  templateUrl: './card-payment.component.html',
-  styleUrls: ['./card-payment.component.scss']
+  selector: 'app-money-deposited',
+  templateUrl: './money-deposited.component.html',
+  styleUrls: ['./money-deposited.component.scss']
 })
-export class CardPaymentComponent implements OnInit {
-  cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
+export class MoneyDepositedComponent implements OnInit {
+  moneyDepositedDetailsDto : MoneyDepositedDetailsDto[]=[];
 
 
   displayedColumns: string[] = [
@@ -30,21 +29,20 @@ export class CardPaymentComponent implements OnInit {
     'description',
     'action',
   ];
-  dataSource: MatTableDataSource<CardPaymetDetailsDto> =
-  new MatTableDataSource<CardPaymetDetailsDto>();
+  dataSource: MatTableDataSource<MoneyDepositedDetailsDto> =
+  new MatTableDataSource<MoneyDepositedDetailsDto>();
 dataLoaded = false;
 searchHide = false;
 isAuthenticated: boolean = false;
 filterText: '';
-userId: number;
-userName: string;
 jwtHelper: JwtHelperService = new JwtHelperService();
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
 
 
+
   constructor(
-    private cardPaymentService: CardPaymentService,
+    private moneyDepositedService:MoneyDepositedService,
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService,
@@ -52,24 +50,11 @@ jwtHelper: JwtHelperService = new JwtHelperService();
   ) { }
 
   ngOnInit(): void {
-    this.refresh();
-    this.getAllCardPaymnetDetailByUserId(this.userId);
+    this.getAllMoneyDepositedDetail();
   }
+
   filterCardPayments() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
-  }
-  refresh() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      let token = localStorage.getItem('token');
-      let decode = this.jwtHelper.decodeToken(token);
-      let userName = Object.keys(decode).filter((x) => x.endsWith('/name'))[0];
-      let userId = Object.keys(decode).filter((x) =>
-        x.endsWith('/nameidentifier')
-      )[0];
-      this.userId = decode[userId];
-      this.userName = decode[userName];
-    }
   }
 
   showSpinner(){
@@ -80,14 +65,14 @@ jwtHelper: JwtHelperService = new JwtHelperService();
     this.spinner.hide();
   }
 
-  getAllCardPaymnetDetailByUserId(userId: number) {
-    this.cardPaymentService.getAllCardPaymentDetailByUserId(userId).subscribe(
+  getAllMoneyDepositedDetail() {
+    this.moneyDepositedService.getAllMoneyDepositedDetail().subscribe(
       (response) => {
         this.showSpinner();
-        this.cardPaymnetDetailsDto = response.data;
+        this.moneyDepositedDetailsDto = response.data;
         this.hideSpinner();
-        this.dataSource = new MatTableDataSource<CardPaymetDetailsDto>(
-          this.cardPaymnetDetailsDto
+        this.dataSource = new MatTableDataSource<MoneyDepositedDetailsDto>(
+          this.moneyDepositedDetailsDto
         );
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -102,41 +87,42 @@ jwtHelper: JwtHelperService = new JwtHelperService();
 
   openAddDialog() {
     this.dialog
-      .open(CardPaymentViewComponent, {
+      .open(MoneyDepositedViewComponent, {
         width: '25%',
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'save') {
-          this.getAllCardPaymnetDetailByUserId(this.userId);
+          this.getAllMoneyDepositedDetail();
         }
       });
   }
 
+
   openEditDialog(row: any) {
     this.dialog
-      .open(CardPaymentViewComponent, {
+      .open(MoneyDepositedViewComponent, {
         width: '25%',
         data: row,
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'update') {
-          this.getAllCardPaymnetDetailByUserId(this.userId);
+          this.getAllMoneyDepositedDetail();
         }
       });
   }
 
   openDeleteDialog(row: any) {
     this.dialog
-      .open(CardPaymentDeleteComponent, {
+      .open(MoneyDepositedDeleteComponent, {
         width: '25%',
         data: row,
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAllCardPaymnetDetailByUserId(this.userId);
+          this.getAllMoneyDepositedDetail();
         }
       });
   }

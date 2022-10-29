@@ -87,7 +87,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Para Yatırma',
       icon:'receipt_long',
-      path:''
+      path:'MoneyDeposited'
     },
     {
       name:'Firma Ödemesi',

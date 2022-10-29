@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { FutureMoneyService } from 'src/app/services/future-money.service';
 
 @Component({
   selector: 'app-future-money-delete',
@@ -7,9 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FutureMoneyDeleteComponent implements OnInit {
 
-  constructor() { }
+  transactionAmount:number;
+
+  constructor(
+    private futureMoneyService:FutureMoneyService,
+    @Inject(MAT_DIALOG_DATA) public deleteData: any,
+    private dialogRef:MatDialogRef<FutureMoneyDeleteComponent>,
+    private toastrService: ToastrService
+  ) { }
 
   ngOnInit(): void {
+
+ this.transactionAmount=this.deleteData.transactionAmount;
+  }
+
+  deleteCardPayment(){
+
+    this.futureMoneyService.delete(this.deleteData).subscribe(
+      (response) => {
+        this.toastrService.success(response.message, 'Başarılı');
+
+       this.dialogRef.close('delete');
+      },
+
+    );
+
+
   }
 
 }

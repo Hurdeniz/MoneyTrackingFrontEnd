@@ -14,8 +14,8 @@ export class BankService {
     private httpClient: HttpClient
   ) { }
 
-  getBanks(): Observable<ListResponseModel<Bank>> {
-    let newPath = this.apiUrl + 'Bank/getall';
+  getAll(): Observable<ListResponseModel<Bank>> {
+    let newPath = this.apiUrl + 'Bank/GetAll';
     return this.httpClient.get<ListResponseModel<Bank>>(newPath);
   }
 }

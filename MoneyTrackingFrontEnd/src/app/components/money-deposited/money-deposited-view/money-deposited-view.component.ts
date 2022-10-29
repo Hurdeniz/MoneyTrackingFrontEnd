@@ -4,57 +4,53 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Bank } from 'src/app/models/bank';
 import { BankService } from 'src/app/services/bank.service';
-import { CardPaymentService } from 'src/app/services/card-payment.service';
+import { MoneyDepositedService } from 'src/app/services/money-deposited.service';
 
 @Component({
-  selector: 'app-card-payment-view',
-  templateUrl: './card-payment-view.component.html',
-  styleUrls: ['./card-payment-view.component.scss']
+  selector: 'app-money-deposited-view',
+  templateUrl: './money-deposited-view.component.html',
+  styleUrls: ['./money-deposited-view.component.scss']
 })
-export class CardPaymentViewComponent implements OnInit {
+export class MoneyDepositedViewComponent implements OnInit {
   banks: Bank[] = [];
-  cardForm: FormGroup;
+  moneyDepositedForm: FormGroup;
   actionBtnName = 'Kaydet';
-  dialogTitle = 'Kredi Kartı Ekle';
+  dialogTitle = 'Para Yatırma Ekle';
 
   constructor(
+    private moneyDepositedService:MoneyDepositedService,
     private bankService: BankService,
-    private cardPaymentService: CardPaymentService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<CardPaymentViewComponent>,
+    private dialogRef: MatDialogRef<MoneyDepositedViewComponent>,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.getBanks();
-    this.createCardForm();
-
-
+    this.getAllBanks();
+    this.createMoneyDepositedForm();
     if (this.editData) {
-      this.editCardForm();
+      this.editMoneyDepositedForm();
     }
   }
 
-  getBanks() {
+  getAllBanks() {
     this.bankService.getAll().subscribe((response) => {
       this.banks = response.data;
     });
   }
 
-  createCardForm() {
+  createMoneyDepositedForm() {
     if (!this.editData) {
-      this.cardForm = this.formBuilder.group({
-        userId: ['1'],
+      this.moneyDepositedForm = this.formBuilder.group({
         bankId: ['', Validators.required],
         amount: ['', Validators.required],
         date:['',Validators.required],
         description: [''],
       });
     } else {
-      this.cardForm = this.formBuilder.group({
-        cardPaymentId: [this.editData.cardPaymentId],
-        userId: [this.editData.userId],
+      this.moneyDepositedForm = this.formBuilder.group({
+        moneyDepositedId: [this.editData.moneyDepositedId],
         bankId: ['', Validators.required],
         amount: ['', Validators.required],
         date: ['',Validators.required],
@@ -63,25 +59,27 @@ export class CardPaymentViewComponent implements OnInit {
     }
   }
 
-  editCardForm() {
+
+  editMoneyDepositedForm() {
     this.actionBtnName = 'Güncelle';
-    this.dialogTitle = 'Kredi Kartı Güncelle';
-    this.cardForm.controls['bankId'].setValue(this.editData.bankId);
-    this.cardForm.controls['amount'].setValue(this.editData.amount);
-    this.cardForm.controls['date'].setValue(this.editData.date);
-    this.cardForm.controls['description'].setValue(this.editData.description);
+    this.dialogTitle = 'Para Yatırma Güncelle';
+    this.moneyDepositedForm.controls['bankId'].setValue(this.editData.bankId);
+    this.moneyDepositedForm.controls['amount'].setValue(this.editData.amount);
+    this.moneyDepositedForm.controls['date'].setValue(this.editData.date);
+    this.moneyDepositedForm.controls['description'].setValue(this.editData.description);
   }
+
 
   add() {
 
     if (!this.editData) {
-      if (this.cardForm.valid) {
-        let cardPaymentModel = Object.assign({}, this.cardForm.value);
-        this.cardPaymentService.add(cardPaymentModel).subscribe(
+      if (this.moneyDepositedForm.valid) {
+        let moneyDepositedModel = Object.assign({}, this.moneyDepositedForm.value);
+        this.moneyDepositedService.add(moneyDepositedModel).subscribe(
           (response) => {
 
             this.toastrService.success(response.message, 'Başarılı');
-            this.cardForm.reset();
+            this.moneyDepositedForm.reset();
             this.dialogRef.close('save');
           },
           (responseError) => {
@@ -103,13 +101,14 @@ export class CardPaymentViewComponent implements OnInit {
     }
   }
 
+
   update() {
-    if (this.cardForm.valid) {
-      let cardPaymentModel = Object.assign({}, this.cardForm.value);
-      this.cardPaymentService.update(cardPaymentModel).subscribe(
+    if (this.moneyDepositedForm.valid) {
+      let moneyDepositedModel = Object.assign({}, this.moneyDepositedForm.value);
+      this.moneyDepositedService.update(moneyDepositedModel).subscribe(
         (response) => {
           this.toastrService.success(response.message, 'Başarılı');
-          this.cardForm.reset();
+          this.moneyDepositedForm.reset();
           this.dialogRef.close('update');
         },
         (responseError) => {
@@ -132,6 +131,7 @@ export class CardPaymentViewComponent implements OnInit {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
+
 
 
 }
