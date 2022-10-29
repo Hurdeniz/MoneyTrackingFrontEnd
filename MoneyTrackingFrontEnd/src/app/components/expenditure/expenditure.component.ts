@@ -48,7 +48,7 @@ export class ExpenditureComponent implements OnInit {
     this.getAllExpenditureDetailByUserId(this.userId);
   }
 
-  filterCardPayments() {
+  filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 

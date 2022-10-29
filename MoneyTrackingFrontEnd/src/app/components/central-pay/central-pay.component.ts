@@ -46,7 +46,7 @@ export class CentralPayComponent implements OnInit {
     this.getAll();
   }
 
-  filterCardPayments() {
+  filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 

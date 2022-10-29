@@ -42,10 +42,10 @@ export class FutureMoneyComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh();
-    this.getAllFutureMoneyDetailStatusUser(this.userId,this.status);
+    this.getAllFutureMoneyDetailStatusUser();
   }
 
-  filterCardPayments() {
+  filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 
@@ -72,8 +72,8 @@ export class FutureMoneyComponent implements OnInit {
   }
 
 
-  getAllFutureMoneyDetailStatusUser(userId: number , status:boolean) {
-    this.futureMoneyService.getAllFutureMoneyDetailStatusUser(userId,status).subscribe(
+  getAllFutureMoneyDetailStatusUser() {
+    this.futureMoneyService.getAllFutureMoneyDetailStatusUser(this.userId,this.status).subscribe(
       (response) => {
         this.showSpinner();
         this.futureMoneyDetailsDto = response.data;
@@ -103,7 +103,7 @@ export class FutureMoneyComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'save') {
-          this.getAllFutureMoneyDetailStatusUser(this.userId,this.status);
+          this.getAllFutureMoneyDetailStatusUser();
         }
       });
   }
@@ -118,7 +118,7 @@ export class FutureMoneyComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'update') {
-          this.getAllFutureMoneyDetailStatusUser(this.userId,this.status);
+          this.getAllFutureMoneyDetailStatusUser();
         }
       });
   }
@@ -133,7 +133,7 @@ export class FutureMoneyComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAllFutureMoneyDetailStatusUser(this.userId,this.status);
+          this.getAllFutureMoneyDetailStatusUser();
         }
       });
   }

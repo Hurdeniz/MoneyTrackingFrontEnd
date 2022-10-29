@@ -53,7 +53,7 @@ jwtHelper: JwtHelperService = new JwtHelperService();
     this.getAllMoneyDepositedDetail();
   }
 
-  filterCardPayments() {
+  filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 

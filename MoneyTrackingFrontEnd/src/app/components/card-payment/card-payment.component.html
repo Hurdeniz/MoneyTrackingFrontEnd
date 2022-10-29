@@ -57,7 +57,7 @@
         matTooltip="Ara"
         matTooltipPosition="above"
         (click)="searchHide = !searchHide"
-        (click)="filterText=''" (click)="filterCardPayments()"
+        (click)="filterText=''" (click)="filterDataSource()"
 
       >
         <mat-icon>search</mat-icon>
@@ -78,8 +78,8 @@
           color="accent"
         >
           <mat-label>Ara</mat-label>
-          <input matInput  [(ngModel)]="filterText"(keyup)="filterCardPayments()" placeholder="Aranacak Kelimeyi Yazınız." />
-          <button  matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''" (click)="filterCardPayments()">
+          <input matInput  [(ngModel)]="filterText"(keyup)="filterDataSource()" placeholder="Aranacak Kelimeyi Yazınız." />
+          <button  matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''" (click)="filterDataSource()">
             <mat-icon>{{filterText ? 'clear' : 'search'}}</mat-icon>
           </button>
         </mat-form-field>

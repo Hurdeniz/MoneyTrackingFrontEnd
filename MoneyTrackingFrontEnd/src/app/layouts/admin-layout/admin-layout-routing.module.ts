@@ -36,6 +36,11 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/central-pay/central-pay.module").then(m => m.CentralPayModule)
     },
+    {
+      path: "MonetaryDeficit",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/monetary-deficit/monetary-deficit.module").then(m => m.MonetaryDeficitModule)
+    },
 
   ]
 

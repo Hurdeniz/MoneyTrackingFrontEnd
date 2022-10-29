@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FutureMoneyRoutingModule } from './future-money-routing.module';
-import { FutureMoneyViewComponent } from './future-money-view/future-money-view.component';
-import { FutureMoneyDeleteComponent } from './future-money-delete/future-money-delete.component';
-import { FutureMoneyComponent } from './future-money.component';
+
+import { MonetaryDeficitRoutingModule } from './monetary-deficit-routing.module';
+import { MonetaryDeficitComponent } from './monetary-deficit.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -20,22 +19,18 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
-
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { MonetaryDeficitViewComponent } from './monetary-deficit-view/monetary-deficit-view.component';
+import { MonetaryDeficitDeleteComponent } from './monetary-deficit-delete/monetary-deficit-delete.component';
 
 
 @NgModule({
-  declarations: [
-    FutureMoneyComponent,
-    FutureMoneyViewComponent,
-    FutureMoneyDeleteComponent
-  ],
+  declarations: [MonetaryDeficitComponent, MonetaryDeficitViewComponent, MonetaryDeficitDeleteComponent],
   imports: [
     CommonModule,
-    FormsModule,
+    MonetaryDeficitRoutingModule,
     ReactiveFormsModule,
-    FutureMoneyRoutingModule,
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -52,4 +47,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule
   ]
 })
-export class FutureMoneyModule { }
+export class MonetaryDeficitModule { }

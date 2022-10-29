@@ -11,10 +11,12 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MonetaryDeficitComponent } from './components/monetary-deficit/monetary-deficit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+
 
 
   ],

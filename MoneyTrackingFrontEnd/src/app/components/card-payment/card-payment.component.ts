@@ -55,7 +55,7 @@ jwtHelper: JwtHelperService = new JwtHelperService();
     this.refresh();
     this.getAllCardPaymnetDetailByUserId(this.userId);
   }
-  filterCardPayments() {
+  filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
   refresh() {

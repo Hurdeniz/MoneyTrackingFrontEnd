@@ -6,41 +6,36 @@ import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { CustomerPay } from 'src/app/models/customerPay';
-import { CustomerPayService } from 'src/app/services/customer-pay.service';
-import { CustomerPayDeleteComponent } from './customer-pay-delete/customer-pay-delete.component';
-import { CustomerPayViewComponent } from './customer-pay-view/customer-pay-view.component';
+import { MonetaryDeficit } from 'src/app/models/monetaryDeficit';
+import { MonetaryDeficitService } from 'src/app/services/monetary-deficit.service';
+import { MonetaryDeficitDeleteComponent } from './monetary-deficit-delete/monetary-deficit-delete.component';
+import { MonetaryDeficitViewComponent } from './monetary-deficit-view/monetary-deficit-view.component';
 
 @Component({
-  selector: 'app-customer-pay',
-  templateUrl: './customer-pay.component.html',
-  styleUrls: ['./customer-pay.component.scss']
+  selector: 'app-monetary-deficit',
+  templateUrl: './monetary-deficit.component.html',
+  styleUrls: ['./monetary-deficit.component.scss'],
 })
-export class CustomerPayComponent implements OnInit {
-  customerPay:CustomerPay[]=[];
-  displayedColumns: string[] = [
-    'date',
-    'customerName',
-    'amount',
-    'description',
-    'action',
-  ];
-  dataSource: MatTableDataSource<CustomerPay> =
-  new MatTableDataSource<CustomerPay>();
- dataLoaded = false;
- searchHide = false;
- isAuthenticated: boolean = false;
- filterText: '';
- jwtHelper: JwtHelperService = new JwtHelperService();
- @ViewChild(MatPaginator) paginator: MatPaginator;
- @ViewChild(MatSort) sort: MatSort;
+export class MonetaryDeficitComponent implements OnInit {
+  monetaryDeficit: MonetaryDeficit[] = [];
+  displayedColumns: string[] = ['date','nameSurname', 'amount', 'description', 'action'];
+  dataSource: MatTableDataSource<MonetaryDeficit> =
+    new MatTableDataSource<MonetaryDeficit>();
+  dataLoaded = false;
+  searchHide = false;
+  status: boolean = true;
+  isAuthenticated: boolean = false;
+  filterText: '';
+  jwtHelper: JwtHelperService = new JwtHelperService();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private customerPayService:CustomerPayService,
+    private monetaryDeficitService:MonetaryDeficitService,
     private dialog: MatDialog,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getAll();
@@ -59,13 +54,13 @@ export class CustomerPayComponent implements OnInit {
   }
 
   getAll() {
-    this.customerPayService.getAll().subscribe(
+    this.monetaryDeficitService.getAll(this.status).subscribe(
       (response) => {
         this.showSpinner();
-        this.customerPay = response.data;
+        this.monetaryDeficit = response.data;
         this.hideSpinner();
-        this.dataSource = new MatTableDataSource<CustomerPay>(
-          this.customerPay
+        this.dataSource = new MatTableDataSource<MonetaryDeficit>(
+          this.monetaryDeficit
         );
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -80,7 +75,7 @@ export class CustomerPayComponent implements OnInit {
 
   openAddDialog() {
     this.dialog
-      .open(CustomerPayViewComponent, {
+      .open(MonetaryDeficitViewComponent, {
         width: '25%',
       })
       .afterClosed()
@@ -93,7 +88,7 @@ export class CustomerPayComponent implements OnInit {
 
   openEditDialog(row: any) {
     this.dialog
-      .open(CustomerPayViewComponent, {
+      .open(MonetaryDeficitViewComponent, {
         width: '25%',
         data: row,
       })
@@ -107,7 +102,7 @@ export class CustomerPayComponent implements OnInit {
 
   openDeleteDialog(row: any) {
     this.dialog
-      .open(CustomerPayDeleteComponent, {
+      .open(MonetaryDeficitDeleteComponent, {
         width: '25%',
         data: row,
       })
@@ -118,6 +113,5 @@ export class CustomerPayComponent implements OnInit {
         }
       });
   }
-
 
 }
