@@ -3,7 +3,7 @@ export interface FutureMoney {
   userId:number;
   typeOfOperation:string;
   customerCode:string;
-  customerName:string;
+  customerNameSurname:string;
   promissoryNumber:string;
   transactionAmount:number;
   amountPaid:number;

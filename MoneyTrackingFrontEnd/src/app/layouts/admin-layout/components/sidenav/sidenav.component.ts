@@ -69,7 +69,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Sevkiyat Listesi ',
       icon:'credit_card',
-      path:'cardPayments'
+      path:'ShipmentList'
     },
     {
       name:'Sor Listesi',

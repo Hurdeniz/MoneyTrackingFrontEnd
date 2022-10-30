@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>{{customerCode}} - {{customerNameSurname}}</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="margin-top: 16px;">
+  Sevkiyat Listesinden Silmek İstediğinize Emin Misiniz ?
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button mat-dialog-close >Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">Evet</button>
+</div>

@@ -1,0 +1,82 @@
+<form [formGroup]="shipmentListEditForm">
+  <h1 mat-dialog-title style="text-align: center">Sevkiyat Güncelle</h1>
+  <mat-divider style="margin-bottom: 16px"></mat-divider>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Tarih Seçiniz</mat-label>
+          <input type="date" formControlName="date" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Sıra No</mat-label>
+          <input type="number" formControlName="shipmentNumber" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Müşteri Kodu</mat-label>
+          <input type="text" formControlName="customerCode" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Adı Soyadı</mat-label>
+          <input type="text" formControlName="customerNameSurname" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Senet Numarası</mat-label>
+          <input type="text" formControlName="promissoryNumber" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Adres</mat-label>
+          <input type="text" formControlName="adress" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Durum</mat-label>
+          <input type="text" formControlName="status" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions [align]="'end'">
+    <button
+      mat-raised-button
+      [disabled]="shipmentListEditForm.invalid"
+      color="primary"
+      (click)="update()"
+      style="width: 100%"
+    >
+      Güncelle
+    </button>
+  </mat-dialog-actions>
+</form>

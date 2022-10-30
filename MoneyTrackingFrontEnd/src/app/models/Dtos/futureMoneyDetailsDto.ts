@@ -4,7 +4,7 @@ export interface FutureMoneyDetailsDto {
   userName:string;
   typeOfOperation:string;
   customerCode:string;
-  customerName:string;
+  customerNameSurname:string;
   promissoryNumber:string;
   transactionAmount:number;
   amountPaid:number;

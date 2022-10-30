@@ -1,0 +1,30 @@
+
+<h1 mat-dialog-title>{{customerCode}} - {{customerNameSurname}}</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="margin-top: 16px;">
+<div class="row">
+  <div class="col">
+    <mat-checkbox class="example-margin" [(ngModel)]="disabled3"  [disabled]="disabled2">Disabled</mat-checkbox>
+
+
+  </div>
+  <div class="col">
+    <mat-checkbox class="example-margin"  [disabled]="disabled1">Disabled</mat-checkbox>
+
+
+  </div>
+  <div class="col">
+    <mat-checkbox class="example-margin" [(ngModel)]="disabled1" [(ngModel)]="disabled2" [disabled]="disabled">Disabled</mat-checkbox>
+
+  </div>
+  <div class="col">
+
+  </div>
+</div>
+
+
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button mat-dialog-close >Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn">Evet</button>
+</div>
