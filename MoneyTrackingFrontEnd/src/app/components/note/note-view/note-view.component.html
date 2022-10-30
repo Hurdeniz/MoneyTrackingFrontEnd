@@ -1,0 +1,40 @@
+<form [formGroup]="noteForm">
+  <h1 mat-dialog-title style="text-align: center">{{ dialogTitle }}</h1>
+  <mat-divider style="margin-bottom: 16px"></mat-divider>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col">
+         <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Tarih Seçiniz</mat-label>
+          <input type="date" formControlName="date" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Açıklama</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            style="height: 60px"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions [align]="'end'">
+    <button
+      mat-raised-button
+      [disabled]="noteForm.invalid"
+      color="primary"
+      (click)="add()"
+      style="width: 100%"
+    >
+      {{ actionBtnName }}
+    </button>
+  </mat-dialog-actions>
+</form>

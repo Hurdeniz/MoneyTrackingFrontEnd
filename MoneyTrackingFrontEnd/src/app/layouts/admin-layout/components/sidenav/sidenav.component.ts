@@ -52,7 +52,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Notlar',
       icon:'receipt_long',
-      path:''
+      path:'Note'
     },
     {
       name:'Kasa Topla',
