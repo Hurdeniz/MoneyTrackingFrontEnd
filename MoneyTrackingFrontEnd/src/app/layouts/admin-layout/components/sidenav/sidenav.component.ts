@@ -92,7 +92,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Personeller ',
       icon:'credit_card',
-      path:''
+      path:'Staff'
     },
     {
       name:'Shift',

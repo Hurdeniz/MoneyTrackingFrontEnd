@@ -46,6 +46,11 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/note/note.module").then(m => m.NoteModule)
     },
+    {
+      path: "Staff",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/staff/staff.module").then(m => m.StaffModule)
+    },
 
   ]
 

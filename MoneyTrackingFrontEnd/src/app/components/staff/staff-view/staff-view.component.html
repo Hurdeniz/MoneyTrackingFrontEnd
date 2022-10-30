@@ -1,0 +1,171 @@
+<form [formGroup]="staffForm">
+  <h1 mat-dialog-title style="text-align: center">{{ dialogTitle }}</h1>
+  <mat-divider style="margin-bottom: 16px"></mat-divider>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>T.C. Kimlik No</mat-label>
+          <input
+            type="text"
+            matInput
+
+            formControlName="identityNumber"
+            placeholder="T.C. Kimlik No Giriniz"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Adı Soyadı</mat-label>
+          <input
+            type="text"
+            formControlName="nameSurname"
+            matInput
+            placeholder="Adı Soyadı Giriniz"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Telefon 1</mat-label>
+          <span matPrefix>+90 &nbsp;</span>
+          <input
+            type="tel"
+            formControlName="phone1"
+            matInput
+            placeholder="555-555-5523"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Telefon 2</mat-label>
+          <span matPrefix>+90 &nbsp;</span>
+          <input
+            type="tel"
+            formControlName="phone2"
+            matInput
+            placeholder="555-555-5523"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            formControlName="email"
+            matInput
+            placeholder="Ex. pat@example.com"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Giriş Tarihi</mat-label>
+          <input
+            type="date"
+            formControlName="dateOfEntryIntoWork"
+            matInput
+            placeholder="Giriş Tarihi Seçiniz "
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Görev Seçiniz</mat-label>
+          <mat-select formControlName="staffTaskId">
+            <mat-option *ngFor="let staffTasks of staffTask" [value]="staffTasks.staffTaskId">
+              {{ staffTasks.staffTaskName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="col">
+
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Bölüm Seçiniz</mat-label>
+          <mat-select formControlName="staffEpisodeId">
+            <mat-option *ngFor="let staffEpisodes of staffEpisode" [value]="staffEpisodes.staffEpisodeId">
+              {{ staffEpisodes.staffEpisodeName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>İl</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="province"
+            placeholder="İl Giriniz"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>İlçe</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="district"
+            placeholder="İlçe Giriniz"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Adres</mat-label>
+          <textarea
+            matInput
+            formControlName="adress"
+            placeholder="Adres Giriniz"
+            style="height: 70px"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions [align]="'end'">
+    <button
+      mat-raised-button
+      [disabled]="staffForm.invalid"
+      color="primary"
+      (click)="add()"
+      style="width: 100%"
+    >
+      {{ actionBtnName }}
+    </button>
+  </mat-dialog-actions>
+</form>

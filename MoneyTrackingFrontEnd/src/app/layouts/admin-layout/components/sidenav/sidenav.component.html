@@ -38,7 +38,7 @@
         </mat-panel-title>
         <mat-panel-description> Personel </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let staffs of staff">
+      <mat-list-option *ngFor="let staffs of staff" [routerLink]="[staffs.path]">
         <mat-icon mat-list-icon>{{ staffs.icon }}</mat-icon>
         {{ staffs.name }}
       </mat-list-option>
