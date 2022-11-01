@@ -57,6 +57,11 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/shipment-list/shipment-list.module").then(m => m.ShipmentListModule)
     },
+    {
+      path: "ResearchList",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/research-list/research-list.module").then(m => m.ResearchListModule)
+    },
 
   ]
 

@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-import { ShipmentListRoutingModule } from './shipment-list-routing.module';
-import { ShipmentListComponent } from './shipment-list.component';
-import { ShipmentListViewComponent } from './shipment-list-view/shipment-list-view.component';
-import { ShipmentListDeleteComponent } from './shipment-list-delete/shipment-list-delete.component';
-import { ShipmentListEnterResultComponent } from './shipment-list-enter-result/shipment-list-enter-result.component';
-
+import { ResearchListRoutingModule } from './research-list-routing.module';
+import { ResearchListComponent } from './research-list.component';
+import { ResearchListDeleteComponent } from './research-list-delete/research-list-delete.component';
+import { ResearchListViewComponent } from './research-list-view/research-list-view.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -26,20 +23,17 @@ import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
   declarations: [
-    ShipmentListComponent,
-    ShipmentListViewComponent,
-    ShipmentListDeleteComponent,
-    ShipmentListEnterResultComponent,
-
+    ResearchListComponent,
+    ResearchListDeleteComponent,
+    ResearchListViewComponent
   ],
   imports: [
     CommonModule,
-    ShipmentListRoutingModule,
+    ResearchListRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
@@ -58,7 +52,6 @@ import {MatRadioModule} from '@angular/material/radio';
     MatSortModule,
     MatSidenavModule,
     MatCheckboxModule,
-    MatRadioModule
   ]
 })
-export class ShipmentListModule { }
+export class ResearchListModule { }

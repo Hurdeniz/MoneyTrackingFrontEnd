@@ -11,6 +11,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ResearchListComponent } from './components/research-list/research-list.component';
 
 
 @NgModule({
