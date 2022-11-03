@@ -21,6 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
+import { NgxSpinnerModule } from "ngx-spinner";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatProgressBarModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxSpinnerModule
 
 
   ],

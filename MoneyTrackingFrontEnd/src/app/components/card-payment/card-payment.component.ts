@@ -6,12 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Bank } from 'src/app/models/bank';
 import { CardPaymetDetailsDto } from 'src/app/models/Dtos/cardPaymentDetailsDto';
 import { AuthService } from 'src/app/services/auth.service';
 import { CardPaymentService } from 'src/app/services/card-payment.service';
 import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
 import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
+import * as XLSX from 'xlsx'
 
 
 @Component({
@@ -52,6 +52,8 @@ jwtHelper: JwtHelperService = new JwtHelperService();
   ) { }
 
   ngOnInit(): void {
+
+
     this.refresh();
     this.getAllCardPaymnetDetailByUserId(this.userId);
   }
@@ -140,5 +142,21 @@ jwtHelper: JwtHelperService = new JwtHelperService();
         }
       });
   }
+
+  exportXlsx(){
+let element=document.getElementById('cardPaymentTable')
+const ws:XLSX.WorkSheet=XLSX.utils.table_to_sheet(element);
+const wb:XLSX.WorkBook=XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb,ws,'Sheet1')
+
+XLSX.writeFile(wb,'Kredi Kartı İşlemleri.xlsx');
+
+  }
+
+  printPage() {
+    window.print();
+  }
+
+
 
 }

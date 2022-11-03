@@ -57,7 +57,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Kasa Topla',
       icon:'receipt_long',
-      path:''
+      path:'CollectMoney'
     },
     {
       name:'Kasa Çıkış',

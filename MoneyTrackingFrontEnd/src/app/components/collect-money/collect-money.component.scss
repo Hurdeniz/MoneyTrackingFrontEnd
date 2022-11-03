@@ -1,0 +1,22 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .col {
+    flex: 1;
+    margin-right: 20px;
+
+    .full-width {
+      width: 100%;
+    }
+
+    .col:last-child {
+      margin-right: 0;
+    }
+
+  }
+
+
+}
+
