@@ -20,15 +20,24 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
 
 import { NgxSpinnerModule } from "ngx-spinner";
+import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
+
+
+
+
+
 
 
 @NgModule({
   declarations: [
     CardPaymentComponent,
     CardPaymentViewComponent,
-    CardPaymentDeleteComponent
+    CardPaymentDeleteComponent,
+    CardPaymentFilterComponent
   ],
   imports: [
     CommonModule,
@@ -48,11 +57,15 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatSortModule,
     MatPaginatorModule,
     MatTooltipModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatDatepickerModule
+
+
 
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+
 
 })
 export class CardPaymentModule { }

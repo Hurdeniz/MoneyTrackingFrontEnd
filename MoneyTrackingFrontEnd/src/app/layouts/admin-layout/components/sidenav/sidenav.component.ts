@@ -62,7 +62,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Kasa Çıkış',
       icon:'receipt_long',
-      path:''
+      path:'MoneyOutput'
     },
   ];
   shipping:RouteInfo[]=[

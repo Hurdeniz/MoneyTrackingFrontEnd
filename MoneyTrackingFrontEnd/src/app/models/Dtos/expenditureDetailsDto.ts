@@ -1,7 +1,7 @@
 export interface ExpenditureDetailsDto {
   expenditureId:number;
   userId:number;
-  userName:string;
+  userNameSurname:string;
   amount:number;
   date:string;
   description:string;

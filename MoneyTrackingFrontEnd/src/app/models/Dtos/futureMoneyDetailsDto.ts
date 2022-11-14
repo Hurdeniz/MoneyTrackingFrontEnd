@@ -1,7 +1,7 @@
 export interface FutureMoneyDetailsDto {
   futureMoneyId:number;
   userId:number;
-  userName:string;
+  userNameSurname:string;
   typeOfOperation:string;
   customerCode:string;
   customerNameSurname:string;

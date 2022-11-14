@@ -12,10 +12,15 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
+
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from './models/myDateFormats';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-
 
   ],
   imports: [
@@ -25,7 +30,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMomentDateModule,
     NgxSpinnerModule,
+
     ToastrModule.forRoot({
       progressBar:true,
       closeButton:true,
@@ -36,6 +43,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor,multi:true},
     {provide: 'apiUrl',useValue:'https://localhost:7256/api/'}
   ],

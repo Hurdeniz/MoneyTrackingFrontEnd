@@ -3,6 +3,6 @@ export interface CardPayment {
   userId:number;
   bankId:number;
   amount:number;
-  date:string;
+  date:Date;
   description:string;
 }

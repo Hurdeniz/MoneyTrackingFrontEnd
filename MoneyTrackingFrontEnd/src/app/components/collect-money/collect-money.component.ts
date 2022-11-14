@@ -4,48 +4,42 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-collect-money',
   templateUrl: './collect-money.component.html',
-  styleUrls: ['./collect-money.component.scss']
+  styleUrls: ['./collect-money.component.scss'],
 })
 export class CollectMoneyComponent implements OnInit {
-ass:Number=0;
-  collectMoneyForm:FormGroup;
+  ass: Number = 0;
+  collectMoneyForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.create()
-
+    this.create();
   }
 
-  create(){
-    this.collectMoneyForm=this.formBuilder.group({
-      bozuk:[0],
-      bes:[0],
-      on:[0],
-    yirmi:[0],
-      elli:[0],
-      yuz:[0],
-    ikiyuz:[0],
-    sonuc:[0]
-
-
+  create() {
+    this.collectMoneyForm = this.formBuilder.group({
+      bozuk: [0],
+      bes: [0],
+      on: [0],
+      yirmi: [0],
+      elli: [0],
+      yuz: [0],
+      ikiyuz: [0],
+      sonuc: [0],
     });
-
   }
 
-  topla(){
-
-debugger
+  topla() {
     let centralPayModel = Object.assign({}, this.collectMoneyForm.value);
 
-
-this.ass=centralPayModel.bozuk + (centralPayModel.bes*5)+(centralPayModel.on*10) + (centralPayModel.yirmi*20) + (centralPayModel.elli*50) + (centralPayModel.yuz*100) + (centralPayModel.ikiyuz*200);
-this.collectMoneyForm.controls['sonuc'].setValue(this.ass);
+    this.ass =
+      centralPayModel.bozuk +
+      centralPayModel.bes * 5 +
+      centralPayModel.on * 10 +
+      centralPayModel.yirmi * 20 +
+      centralPayModel.elli * 50 +
+      centralPayModel.yuz * 100 +
+      centralPayModel.ikiyuz * 200;
+    this.collectMoneyForm.controls['sonuc'].setValue(this.ass);
   }
-
-
-
-
 }

@@ -1,7 +1,7 @@
 export interface CardPaymetDetailsDto {
   cardPaymentId:number;
   userId:number;
-  userName:string;
+  userNameSurname:string;
   bankId:number;
   bankName:string;
   amount:number;

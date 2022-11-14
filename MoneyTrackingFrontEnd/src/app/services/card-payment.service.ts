@@ -16,8 +16,13 @@ export class CardPaymentService {
     private httpClient: HttpClient
   ) { }
 
-  getAllCardPaymentDetailByUserId(userId:number): Observable<ListResponseModel<CardPaymetDetailsDto>> {
-    let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentDetailByUserId?userId='+userId;
+  getAllCardPaymentDetail(): Observable<ListResponseModel<CardPaymetDetailsDto>>{
+    let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentDetail';
+    return this.httpClient.get<ListResponseModel<CardPaymetDetailsDto>>(newPath);
+  }
+
+  getAllCardPaymentDetailByUserIdAndDate(userId:number , startDate:string , endDate:string): Observable<ListResponseModel<CardPaymetDetailsDto>> {
+    let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentDetailByUserIdAndDate?userId='+userId+'&startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<CardPaymetDetailsDto>>(newPath);
   }
 
