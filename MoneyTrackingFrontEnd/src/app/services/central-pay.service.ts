@@ -15,8 +15,8 @@ export class CentralPayService {
     private httpClient: HttpClient
   ) { }
 
-  getAll(): Observable<ListResponseModel<CentralPay>> {
-    let newPath = this.apiUrl + 'CentralPay/GetAll';
+  getAllCentralPayDetailByDate(startDate:string , endDate:string): Observable<ListResponseModel<CentralPay>> {
+    let newPath = this.apiUrl + 'CentralPay/GetAllCentralPayDetailByDate?startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<CentralPay>>(newPath);
   }
 

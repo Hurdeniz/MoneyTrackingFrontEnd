@@ -10,7 +10,10 @@ import { CentralPay } from 'src/app/models/centralPay';
 import { CentralPayService } from 'src/app/services/central-pay.service';
 import { CentralPayDeleteComponent } from './central-pay-delete/central-pay-delete.component';
 import { CentralPayViewComponent } from './central-pay-view/central-pay-view.component';
-
+import * as XLSX from 'xlsx';
+import * as _moment from 'moment';
+import { CentralPayFilterComponent } from './central-pay-filter/central-pay-filter.component';
+const moment = _moment;
 @Component({
   selector: 'app-central-pay',
   templateUrl: './central-pay.component.html',
@@ -18,7 +21,6 @@ import { CentralPayViewComponent } from './central-pay-view/central-pay-view.com
 })
 export class CentralPayComponent implements OnInit {
   centralPay:CentralPay[]=[];
-
   displayedColumns: string[] = [
     'date',
     'amount',
@@ -29,12 +31,11 @@ export class CentralPayComponent implements OnInit {
   new MatTableDataSource<CentralPay>();
  dataLoaded = false;
  searchHide = false;
- isAuthenticated: boolean = false;
  filterText: '';
- jwtHelper: JwtHelperService = new JwtHelperService();
  @ViewChild(MatPaginator) paginator: MatPaginator;
  @ViewChild(MatSort) sort: MatSort;
-
+ startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+ endDate = moment().format('YYYY-MM-DD');
   constructor(
     private centralPayService:CentralPayService,
     private dialog: MatDialog,
@@ -43,7 +44,7 @@ export class CentralPayComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAll();
+    this.getAllCentralPayDetailByDate();
   }
 
   filterDataSource() {
@@ -59,8 +60,8 @@ export class CentralPayComponent implements OnInit {
   }
 
 
-  getAll() {
-    this.centralPayService.getAll().subscribe(
+  getAllCentralPayDetailByDate() {
+    this.centralPayService.getAllCentralPayDetailByDate(this.startDate,this.endDate).subscribe(
       (response) => {
         this.showSpinner();
         this.centralPay = response.data;
@@ -83,11 +84,12 @@ export class CentralPayComponent implements OnInit {
     this.dialog
       .open(CentralPayViewComponent, {
         width: '25%',
+        data: { status: true }
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'save') {
-          this.getAll();
+          this.getAllCentralPayDetailByDate();
         }
       });
   }
@@ -96,13 +98,25 @@ export class CentralPayComponent implements OnInit {
     this.dialog
       .open(CentralPayViewComponent, {
         width: '25%',
-        data: row,
+        data: { status: false, row }
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'update') {
-          this.getAll();
+          this.getAllCentralPayDetailByDate();
         }
+      });
+  }
+  openFilterDialog() {
+    this.dialog
+      .open(CentralPayFilterComponent, {
+        width: '20%',
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        this.startDate = value.startDate.format('YYYY-MM-DD');
+        this.endDate = value.endDate.format('YYYY-MM-DD');
+        this.getAllCentralPayDetailByDate();
       });
   }
 
@@ -115,10 +129,21 @@ export class CentralPayComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAll();
+          this.getAllCentralPayDetailByDate();
         }
       });
   }
+
+
+  exportXlsx() {
+    let element = document.getElementById('centralPayTable');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Merkez Ödemeleri');
+
+    XLSX.writeFile(wb, 'Merkez Ödeme İşlemleri.xlsx');
+  }
+
 
 
 }

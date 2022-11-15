@@ -21,12 +21,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { CentralPayFilterComponent } from './central-pay-filter/central-pay-filter.component';
+
 
 
 
 
 @NgModule({
-  declarations: [CentralPayComponent, CentralPayViewComponent, CentralPayDeleteComponent],
+  declarations: [CentralPayComponent, CentralPayViewComponent, CentralPayDeleteComponent, CentralPayFilterComponent],
   imports: [
     CommonModule,
     CentralPayRoutingModule,
@@ -45,7 +48,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatPaginatorModule,
     MatTableModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+    MatDatepickerModule
   ],
 })
 export class CentralPayModule {}

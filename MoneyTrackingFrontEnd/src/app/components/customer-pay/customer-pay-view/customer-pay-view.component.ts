@@ -48,9 +48,8 @@ export class CustomerPayViewComponent implements OnInit {
     }
 
     this.getForms();
-
-
   }
+
   getForms() {
     this.createCustomerPayForm();
     if (!this.data.status) {
