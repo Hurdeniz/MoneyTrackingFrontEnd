@@ -27,6 +27,8 @@ export class CardPaymentViewComponent implements OnInit {
   actionBtnName: string;
   dialogTitle: string;
 
+
+
   constructor(
     private bankService: BankService,
     private cardPaymentService: CardPaymentService,
@@ -102,9 +104,7 @@ export class CardPaymentViewComponent implements OnInit {
   editCardForm() {
     this.cardForm.controls['bankId'].setValue(this.editData.data.bankId);
     this.cardForm.controls['amount'].setValue(this.editData.data.amount);
-    this.cardForm.controls['description'].setValue(
-      this.editData.data.description
-    );
+    this.cardForm.controls['description'].setValue(this.editData.data.description);
   }
 
   add() {

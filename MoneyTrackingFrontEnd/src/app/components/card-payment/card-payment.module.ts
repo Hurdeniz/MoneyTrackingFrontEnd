@@ -5,6 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CardPaymentRoutingModule } from './card-payment-routing.module';
 import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
 import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
+import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
@@ -21,11 +22,7 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
 import { NgxSpinnerModule } from "ngx-spinner";
-import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
-
 
 
 

@@ -16,9 +16,12 @@ export class ExpenditureService {
     private httpClient: HttpClient
   ) { }
 
-
-  getAllExpenditureDetailByUserId(userId:number): Observable<ListResponseModel<ExpenditureDetailsDto>> {
-    let newPath = this.apiUrl + 'Expenditure/GetAllExpenditureDetailByUserId?userId='+userId;
+  getAllExpenditureDetail(): Observable<ListResponseModel<ExpenditureDetailsDto>>{
+    let newPath = this.apiUrl + 'Expenditure/GetAllExpenditureDetail';
+    return this.httpClient.get<ListResponseModel<ExpenditureDetailsDto>>(newPath);
+  }
+  getAllExpenditureDetailByUserIdAndDate(userId:number, startDate:string , endDate:string): Observable<ListResponseModel<ExpenditureDetailsDto>> {
+    let newPath = this.apiUrl + 'Expenditure/GetAllExpenditureDetailByUserIdAndDate?userId='+userId+'&startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<ExpenditureDetailsDto>>(newPath);
   }
 

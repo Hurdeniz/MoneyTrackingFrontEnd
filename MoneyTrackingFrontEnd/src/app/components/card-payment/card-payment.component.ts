@@ -11,11 +11,13 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CardPaymentService } from 'src/app/services/card-payment.service';
 import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
 import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
-import * as XLSX from 'xlsx';
+import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import * as XLSX from 'xlsx';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
-import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
+
+
 
 const moment = _moment;
 
@@ -26,7 +28,7 @@ const moment = _moment;
 })
 export class CardPaymentComponent implements OnInit {
   cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
-  cardForm: FormGroup;
+  dateForm: FormGroup;
 
   displayedColumns: string[] = [
     'date',
@@ -87,15 +89,15 @@ export class CardPaymentComponent implements OnInit {
     this.spinner.hide();
   }
   showDate() {
-    this.cardForm = this.formBuilder.group({
+    this.dateForm = this.formBuilder.group({
       startDate: [moment().subtract(7, 'days').format('YYYY-MM-DD')],
       endDate: [moment().format('YYYY-MM-DD')],
     });
   }
 
   showDataByDate() {
-    let a: Moment = this.cardForm.get('startDate').value;
-    let b: Moment = this.cardForm.get('endDate').value;
+    let a: Moment = this.dateForm.get('startDate').value;
+    let b: Moment = this.dateForm.get('endDate').value;
     this.startDate = a.format('YYYY-MM-DD');
     this.endDate = b.format('YYYY-MM-DD');
     this.getAllCardPaymentDetailByUserIdAndDate();
@@ -112,7 +114,6 @@ export class CardPaymentComponent implements OnInit {
         (response) => {
           this.showSpinner();
           this.cardPaymnetDetailsDto = response.data;
-          console.log(this.cardPaymnetDetailsDto);
           this.hideSpinner();
           this.dataSource = new MatTableDataSource<CardPaymetDetailsDto>(
             this.cardPaymnetDetailsDto
@@ -127,13 +128,11 @@ export class CardPaymentComponent implements OnInit {
       );
   }
 
-
-
   openAddDialog() {
     this.dialog
       .open(CardPaymentViewComponent, {
         width: '25%',
-        data: { status: true, userId: this.userId },
+        data: { status: true, userId: this.userId }
       })
       .afterClosed()
       .subscribe((value) => {
@@ -147,7 +146,7 @@ export class CardPaymentComponent implements OnInit {
     this.dialog
       .open(CardPaymentViewComponent, {
         width: '25%',
-        data: { status: false, data },
+        data: { status: false, data }
       })
       .afterClosed()
       .subscribe((value) => {
@@ -185,13 +184,18 @@ export class CardPaymentComponent implements OnInit {
   }
 
   exportXlsx() {
+    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
     let element = document.getElementById('cardPaymentTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, 'Kart İşlemleri');
 
     XLSX.writeFile(wb, 'Kredi Kartı İşlemleri.xlsx');
   }
+
+
+
+
 
   printPage() {
     window.print();

@@ -5,6 +5,7 @@ import { ExpenditureComponent } from './expenditure.component';
 import { ExpenditureViewComponent } from './expenditure-view/expenditure-view.component';
 import { ExpenditureDeleteComponent } from './expenditure-delete/expenditure-delete.component';
 import { ExpenditureRoutingModule } from './expenditure-routing.module';
+import { ExpenditureFilterComponent } from './expenditure-filter/expenditure-filter.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -20,13 +21,14 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
     ExpenditureComponent,
     ExpenditureViewComponent,
-    ExpenditureDeleteComponent
+    ExpenditureDeleteComponent,
+    ExpenditureFilterComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule
 
   ]
 })

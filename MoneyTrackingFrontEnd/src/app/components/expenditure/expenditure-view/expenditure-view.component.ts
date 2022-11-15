@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup , FormBuilder, Validators} from '@angular/forms';
+import { FormGroup , FormBuilder, Validators, FormControl} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/services/auth.service';
 import { ExpenditureService } from 'src/app/services/expenditure.service';
-import { ExpenditureModule } from '../expenditure.module';
+import { Moment } from 'moment';
+import * as _moment from 'moment';
+const moment = _moment;
 
 @Component({
   selector: 'app-expenditure-view',
@@ -13,12 +13,12 @@ import { ExpenditureModule } from '../expenditure.module';
   styleUrls: ['./expenditure-view.component.scss']
 })
 export class ExpenditureViewComponent implements OnInit {
-  expenditureForm:FormGroup
-  actionBtnName = 'Kaydet';
-  dialogTitle = 'Masraf Çık';
-  isAuthenticated: boolean = false;
-  userId: number;
-  jwtHelper: JwtHelperService = new JwtHelperService();
+  expenditureForm:FormGroup;
+  dateNow: FormControl;
+  dateInput: any;
+  actionBtnName: string;
+  dialogTitle: string;
+
 
   constructor(
     private expenditureService:ExpenditureService,
@@ -26,64 +26,70 @@ export class ExpenditureViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<ExpenditureViewComponent>,
     private toastrService: ToastrService,
-    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.refresh
-    this.createExpenditureForm();
 
-
-    if (this.editData) {
-      this.editExpenditureForm();
+    if (this.editData.status) {
+      this.dateNow = new FormControl(
+        moment().format('YYYY-MM-DD'),
+        Validators.required
+      );
+      this.dateInput = this.dateNow.value;
+      this.actionBtnName = 'Kaydet';
+      this.dialogTitle = 'Masraf Ekle';
+    } else if (!this.editData.status) {
+      this.dateNow = new FormControl(
+        this.editData.data.date,
+        Validators.required
+      );
+      this.dateInput = this.editData.data.date;
+      this.actionBtnName = 'Güncelle';
+      this.dialogTitle = 'Masraf Güncelle';
     }
+    this.getForms();
 
   }
 
-  refresh() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      let token = localStorage.getItem('token');
-      let decode = this.jwtHelper.decodeToken(token);
-      let userName = Object.keys(decode).filter((x) => x.endsWith('/name'))[0];
-      let userId = Object.keys(decode).filter((x) =>
-        x.endsWith('/nameidentifier')
-      )[0];
-      this.userId = decode[userId];
-
+  getForms() {
+    this.createExpenditureForm();
+    if (!this.editData.status) {
+      this.editExpenditureForm();
     }
+  }
+
+  addEvent(event: any) {
+    let a: Moment = event.value;
+    this.dateInput = a.format('YYYY-MM-DD');
+    this.getForms();
   }
 
   createExpenditureForm() {
-    if (!this.editData) {
+    if (this.editData.status)  {
       this.expenditureForm = this.formBuilder.group({
-        userId: ['1'],
-        amount: ['', Validators.required],
-        date:['',Validators.required],
-        description: [''],
-      });
-    } else {
-      this.expenditureForm = this.formBuilder.group({
-        expenditureId: [this.editData.expenditureId],
         userId: [this.editData.userId],
         amount: ['', Validators.required],
-        date: ['',Validators.required],
+        date: [this.dateInput, Validators.required],
+        description: [''],
+      });
+    }  else if (!this.editData.status){
+      this.expenditureForm = this.formBuilder.group({
+        expenditureId: [this.editData.data.expenditureId],
+        userId: [this.editData.data.userId],
+        amount: ['', Validators.required],
+        date: [this.dateInput, Validators.required],
         description: [''],
       });
     }
   }
 
   editExpenditureForm() {
-    this.actionBtnName = 'Güncelle';
-    this.dialogTitle = 'Masraf Güncelle';
-    this.expenditureForm.controls['amount'].setValue(this.editData.amount);
-    this.expenditureForm.controls['date'].setValue(this.editData.date);
-    this.expenditureForm.controls['description'].setValue(this.editData.description);
+    this.expenditureForm.controls['amount'].setValue(this.editData.data.amount);
+    this.expenditureForm.controls['description'].setValue(this.editData.data.description);
   }
 
   add() {
-
-    if (!this.editData) {
+    if (this.editData.status) {
       if (this.expenditureForm.valid) {
         let expenditureModel = Object.assign({}, this.expenditureForm.value);
         this.expenditureService.add(expenditureModel).subscribe(
@@ -107,7 +113,7 @@ export class ExpenditureViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    } else {
+    }  else if (!this.editData.status) {
       this.update();
     }
   }

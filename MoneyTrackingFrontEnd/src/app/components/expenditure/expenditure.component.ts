@@ -11,7 +11,13 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ExpenditureService } from 'src/app/services/expenditure.service';
 import { ExpenditureDeleteComponent } from './expenditure-delete/expenditure-delete.component';
 import { ExpenditureViewComponent } from './expenditure-view/expenditure-view.component';
+import * as XLSX from 'xlsx';
+import { Moment } from 'moment';
+import * as _moment from 'moment';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ExpenditureFilterComponent } from './expenditure-filter/expenditure-filter.component';
 
+const moment = _moment;
 @Component({
   selector: 'app-expenditure',
   templateUrl: './expenditure.component.html',
@@ -19,6 +25,7 @@ import { ExpenditureViewComponent } from './expenditure-view/expenditure-view.co
 })
 export class ExpenditureComponent implements OnInit {
   expenditureDetailsDto: ExpenditureDetailsDto[] = [];
+  dateForm: FormGroup;
 
   displayedColumns: string[] = ['date', 'amount', 'description', 'action'];
 
@@ -30,13 +37,15 @@ export class ExpenditureComponent implements OnInit {
   isAuthenticated: boolean = false;
   filterText: '';
   userId: number;
-  userName: string;
   jwtHelper: JwtHelperService = new JwtHelperService();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+  endDate = moment().format('YYYY-MM-DD');
 
   constructor(
     private expenditureService:ExpenditureService,
+    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService,
@@ -44,8 +53,10 @@ export class ExpenditureComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.showDate();
     this.refresh();
-    this.getAllExpenditureDetailByUserId(this.userId);
+    this.getAllExpenditureDetailByUserIdAndDate();
+
   }
 
   filterDataSource() {
@@ -62,7 +73,6 @@ export class ExpenditureComponent implements OnInit {
         x.endsWith('/nameidentifier')
       )[0];
       this.userId = decode[userId];
-      this.userName = decode[userName];
     }
   }
 
@@ -73,9 +83,23 @@ export class ExpenditureComponent implements OnInit {
   hideSpinner(){
     this.spinner.hide();
   }
+  showDate() {
+    this.dateForm = this.formBuilder.group({
+      startDate: [moment().subtract(7, 'days').format('YYYY-MM-DD')],
+      endDate: [moment().format('YYYY-MM-DD')],
+    });
+  }
 
-  getAllExpenditureDetailByUserId(userId: number) {
-    this.expenditureService.getAllExpenditureDetailByUserId(userId).subscribe(
+  showDataByDate() {
+    let a: Moment = this.dateForm.get('startDate').value;
+    let b: Moment = this.dateForm.get('endDate').value;
+    this.startDate = a.format('YYYY-MM-DD');
+    this.endDate = b.format('YYYY-MM-DD');
+    this.getAllExpenditureDetailByUserIdAndDate();
+  }
+
+  getAllExpenditureDetailByUserIdAndDate() {
+    this.expenditureService.getAllExpenditureDetailByUserIdAndDate(this.userId,this.startDate,this.endDate).subscribe(
       (response) => {
         this.showSpinner();
         this.expenditureDetailsDto = response.data;
@@ -98,42 +122,64 @@ export class ExpenditureComponent implements OnInit {
     this.dialog
       .open(ExpenditureViewComponent, {
         width: '25%',
-
+        data: { status: true, userId: this.userId },
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'save') {
-          this.getAllExpenditureDetailByUserId(this.userId);
+          this.getAllExpenditureDetailByUserIdAndDate();
         }
       });
   }
 
-  openEditDialog(row: any) {
+  openEditDialog(data: any) {
     this.dialog
       .open(ExpenditureViewComponent, {
         width: '25%',
-        data: row,
+        data: { status: false, data }
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'update') {
-          this.getAllExpenditureDetailByUserId(this.userId);
+          this.getAllExpenditureDetailByUserIdAndDate();
         }
       });
   }
 
-  openDeleteDialog(row: any) {
+  openFilterDialog() {
+    this.dialog
+      .open(ExpenditureFilterComponent, {
+        width: '20%',
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        this.startDate = value.startDate.format('YYYY-MM-DD');
+        this.endDate = value.endDate.format('YYYY-MM-DD');
+        this.getAllExpenditureDetailByUserIdAndDate();
+      });
+  }
+
+  openDeleteDialog(data: any) {
     this.dialog
       .open(ExpenditureDeleteComponent, {
         width: '25%',
-        data: row,
+        data: data,
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAllExpenditureDetailByUserId(this.userId);
+          this.getAllExpenditureDetailByUserIdAndDate();
         }
       });
+  }
+
+  exportXlsx() {
+    let element = document.getElementById('expenditureTable');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Masraflar');
+
+    XLSX.writeFile(wb, 'Masraf Çıkışları.xlsx');
   }
 
 
