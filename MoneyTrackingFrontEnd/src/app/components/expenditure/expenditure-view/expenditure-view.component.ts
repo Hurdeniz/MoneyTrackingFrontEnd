@@ -23,14 +23,14 @@ export class ExpenditureViewComponent implements OnInit {
   constructor(
     private expenditureService:ExpenditureService,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ExpenditureViewComponent>,
     private toastrService: ToastrService,
   ) { }
 
   ngOnInit(): void {
 
-    if (this.editData.status) {
+    if (this.data.status) {
       this.dateNow = new FormControl(
         moment().format('YYYY-MM-DD'),
         Validators.required
@@ -38,12 +38,12 @@ export class ExpenditureViewComponent implements OnInit {
       this.dateInput = this.dateNow.value;
       this.actionBtnName = 'Kaydet';
       this.dialogTitle = 'Masraf Ekle';
-    } else if (!this.editData.status) {
+    } else if (!this.data.status) {
       this.dateNow = new FormControl(
-        this.editData.data.date,
+        this.data.row.date,
         Validators.required
       );
-      this.dateInput = this.editData.data.date;
+      this.dateInput = this.data.row.date;
       this.actionBtnName = 'Güncelle';
       this.dialogTitle = 'Masraf Güncelle';
     }
@@ -53,7 +53,7 @@ export class ExpenditureViewComponent implements OnInit {
 
   getForms() {
     this.createExpenditureForm();
-    if (!this.editData.status) {
+    if (!this.data.status) {
       this.editExpenditureForm();
     }
   }
@@ -65,17 +65,17 @@ export class ExpenditureViewComponent implements OnInit {
   }
 
   createExpenditureForm() {
-    if (this.editData.status)  {
+    if (this.data.status)  {
       this.expenditureForm = this.formBuilder.group({
-        userId: [this.editData.userId],
+        userId: [this.data.userId],
         amount: ['', Validators.required],
         date: [this.dateInput, Validators.required],
         description: [''],
       });
-    }  else if (!this.editData.status){
+    }  else if (!this.data.status){
       this.expenditureForm = this.formBuilder.group({
-        expenditureId: [this.editData.data.expenditureId],
-        userId: [this.editData.data.userId],
+        expenditureId: [this.data.row.expenditureId],
+        userId: [this.data.row.userId],
         amount: ['', Validators.required],
         date: [this.dateInput, Validators.required],
         description: [''],
@@ -84,12 +84,12 @@ export class ExpenditureViewComponent implements OnInit {
   }
 
   editExpenditureForm() {
-    this.expenditureForm.controls['amount'].setValue(this.editData.data.amount);
-    this.expenditureForm.controls['description'].setValue(this.editData.data.description);
+    this.expenditureForm.controls['amount'].setValue(this.data.row.amount);
+    this.expenditureForm.controls['description'].setValue(this.data.row.description);
   }
 
   add() {
-    if (this.editData.status) {
+    if (this.data.status) {
       if (this.expenditureForm.valid) {
         let expenditureModel = Object.assign({}, this.expenditureForm.value);
         this.expenditureService.add(expenditureModel).subscribe(
@@ -113,7 +113,7 @@ export class ExpenditureViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    }  else if (!this.editData.status) {
+    }  else if (!this.data.status) {
       this.update();
     }
   }

@@ -12,13 +12,8 @@ import { CardPaymentService } from 'src/app/services/card-payment.service';
 import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
 import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
 import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as XLSX from 'xlsx';
-import { Moment } from 'moment';
 import * as _moment from 'moment';
-
-
-
 const moment = _moment;
 
 @Component({
@@ -28,8 +23,6 @@ const moment = _moment;
 })
 export class CardPaymentComponent implements OnInit {
   cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
-  dateForm: FormGroup;
-
   displayedColumns: string[] = [
     'date',
     'bankName',
@@ -41,7 +34,6 @@ export class CardPaymentComponent implements OnInit {
     new MatTableDataSource<CardPaymetDetailsDto>();
   dataLoaded = false;
   searchHide = false;
-  dateHide = false;
   isAuthenticated: boolean = false;
   filterText: '';
   userId: number;
@@ -54,7 +46,6 @@ export class CardPaymentComponent implements OnInit {
 
   constructor(
     private cardPaymentService: CardPaymentService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService,
@@ -62,7 +53,6 @@ export class CardPaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.showDate();
     this.refresh();
     this.getAllCardPaymentDetailByUserIdAndDate();
   }
@@ -74,7 +64,6 @@ export class CardPaymentComponent implements OnInit {
     if (this.isAuthenticated) {
       let token = localStorage.getItem('token');
       let decode = this.jwtHelper.decodeToken(token);
-      let userName = Object.keys(decode).filter((x) => x.endsWith('/name'))[0];
       let userId = Object.keys(decode).filter((x) =>
         x.endsWith('/nameidentifier')
       )[0];
@@ -87,20 +76,6 @@ export class CardPaymentComponent implements OnInit {
   }
   hideSpinner() {
     this.spinner.hide();
-  }
-  showDate() {
-    this.dateForm = this.formBuilder.group({
-      startDate: [moment().subtract(7, 'days').format('YYYY-MM-DD')],
-      endDate: [moment().format('YYYY-MM-DD')],
-    });
-  }
-
-  showDataByDate() {
-    let a: Moment = this.dateForm.get('startDate').value;
-    let b: Moment = this.dateForm.get('endDate').value;
-    this.startDate = a.format('YYYY-MM-DD');
-    this.endDate = b.format('YYYY-MM-DD');
-    this.getAllCardPaymentDetailByUserIdAndDate();
   }
 
   getAllCardPaymentDetailByUserIdAndDate() {
@@ -142,11 +117,11 @@ export class CardPaymentComponent implements OnInit {
       });
   }
 
-  openEditDialog(data: any) {
+  openEditDialog(row: any) {
     this.dialog
       .open(CardPaymentViewComponent, {
         width: '25%',
-        data: { status: false, data }
+        data: { status: false, row }
       })
       .afterClosed()
       .subscribe((value) => {
@@ -169,11 +144,11 @@ export class CardPaymentComponent implements OnInit {
       });
   }
 
-  openDeleteDialog(data: any) {
+  openDeleteDialog(row: any) {
     this.dialog
       .open(CardPaymentDeleteComponent, {
         width: '25%',
-        data: data,
+        data: row,
       })
       .afterClosed()
       .subscribe((value) => {

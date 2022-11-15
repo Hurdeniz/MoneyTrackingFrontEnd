@@ -23,6 +23,11 @@ export class MoneyDepositedService {
     return this.httpClient.get<ListResponseModel<MoneyDepositedDetailsDto>>(newPath);
   }
 
+  getAllMoneyDepositedDetailByDate(startDate:string , endDate:string): Observable<ListResponseModel<MoneyDepositedDetailsDto>> {
+    let newPath = this.apiUrl + 'MoneyDeposited/GetAllMoneyDepositedDetailByDate?startDate='+startDate+'&endDate='+endDate;
+    return this.httpClient.get<ListResponseModel<MoneyDepositedDetailsDto>>(newPath);
+  }
+
   add(moneyDeposited: MoneyDeposited):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl+'MoneyDeposited/Add',moneyDeposited)
   }

@@ -15,8 +15,8 @@ export class CustomerPayService {
     private httpClient: HttpClient
   ) { }
 
-  getAll(): Observable<ListResponseModel<CustomerPay>> {
-    let newPath = this.apiUrl + 'CustomerPay/GetAll';
+  getAllCustomerPayDetailByDate(startDate:string , endDate:string): Observable<ListResponseModel<CustomerPay>> {
+    let newPath = this.apiUrl + 'CustomerPay/GetAllCustomerPayDetailByDate?startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<CustomerPay>>(newPath);
   }
 

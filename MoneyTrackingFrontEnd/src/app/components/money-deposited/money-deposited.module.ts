@@ -21,6 +21,8 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import { MoneyDepositedComponent } from './money-deposited.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MoneyDepositedFilterComponent } from './money-deposited-filter/money-deposited-filter.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 
@@ -28,7 +30,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
   declarations: [
     MoneyDepositedComponent,
     MoneyDepositedViewComponent,
-    MoneyDepositedDeleteComponent
+    MoneyDepositedDeleteComponent,
+    MoneyDepositedFilterComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSortModule,
     MatPaginatorModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule
 
   ]
 })

@@ -22,12 +22,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { CustomerPayFilterComponent } from './customer-pay-filter/customer-pay-filter.component';
 
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 @NgModule({
-  declarations: [CustomerPayComponent, CustomerPayViewComponent, CustomerPayDeleteComponent],
+  declarations: [CustomerPayComponent, CustomerPayViewComponent, CustomerPayDeleteComponent, CustomerPayFilterComponent],
   imports: [
     CommonModule,
     CustomerPayRoutingModule,
@@ -46,7 +47,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule
   ]
 })
 export class CustomerPayModule { }

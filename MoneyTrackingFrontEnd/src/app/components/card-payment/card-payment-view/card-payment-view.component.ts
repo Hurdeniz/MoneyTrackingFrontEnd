@@ -33,7 +33,7 @@ export class CardPaymentViewComponent implements OnInit {
     private bankService: BankService,
     private cardPaymentService: CardPaymentService,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CardPaymentViewComponent>,
     private toastrService: ToastrService
   ) {}
@@ -41,7 +41,7 @@ export class CardPaymentViewComponent implements OnInit {
   ngOnInit(): void {
     this.getAllBanks();
 
-    if (this.editData.status) {
+    if (this.data.status) {
       this.dateNow = new FormControl(
         moment().format('YYYY-MM-DD'),
         Validators.required
@@ -49,12 +49,12 @@ export class CardPaymentViewComponent implements OnInit {
       this.dateInput = this.dateNow.value;
       this.actionBtnName = 'Kaydet';
       this.dialogTitle = 'Kredi Kartı Ekle';
-    } else if (!this.editData.status) {
+    } else if (!this.data.status) {
       this.dateNow = new FormControl(
-        this.editData.data.date,
+        this.data.row.date,
         Validators.required
       );
-      this.dateInput = this.editData.data.date;
+      this.dateInput = this.data.row.date;
       this.actionBtnName = 'Güncelle';
       this.dialogTitle = 'Kredi Kartı Güncelle';
     }
@@ -69,7 +69,7 @@ export class CardPaymentViewComponent implements OnInit {
 
   getForms() {
     this.createCardForm();
-    if (!this.editData.status) {
+    if (!this.data.status) {
       this.editCardForm();
     }
   }
@@ -81,18 +81,18 @@ export class CardPaymentViewComponent implements OnInit {
   }
 
   createCardForm() {
-    if (this.editData.status) {
+    if (this.data.status) {
       this.cardForm = this.formBuilder.group({
-        userId: [this.editData.userId],
+        userId: [this.data.userId],
         bankId: ['', Validators.required],
         amount: ['', Validators.required],
         date: [this.dateInput, Validators.required],
         description: [''],
       });
-    } else if (!this.editData.status) {
+    } else if (!this.data.status) {
       this.cardForm = this.formBuilder.group({
-        cardPaymentId: [this.editData.data.cardPaymentId],
-        userId: [this.editData.data.userId],
+        cardPaymentId: [this.data.row.cardPaymentId],
+        userId: [this.data.row.userId],
         bankId: ['', Validators.required],
         amount: ['', Validators.required],
         date: [this.dateInput, Validators.required],
@@ -102,13 +102,13 @@ export class CardPaymentViewComponent implements OnInit {
   }
 
   editCardForm() {
-    this.cardForm.controls['bankId'].setValue(this.editData.data.bankId);
-    this.cardForm.controls['amount'].setValue(this.editData.data.amount);
-    this.cardForm.controls['description'].setValue(this.editData.data.description);
+    this.cardForm.controls['bankId'].setValue(this.data.row.bankId);
+    this.cardForm.controls['amount'].setValue(this.data.row.amount);
+    this.cardForm.controls['description'].setValue(this.data.row.description);
   }
 
   add() {
-    if (this.editData.status) {
+    if (this.data.status) {
       if (this.cardForm.valid) {
         let cardPaymentModel = Object.assign({}, this.cardForm.value);
         this.cardPaymentService.add(cardPaymentModel).subscribe(
@@ -135,7 +135,7 @@ export class CardPaymentViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    } else if (!this.editData.status) {
+    } else if (!this.data.status) {
       this.update();
     }
   }

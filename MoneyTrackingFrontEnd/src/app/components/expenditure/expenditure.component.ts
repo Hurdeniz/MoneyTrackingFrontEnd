@@ -25,13 +25,9 @@ const moment = _moment;
 })
 export class ExpenditureComponent implements OnInit {
   expenditureDetailsDto: ExpenditureDetailsDto[] = [];
-  dateForm: FormGroup;
-
   displayedColumns: string[] = ['date', 'amount', 'description', 'action'];
-
   dataSource: MatTableDataSource<ExpenditureDetailsDto> =
     new MatTableDataSource<ExpenditureDetailsDto>();
-
   dataLoaded = false;
   searchHide = false;
   isAuthenticated: boolean = false;
@@ -45,7 +41,6 @@ export class ExpenditureComponent implements OnInit {
 
   constructor(
     private expenditureService:ExpenditureService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService,
@@ -53,7 +48,6 @@ export class ExpenditureComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.showDate();
     this.refresh();
     this.getAllExpenditureDetailByUserIdAndDate();
 
@@ -68,7 +62,6 @@ export class ExpenditureComponent implements OnInit {
     if (this.isAuthenticated) {
       let token = localStorage.getItem('token');
       let decode = this.jwtHelper.decodeToken(token);
-      let userName = Object.keys(decode).filter((x) => x.endsWith('/name'))[0];
       let userId = Object.keys(decode).filter((x) =>
         x.endsWith('/nameidentifier')
       )[0];
@@ -82,20 +75,6 @@ export class ExpenditureComponent implements OnInit {
 
   hideSpinner(){
     this.spinner.hide();
-  }
-  showDate() {
-    this.dateForm = this.formBuilder.group({
-      startDate: [moment().subtract(7, 'days').format('YYYY-MM-DD')],
-      endDate: [moment().format('YYYY-MM-DD')],
-    });
-  }
-
-  showDataByDate() {
-    let a: Moment = this.dateForm.get('startDate').value;
-    let b: Moment = this.dateForm.get('endDate').value;
-    this.startDate = a.format('YYYY-MM-DD');
-    this.endDate = b.format('YYYY-MM-DD');
-    this.getAllExpenditureDetailByUserIdAndDate();
   }
 
   getAllExpenditureDetailByUserIdAndDate() {
@@ -132,11 +111,11 @@ export class ExpenditureComponent implements OnInit {
       });
   }
 
-  openEditDialog(data: any) {
+  openEditDialog(row: any) {
     this.dialog
       .open(ExpenditureViewComponent, {
         width: '25%',
-        data: { status: false, data }
+        data: { status: false, row }
       })
       .afterClosed()
       .subscribe((value) => {
@@ -159,11 +138,11 @@ export class ExpenditureComponent implements OnInit {
       });
   }
 
-  openDeleteDialog(data: any) {
+  openDeleteDialog(row: any) {
     this.dialog
       .open(ExpenditureDeleteComponent, {
         width: '25%',
-        data: data,
+        data: row,
       })
       .afterClosed()
       .subscribe((value) => {

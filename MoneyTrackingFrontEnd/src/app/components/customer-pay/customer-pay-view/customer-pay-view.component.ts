@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerPayService } from 'src/app/services/customer-pay.service';
+import { Moment } from 'moment';
+import * as _moment from 'moment';
+const moment = _moment;
 
 @Component({
   selector: 'app-customer-pay-view',
@@ -11,55 +14,85 @@ import { CustomerPayService } from 'src/app/services/customer-pay.service';
 })
 export class CustomerPayViewComponent implements OnInit {
   customerPayForm: FormGroup;
-  actionBtnName = 'Kaydet';
-  dialogTitle = 'Firma Ödemesi Ekle';
+  dateNow: FormControl;
+  dateInput: any;
+  actionBtnName: string;
+  dialogTitle: string;
 
   constructor(
     private customerPayService: CustomerPayService,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CustomerPayViewComponent>,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
+
+    if (this.data.status) {
+      this.dateNow = new FormControl(
+        moment().format('YYYY-MM-DD'),
+        Validators.required
+      );
+      this.dateInput = this.dateNow.value;
+      this.actionBtnName = 'Kaydet';
+      this.dialogTitle = 'Firma Ödemesi Ekle';
+    } else if (!this.data.status) {
+      this.dateNow = new FormControl(
+        this.data.row.date,
+        Validators.required
+      );
+      this.dateInput = this.data.row.date;
+      this.actionBtnName = 'Güncelle';
+      this.dialogTitle = 'Firma Ödemesi Güncelle';
+    }
+
+    this.getForms();
+
+
+  }
+  getForms() {
     this.createCustomerPayForm();
-    if (this.editData) {
+    if (!this.data.status) {
       this.editCustomerPayForm();
     }
   }
 
+
+  addEvent(event: any) {
+    let a: Moment = event.value;
+    this.dateInput = a.format('YYYY-MM-DD');
+    this.getForms();
+  }
+
   createCustomerPayForm() {
-    if (!this.editData) {
+    if (this.data.status) {
       this.customerPayForm = this.formBuilder.group({
         customerName: ['', Validators.required],
         amount: ['', Validators.required],
-        date:['',Validators.required],
+        date: [this.dateInput, Validators.required],
         description: [''],
       });
-    } else {
+    } else if (!this.data.status) {
       this.customerPayForm = this.formBuilder.group({
-        customerPayId: [this.editData.customerPayId],
+        customerPayId: [this.data.row.customerPayId],
         customerName: ['', Validators.required],
         amount: ['', Validators.required],
-        date: ['',Validators.required],
+        date: [this.dateInput, Validators.required],
         description: [''],
       });
     }
   }
 
   editCustomerPayForm() {
-    this.actionBtnName = 'Güncelle';
-    this.dialogTitle = 'Firma Ödemesi Güncelle';
-    this.customerPayForm.controls['customerName'].setValue(this.editData.customerName);
-    this.customerPayForm.controls['amount'].setValue(this.editData.amount);
-    this.customerPayForm.controls['date'].setValue(this.editData.date);
-    this.customerPayForm.controls['description'].setValue(this.editData.description);
+    this.customerPayForm.controls['customerName'].setValue(this.data.row.customerName);
+    this.customerPayForm.controls['amount'].setValue(this.data.row.amount);
+    this.customerPayForm.controls['description'].setValue(this.data.row.description);
   }
 
   add() {
 
-    if (!this.editData) {
+    if (this.data.status) {
       if (this.customerPayForm.valid) {
         let customerPayModel = Object.assign({}, this.customerPayForm.value);
         this.customerPayService.add(customerPayModel).subscribe(
@@ -83,7 +116,7 @@ export class CustomerPayViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    } else {
+    } else if (!this.data.status) {
       this.update();
     }
   }
