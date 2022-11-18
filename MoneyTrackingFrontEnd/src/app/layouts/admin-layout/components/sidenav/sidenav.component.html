@@ -17,6 +17,22 @@
       </mat-list-option>
     </mat-expansion-panel>
     <mat-divider style="background-color: #69f0ae"></mat-divider>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon mat-list-icon>currency_exchange</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description> E-Gelecek </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list-option
+        *ngFor="let futureMoneys of futureMoney"
+        [routerLink]="[futureMoneys.path]"
+      >
+        <mat-icon mat-list-icon>{{ futureMoneys.icon }}</mat-icon>
+        {{ futureMoneys.name }}
+      </mat-list-option>
+    </mat-expansion-panel>
+    <mat-divider style="background-color: #69f0ae"></mat-divider>
 
      <mat-expansion-panel>
       <mat-expansion-panel-header>

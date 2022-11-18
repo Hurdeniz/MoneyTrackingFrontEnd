@@ -3,61 +3,48 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { FutureMoneyDetailsDto } from 'src/app/models/Dtos/futureMoneyDetailsDto';
-import { AuthService } from 'src/app/services/auth.service';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
-import { FutureMoneyDeleteComponent } from './future-money-delete/future-money-delete.component';
-import { FutureMoneyViewComponent } from './future-money-view/future-money-view.component';
+import { FutureMoneyTransactionsDeleteComponent } from './future-money-transactions-delete/future-money-transactions-delete.component';
+import { FutureMoneyTransactionsViewComponent } from './future-money-transactions-view/future-money-transactions-view.component';
 import * as XLSX from 'xlsx';
+import { IncomingMoneyComponent } from './incoming-money/incoming-money.component';
+
 @Component({
-  selector: 'app-future-money',
-  templateUrl: './future-money.component.html',
-  styleUrls: ['./future-money.component.scss']
+  selector: 'app-future-money-transactions',
+  templateUrl: './future-money-transactions.component.html',
+  styleUrls: ['./future-money-transactions.component.scss']
 })
-export class FutureMoneyComponent implements OnInit {
+export class FutureMoneyTransactionsComponent implements OnInit {
   futureMoneyDetailsDto: FutureMoneyDetailsDto[] = [];
-  displayedColumns: string[] = ['futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerNameSurname','promissoryNumber','transactionAmount', 'amountPaid','futureAmount','description', 'action'];
+  displayedColumns: string[] = ['userNameSurname','futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerNameSurname','promissoryNumber','transactionAmount', 'amountPaid','futureAmount','description', 'action'];
   dataSource: MatTableDataSource<FutureMoneyDetailsDto> = new MatTableDataSource<FutureMoneyDetailsDto>();
   dataLoaded = false;
   searchHide = false;
-  isAuthenticated: boolean = false;
+
   filterText: '';
-  userId: number;
+
   status:boolean=true;
-  jwtHelper: JwtHelperService = new JwtHelperService();
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private futureMoneyService:FutureMoneyService,
     private dialog: MatDialog,
-    private authService: AuthService,
+
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.refresh();
-    this.getAllFutureMoneyDetailByUserIdAndStatus();
+    this.getAllFutureMoneyDetailByStatus();
   }
 
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
-  }
-
-  refresh() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      let token = localStorage.getItem('token');
-      let decode = this.jwtHelper.decodeToken(token);
-      let userId = Object.keys(decode).filter((x) =>
-        x.endsWith('/nameidentifier')
-      )[0];
-      this.userId = decode[userId];
-    }
   }
 
   showSpinner(){
@@ -69,8 +56,8 @@ export class FutureMoneyComponent implements OnInit {
   }
 
 
-  getAllFutureMoneyDetailByUserIdAndStatus() {
-    this.futureMoneyService.getAllFutureMoneyDetailByUserIdAndStatus(this.userId,this.status).subscribe(
+  getAllFutureMoneyDetailByStatus() {
+    this.futureMoneyService.getAllFutureMoneyDetailByStatus(this.status).subscribe(
       (response) => {
         this.showSpinner();
         this.futureMoneyDetailsDto = response.data;
@@ -89,17 +76,16 @@ export class FutureMoneyComponent implements OnInit {
     );
   }
 
-
   openAddDialog() {
     this.dialog
-      .open(FutureMoneyViewComponent, {
+      .open(FutureMoneyTransactionsViewComponent, {
         width: '40%',
-        data: { status: true, userId: this.userId }
+        data: { status: true }
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'save') {
-          this.getAllFutureMoneyDetailByUserIdAndStatus();
+          this.getAllFutureMoneyDetailByStatus();
         }
       });
   }
@@ -107,14 +93,14 @@ export class FutureMoneyComponent implements OnInit {
 
   openEditDialog(row: any) {
     this.dialog
-      .open(FutureMoneyViewComponent, {
+      .open(FutureMoneyTransactionsViewComponent, {
         width: '40%',
         data: { status: false, row }
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'update') {
-          this.getAllFutureMoneyDetailByUserIdAndStatus();
+          this.getAllFutureMoneyDetailByStatus();
         }
       });
   }
@@ -122,20 +108,34 @@ export class FutureMoneyComponent implements OnInit {
 
   openDeleteDialog(row: any) {
     this.dialog
-      .open(FutureMoneyDeleteComponent, {
+      .open(FutureMoneyTransactionsDeleteComponent, {
         width: '25%',
         data: row,
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAllFutureMoneyDetailByUserIdAndStatus();
+          this.getAllFutureMoneyDetailByStatus();
+        }
+      });
+  }
+
+  openIncomingDialog(row: any) {
+    this.dialog
+      .open(IncomingMoneyComponent, {
+        width: '25%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        if (value === 'incoming') {
+          this.getAllFutureMoneyDetailByStatus();
         }
       });
   }
 
   exportXlsx() {
-    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
+
     let element = document.getElementById('futureMoneyTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -143,7 +143,5 @@ export class FutureMoneyComponent implements OnInit {
 
     XLSX.writeFile(wb, 'Elden Gelecek İşlemleri.xlsx');
   }
-
-
 
 }

@@ -8,7 +8,7 @@ export interface FutureMoney {
   transactionAmount:number;
   amountPaid:number;
   futureAmount:number;
-  futureMoneyRegistrationDate:string;
+  futureMoneyRegistrationDate:Date;
   description:string;
   status:boolean;
 }

@@ -2,13 +2,16 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
+import { FutureMoneyDeleteComponent } from '../../future-money/future-money-delete/future-money-delete.component';
 
 @Component({
-  selector: 'app-future-money-delete',
-  templateUrl: './future-money-delete.component.html',
-  styleUrls: ['./future-money-delete.component.scss'],
+  selector: 'app-future-money-transactions-delete',
+  templateUrl: './future-money-transactions-delete.component.html',
+  styleUrls: ['./future-money-transactions-delete.component.scss']
 })
-export class FutureMoneyDeleteComponent implements OnInit {
+export class FutureMoneyTransactionsDeleteComponent implements OnInit {
+  userNameSurname:string;
+  userLastName:string;
   transactionAmount: number;
   customerNameSurname:string;
 
@@ -17,9 +20,10 @@ export class FutureMoneyDeleteComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public deleteData: any,
     private dialogRef: MatDialogRef<FutureMoneyDeleteComponent>,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.userNameSurname=this.deleteData.userNameSurname;
     this.transactionAmount = this.deleteData.transactionAmount;
     this.customerNameSurname=this.deleteData.customerNameSurname;
   }
@@ -30,4 +34,5 @@ export class FutureMoneyDeleteComponent implements OnInit {
       this.dialogRef.close('delete');
     });
   }
+
 }

@@ -65,6 +65,19 @@ export class SidenavComponent implements OnInit {
       path:'MoneyOutput'
     },
   ];
+  futureMoney:RouteInfo[]=[
+    {
+      name:'E-Gelecek',
+      icon:'receipt_long',
+      path:'FutureMoneyTransactions'
+    },
+    {
+      name:'E-Gelen',
+      icon:'receipt_long',
+      path:''
+    },
+
+  ];
   shipping:RouteInfo[]=[
     {
       name:'Sevkiyat Listesi ',

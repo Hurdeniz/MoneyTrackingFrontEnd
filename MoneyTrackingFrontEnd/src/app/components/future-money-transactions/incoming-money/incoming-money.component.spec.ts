@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FutureMoneyComponent } from './future-money.component';
+import { IncomingMoneyComponent } from './incoming-money.component';
 
-describe('FutureMoneyComponent', () => {
-  let component: FutureMoneyComponent;
-  let fixture: ComponentFixture<FutureMoneyComponent>;
+describe('IncomingMoneyComponent', () => {
+  let component: IncomingMoneyComponent;
+  let fixture: ComponentFixture<IncomingMoneyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FutureMoneyComponent ]
+      declarations: [ IncomingMoneyComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FutureMoneyComponent);
+    fixture = TestBed.createComponent(IncomingMoneyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

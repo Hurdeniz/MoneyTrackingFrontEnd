@@ -2,7 +2,7 @@
 
 <div class="box">
 
-  <mat-card style="width: 100%">
+  <mat-card style="width: 100%; padding: 10px;">
 
     <mat-card-actions [align]="'end'" style="margin: 0; justify-content: space-between;">
       <div class="col-start" style="display:flex; align-items: center;" >
@@ -44,7 +44,7 @@
         matTooltip="Yenile"
         matTooltipPosition="above"
         (click)="searchHide = false "
-        (click)="getAllFutureMoneyDetailByUserIdAndStatus()"
+        (click)="getAllFutureMoneyDetailByStatus()"
       >
         <mat-icon>refresh</mat-icon>
       </button>
@@ -83,16 +83,23 @@
           </button>
         </mat-form-field>
       </div>
-      <div class="mat-elevation-z8">
+      <div class="mat-elevation-z8" style="overflow: auto; width: 100%;" >
         <table
           mat-table
           id="futureMoneyTable"
           [dataSource]="dataSource"
           matSort
-          style="width: 100%; height: 100%"
+          style="min-width: 950px; width: 100%; height: 100%;"
         >
 
 
+        <ng-container matColumnDef="userNameSurname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Kasa Personel</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.userNameSurname}}
+          </td>
+
+        </ng-container>
           <ng-container matColumnDef="futureMoneyRegistrationDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
             <td mat-cell *matCellDef="let element">
@@ -175,7 +182,7 @@
                 mat-icon-button
                 color="accent"
                 matTooltip="Düzenle"
-                matTooltipPosition="left"
+                matTooltipPosition="above"
                 (click)="openEditDialog(element)"
               >
                 <mat-icon>edit</mat-icon>
@@ -184,11 +191,30 @@
                 mat-icon-button
                 color="warn"
                 matTooltip="Sil"
-                matTooltipPosition="right"
+                matTooltipPosition="above"
                 (click)="openDeleteDialog(element)"
               >
                 <mat-icon>delete</mat-icon>
               </button>
+
+              <button
+              mat-icon-button
+              color="basic"
+              matTooltip="Ödeme Al"
+              matTooltipPosition="above"
+              (click)="openIncomingDialog(element)"
+            >
+              <mat-icon>check_box</mat-icon>
+            </button>
+            <button
+            mat-icon-button
+            color="primary"
+            matTooltip="Kısmi Ödeme"
+            matTooltipPosition="above"
+            (click)="openDeleteDialog(element)"
+          >
+            <mat-icon>toll</mat-icon>
+          </button>
             </td>
 
           </ng-container>

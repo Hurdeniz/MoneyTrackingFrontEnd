@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -8,17 +7,20 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
+import { UserService } from 'src/app/services/user.service';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
 @Component({
-  selector: 'app-future-money-view',
-  templateUrl: './future-money-view.component.html',
-  styleUrls: ['./future-money-view.component.scss'],
+  selector: 'app-future-money-transactions-view',
+  templateUrl: './future-money-transactions-view.component.html',
+  styleUrls: ['./future-money-transactions-view.component.scss'],
 })
-export class FutureMoneyViewComponent implements OnInit {
+export class FutureMoneyTransactionsViewComponent implements OnInit {
+  users: User[] = [];
+  userStatus: boolean = true;
   futureMoneyForm: FormGroup;
   dateNow: FormControl;
   para: FormControl;
@@ -30,14 +32,16 @@ export class FutureMoneyViewComponent implements OnInit {
   answer: Number = 0;
 
   constructor(
+    private userService: UserService,
     private futureMoneyService: FutureMoneyService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<FutureMoneyViewComponent>,
+    private dialogRef: MatDialogRef<FutureMoneyTransactionsViewComponent>,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.getAllUserByStatus();
     if (this.data.status) {
       this.dateNow = new FormControl(
         moment().format('YYYY-MM-DD'),
@@ -58,12 +62,21 @@ export class FutureMoneyViewComponent implements OnInit {
     this.getForms();
   }
 
+  getAllUserByStatus() {
+    this.userService
+      .getAllUserByStatus(this.userStatus)
+      .subscribe((response) => {
+        this.users = response.data;
+      });
+  }
+
   getForms() {
     this.createFutureMoneyForm();
     if (!this.data.status) {
       this.editFutureMoneyForm();
     }
   }
+
 
   addEvent(event: any) {
     let date: Moment = event.value;
@@ -74,7 +87,7 @@ export class FutureMoneyViewComponent implements OnInit {
   createFutureMoneyForm() {
     if (this.data.status) {
       this.futureMoneyForm = this.formBuilder.group({
-        userId: [this.data.userId],
+        userId: ['',Validators.required],
         typeOfOperation: ['', Validators.required],
         customerCode: ['', Validators.required],
         customerNameSurname: ['', Validators.required],
@@ -89,7 +102,7 @@ export class FutureMoneyViewComponent implements OnInit {
     } else if (!this.data.status) {
       this.futureMoneyForm = this.formBuilder.group({
         futureMoneyId: [this.data.row.futureMoneyId],
-        userId: [this.data.row.userId],
+        userId: ['',Validators.required],
         typeOfOperation: ['', Validators.required],
         customerCode: ['', Validators.required],
         customerNameSurname: ['', Validators.required],
@@ -105,6 +118,9 @@ export class FutureMoneyViewComponent implements OnInit {
   }
 
   editFutureMoneyForm() {
+    this.futureMoneyForm.controls['userId'].setValue(
+      this.data.row.userId
+    );
     this.futureMoneyForm.controls['typeOfOperation'].setValue(
       this.data.row.typeOfOperation
     );
@@ -166,7 +182,9 @@ export class FutureMoneyViewComponent implements OnInit {
     }
   }
 
+
   add() {
+    debugger
     if (this.data.status) {
       if (this.futureMoneyForm.valid) {
         let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);

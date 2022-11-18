@@ -16,18 +16,13 @@ export class FutureMoneyService {
     private httpClient: HttpClient
   ) { }
 
-  getAllFutureMoneyDetailByUserId(userId:number): Observable<ListResponseModel<FutureMoneyDetailsDto>> {
-    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailByUserId?userId='+userId;
+  getAllFutureMoneyDetailByStatus(status:boolean): Observable<ListResponseModel<FutureMoneyDetailsDto>> {
+    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailByStatus?status='+status;
     return this.httpClient.get<ListResponseModel<FutureMoneyDetailsDto>>(newPath);
   }
 
-  getAllFutureMoneyDetailStatus(status:boolean): Observable<ListResponseModel<FutureMoneyDetailsDto>> {
-    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailStatus?status='+status;
-    return this.httpClient.get<ListResponseModel<FutureMoneyDetailsDto>>(newPath);
-  }
-
-  getAllFutureMoneyDetailStatusUser(userId:number,status:boolean): Observable<ListResponseModel<FutureMoneyDetailsDto>> {
-    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailStatusUser?userId='+userId+'&status='+status
+  getAllFutureMoneyDetailByUserIdAndStatus(userId:number,status:boolean): Observable<ListResponseModel<FutureMoneyDetailsDto>> {
+    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailByUserIdAndStatus?userId='+userId+'&status='+status
     return this.httpClient.get<ListResponseModel<FutureMoneyDetailsDto>>(newPath);
   }
 

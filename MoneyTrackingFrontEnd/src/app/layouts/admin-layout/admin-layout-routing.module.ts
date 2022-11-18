@@ -72,6 +72,11 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/money-output/money-output.module").then(m => m.MoneyOutputModule)
     },
+    {
+      path: "FutureMoneyTransactions",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/future-money-transactions/future-money-transactions.module").then(m => m.FutureMoneyTransactionsModule)
+    },
 
   ]
 

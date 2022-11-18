@@ -1,6 +1,6 @@
 export interface CentralPay {
   centralPayId:number;
   amount:number;
-  date:string;
+  date:Date;
   description:string;
 }
