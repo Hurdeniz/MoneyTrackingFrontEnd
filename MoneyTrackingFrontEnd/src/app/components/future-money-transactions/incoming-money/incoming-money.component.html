@@ -1,1 +1,163 @@
-<p>incoming-money works!</p>
+<!-- <form [formGroup]="incomingMoneyForm">
+  <h1 mat-dialog-title style="text-align: center">Elden Gelen</h1>
+  <mat-divider style="margin-bottom: 16px"></mat-divider>
+  <mat-dialog-content>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Tarih Seçiniz</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (dateInput)="addEvent($event)"
+            [formControl]="dateNow"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>İşlem Tipi</mat-label>
+          <input
+            type="text"
+            matInput
+            disabled
+            value="{{ typeOfOperation }}"
+          />
+        </mat-form-field>
+      </div>
+
+
+
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label>Müşteri Kodu</mat-label>
+          <input type="text" matInput disabled value="{{ customerCode }}" />
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Adı Soyadı</mat-label>
+          <input
+            type="text"
+            matInput
+            disabled
+            value="{{ customerNameSurname }}"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Senet No</mat-label>
+          <input type="text" matInput disabled value="{{ promissoryNumber }}" />
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Gelecek Tutar</mat-label>
+          <input type="number" matInput disabled value="{{ incomingAmount }}" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Açıklama</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            style="height: 60px"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions [align]="'end'">
+    <button mat-raised-button (click)="add()" color="primary" style="width: 100%">
+      Kaydet
+    </button>
+  </mat-dialog-actions>
+</form> -->
+
+
+<!--
+
+<h1 mat-dialog-title></h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content style="margin-top: 16px;">
+ {{userNameSurname}} Kasa Personelinin Elden Gelecek İşlemini Silmek İstediğinize Emin Misiniz ?
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button mat-dialog-close >Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">Evet</button>
+</div> -->
+
+
+
+
+ <form [formGroup]="incomingMoneyForm">
+  <h1 mat-dialog-title style="text-align: center">Ödeme Tamamla</h1>
+  <mat-divider style="margin-bottom: 16px"></mat-divider>
+  <mat-dialog-content>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Tarih Seçiniz</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (dateInput)="addEvent($event)"
+            [formControl]="dateNow"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Açıklama</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            style="height: 60px"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions [align]="'end'">
+    <button mat-raised-button (click)="add()" color="primary" style="width: 100%">
+      Kaydet
+    </button>
+  </mat-dialog-actions>
+</form>
+

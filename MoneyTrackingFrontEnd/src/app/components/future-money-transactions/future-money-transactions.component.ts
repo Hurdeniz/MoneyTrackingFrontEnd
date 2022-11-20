@@ -11,6 +11,7 @@ import { FutureMoneyTransactionsDeleteComponent } from './future-money-transacti
 import { FutureMoneyTransactionsViewComponent } from './future-money-transactions-view/future-money-transactions-view.component';
 import * as XLSX from 'xlsx';
 import { IncomingMoneyComponent } from './incoming-money/incoming-money.component';
+import { PartialIncomingMoneyComponent } from './partial-incoming-money/partial-incoming-money.component';
 
 @Component({
   selector: 'app-future-money-transactions',
@@ -34,7 +35,6 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   constructor(
     private futureMoneyService:FutureMoneyService,
     private dialog: MatDialog,
-
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService
   ) { }
@@ -133,6 +133,21 @@ export class FutureMoneyTransactionsComponent implements OnInit {
         }
       });
   }
+
+  openPartialIncomingDialog(row: any) {
+    this.dialog
+      .open(PartialIncomingMoneyComponent, {
+        width: '40%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        if (value === 'partialincoming') {
+          this.getAllFutureMoneyDetailByStatus();
+        }
+      });
+  }
+
 
   exportXlsx() {
 

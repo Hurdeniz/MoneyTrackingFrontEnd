@@ -18,7 +18,7 @@ export class FutureMoneyTransactionsDeleteComponent implements OnInit {
   constructor(
     private futureMoneyService: FutureMoneyService,
     @Inject(MAT_DIALOG_DATA) public deleteData: any,
-    private dialogRef: MatDialogRef<FutureMoneyDeleteComponent>,
+    private dialogRef: MatDialogRef<FutureMoneyTransactionsDeleteComponent>,
     private toastrService: ToastrService
   ) { }
 

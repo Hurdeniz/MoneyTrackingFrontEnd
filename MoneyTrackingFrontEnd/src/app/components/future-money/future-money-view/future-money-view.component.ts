@@ -21,13 +21,11 @@ const moment = _moment;
 export class FutureMoneyViewComponent implements OnInit {
   futureMoneyForm: FormGroup;
   dateNow: FormControl;
-  para: FormControl;
   dateInput: any;
   actionBtnName: string;
   dialogTitle: string;
   status: boolean = true;
-
-  answer: Number = 0;
+  answer: number = 0;
 
   constructor(
     private futureMoneyService: FutureMoneyService,
@@ -149,20 +147,8 @@ export class FutureMoneyViewComponent implements OnInit {
     } else {
       this.answer =
         futureMoneyModel.transactionAmount - futureMoneyModel.amountPaid;
-
-      if (this.answer == futureMoneyModel.futureAmount) {
-        this.add();
-      } else if (futureMoneyModel.futureAmount == 0) {
-        this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
-        this.add();
-      } else {
-        this.toastrService.info(
-          'Gelecek Tutar Sistem Tarafından Düzeltildi ',
-          'Dikkat'
-        );
-        this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
-        this.add();
-      }
+      this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
+      this.add();
     }
   }
 

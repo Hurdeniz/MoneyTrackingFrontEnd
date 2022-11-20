@@ -104,14 +104,13 @@
           <mat-label>Gelecek Tutar</mat-label>
           <input
             matInput
+            disabled
+            value="{{answer}}"
             type="number"
-            placeholder="Gelecek Tutarı Giriniz"
-            formControlName="futureAmount"
-          />
+                     />
         </mat-form-field>
       </div>
     </div>
-
     <div class="row">
       <div class="col">
         <mat-form-field appearance="outline" color="accent" class="full-width">
