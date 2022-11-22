@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,7 +27,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import {MatRadioModule} from '@angular/material/radio';
     ShipmentListViewComponent,
     ShipmentListDeleteComponent,
     ShipmentListEnterResultComponent,
+    ShipmentListFilterComponent,
 
   ],
   imports: [
@@ -58,7 +61,12 @@ import {MatRadioModule} from '@angular/material/radio';
     MatSortModule,
     MatSidenavModule,
     MatCheckboxModule,
-    MatRadioModule
-  ]
+    MatRadioModule,
+    MatDatepickerModule,
+    MatChipsModule
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
+
+
 export class ShipmentListModule { }

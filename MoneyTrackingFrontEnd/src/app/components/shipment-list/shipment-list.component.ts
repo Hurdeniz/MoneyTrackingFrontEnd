@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -14,7 +14,11 @@ import { ShipmentListService } from 'src/app/services/shipment-list.service';
 import { ShipmentListDeleteComponent } from './shipment-list-delete/shipment-list-delete.component';
 import { ShipmentListEnterResultComponent } from './shipment-list-enter-result/shipment-list-enter-result.component';
 import { ShipmentListViewComponent } from './shipment-list-view/shipment-list-view.component';
-
+import * as XLSX from 'xlsx';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
+const moment = _moment;
 @Component({
   selector: 'app-shipment-list',
   templateUrl: './shipment-list.component.html',
@@ -25,12 +29,10 @@ export class ShipmentListComponent implements OnInit {
   shipmentListForm: FormGroup;
   displayedColumns: string[] = [
     'date',
-    'shipmentNumber',
     'customerCode',
     'customerNameSurname',
     'promissoryNumber',
     'adress',
-    'status',
     'action'
   ];
 
@@ -41,9 +43,14 @@ export class ShipmentListComponent implements OnInit {
  isAuthenticated: boolean = false;
  filterText: '';
  userId: number;
+ dateNow: FormControl;
+ dateInput: any;
  jwtHelper: JwtHelperService = new JwtHelperService();
  @ViewChild(MatPaginator) paginator: MatPaginator;
  @ViewChild(MatSort) sort: MatSort;
+ startDate = moment().format('YYYY-MM-DD');
+ endDate = moment().format('YYYY-MM-DD');
+ status:boolean=true;
 
   constructor(
     private shipmentService:ShipmentListService,
@@ -56,7 +63,12 @@ export class ShipmentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh();
-    this.getAllShipmentListDetail();
+    this.dateNow = new FormControl(
+      moment().format('YYYY-MM-DD'),
+      Validators.required
+    );
+    this.dateInput = this.dateNow.value;
+   this.getAllShipmentListDetailByStatusAndDate();
     this.createShipmentListForm();
   }
 
@@ -72,6 +84,15 @@ export class ShipmentListComponent implements OnInit {
     this.spinner.hide();
   }
 
+  addEvent(event: any) {
+    let date: Moment = event.value;
+    this.dateInput = date.format('YYYY-MM-DD');
+    this.startDate=date.format('YYYY-MM-DD');
+   this.endDate=date.format('YYYY-MM-DD');
+   this.shipmentListForm.controls['date'].setValue(this.dateInput);
+   this.getAllShipmentListDetailByStatusAndDate();
+  }
+
   refresh() {
     this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
@@ -84,8 +105,8 @@ export class ShipmentListComponent implements OnInit {
     }
   }
 
-  getAllShipmentListDetail() {
-    this.shipmentService.getAllShipmentListDetail().subscribe(
+  getAllShipmentListDetailByStatusAndDate() {
+    this.shipmentService.getAllShipmentListDetailByStatusAndDate(this.status,this.startDate,this.endDate).subscribe(
       (response) => {
         this.showSpinner();
         this.shipmentListDetailDto = response.data;
@@ -107,26 +128,32 @@ export class ShipmentListComponent implements OnInit {
   createShipmentListForm() {
       this.shipmentListForm = this.formBuilder.group({
         userId:[this.userId],
-        shipmentNumber:[''],
-        customerCode:[''],
-        customerNameSurname:[''],
-        promissoryNumber:[''],
+        shipmentNumber:[0],
+        customerCode:['',Validators.required],
+        customerNameSurname:['',Validators.required],
+        promissoryNumber:['',Validators.required],
         adress:[''],
-        date:[''],
-        status: [''],
+        date: [this.dateInput, Validators.required],
+        result:['-'],
+        status: [this.status],
       });
   }
 
   add()
   {
+    debugger
     if (this.shipmentListForm.valid) {
       let shipmentListModel = Object.assign({}, this.shipmentListForm.value);
       this.shipmentService.add(shipmentListModel).subscribe(
         (response) => {
 
           this.toastrService.success(response.message, 'Başarılı');
-          this.shipmentListForm.reset();
-          this.getAllShipmentListDetail();
+          this.shipmentListForm.controls['customerCode'].setValue('');
+          this.shipmentListForm.controls['customerNameSurname'].setValue('');
+          this.shipmentListForm.controls['promissoryNumber'].setValue('');
+          this.shipmentListForm.controls['adress'].setValue('');
+
+          this.getAllShipmentListDetailByStatusAndDate();
 
         },
         (responseError) => {
@@ -146,6 +173,20 @@ export class ShipmentListComponent implements OnInit {
 
   }
 
+  openFilterDialog() {
+    this.dialog
+      .open(ShipmentListFilterComponent, {
+        width: '20%',
+      })
+      .afterClosed()
+      .subscribe((value) => {
+
+        this.startDate = value.startDate.format('YYYY-MM-DD');
+        this.endDate = value.endDate.format('YYYY-MM-DD');
+        this.getAllShipmentListDetailByStatusAndDate();
+
+      });
+  }
 
   openEditDialog(row: any) {
     this.dialog
@@ -156,7 +197,7 @@ export class ShipmentListComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'update') {
-          this.getAllShipmentListDetail();
+          this.getAllShipmentListDetailByStatusAndDate();
         }
       });
   }
@@ -171,7 +212,7 @@ export class ShipmentListComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAllShipmentListDetail();
+          this.getAllShipmentListDetailByStatusAndDate();
         }
       });
   }
@@ -185,9 +226,19 @@ export class ShipmentListComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'result') {
-          this.getAllShipmentListDetail();
+          this.getAllShipmentListDetailByStatusAndDate();
         }
       });
+  }
+
+  exportXlsx() {
+    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
+    let element = document.getElementById('shipmentListTable');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sevkiyat Listesi');
+
+    XLSX.writeFile(wb, 'Sevkiyat Listesi.xlsx');
   }
 
 

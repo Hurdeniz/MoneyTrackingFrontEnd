@@ -1,98 +1,16 @@
-<mat-drawer-container autosize>
-  <mat-drawer #sidenav mode="side" position="end" style="padding: 10px; width: 20%;">
-<h1 style="text-align: center;">Sor Listesi Oluştur</h1>
 
-<form [formGroup]="shipmentListForm" >
-  <div class="row">
-    <div class="col">
-       <mat-form-field appearance="outline" class="full-width" color="accent">
-        <mat-label>Tarih Seçiniz</mat-label>
-        <input type="date" formControlName="date" matInput />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-       <mat-form-field appearance="outline" class="full-width" color="accent">
-        <mat-label>Sıra No</mat-label>
-        <input type="number" formControlName="shipmentNumber" matInput />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-       <mat-form-field appearance="outline" class="full-width" color="accent">
-        <mat-label>Müşteri Kodu</mat-label>
-        <input type="text" formControlName="customerCode" matInput />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-       <mat-form-field appearance="outline" class="full-width" color="accent">
-        <mat-label>Adı Soyadı</mat-label>
-        <input type="text" formControlName="customerNameSurname" matInput />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-       <mat-form-field appearance="outline" class="full-width" color="accent">
-        <mat-label>Senet Numarası</mat-label>
-        <input type="text" formControlName="promissoryNumber" matInput />
-      </mat-form-field>
-    </div>
-  </div>
-
-
-
-  <button
-      mat-raised-button
-      [disabled]="shipmentListForm.invalid"
-      color="primary"
-      (click)="add()"
-      style="width: 100%"
-    >
-    Kaydet
-    </button>
-
-
-
-</form>
-
-
-
-</mat-drawer>
-
-  <mat-drawer-content>
 
 <div class="box">
 
   <mat-card style="width: 100%">
 
-    <mat-card-actions align="end" style="margin: 0; justify-content: space-between;">
+    <mat-card-actions [align]="'end'" style="margin: 0; justify-content: space-between;">
       <div class="col-start" style="display:flex; align-items: center;" >
-        <mat-card-title style="margin: 0px;">Sor Listesi</mat-card-title>
+        <mat-card-title style="margin: 0px;">Elden Gelecekler</mat-card-title>
 
       </div>
 
       <div class="col">
-      <button
-        mat-button
-        style="margin: 0px"
-        matTooltip="Yeni"
-        matTooltipPosition="above"
-        (click)="sidenav.toggle()"
-
-
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-
       <button
         mat-button
         style="margin: 0px"
@@ -106,6 +24,7 @@
         matTooltip="Gönder"
         matTooltipPosition="above"
         style="margin: 0px"
+        (click)="exportXlsx()"
       >
         <mat-icon>file_upload</mat-icon>
       </button>
@@ -115,7 +34,7 @@
         matTooltip="Yenile"
         matTooltipPosition="above"
         (click)="searchHide = false "
-        (click)="getAllShipmentListDetailByStatusAndDate()"
+        (click)="getAllIncomingMoneyDetail()"
       >
         <mat-icon>refresh</mat-icon>
       </button>
@@ -135,6 +54,7 @@
     </mat-card-actions>
 
     <mat-card-content>
+      <ngx-spinner  *ngIf="dataLoaded == false" bdColor = "rgba(0,0,0,0.8)" size = "medium" color = "#7b1fa2" type = "square-jelly-box" [fullScreen] = "true"><p style="color: #fff" > Yükleniyor... </p></ngx-spinner>
       <mat-progress-bar
         *ngIf="dataLoaded == false"
         mode="indeterminate"
@@ -156,25 +76,25 @@
       <div class="mat-elevation-z8">
         <table
           mat-table
+          id="incomingMoneyTable"
           [dataSource]="dataSource"
           matSort
           style="width: 100%; height: 100%"
         >
 
 
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
+          <ng-container matColumnDef="futureMoneyRegistrationDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>İşlem Tarihi</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.date | date :'yyyy-MM-dd'  }}
+              {{ element.futureMoneyRegistrationDate | date :'yyyy-MM-dd'  }}
             </td>
 
           </ng-container>
 
-
-          <ng-container matColumnDef="shipmentNumber">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sıra No</th>
+          <ng-container matColumnDef="typeOfOperation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>İşlem Tipi</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.shipmentNumber }}
+              {{ element.typeOfOperation }}
             </td>
 
           </ng-container>
@@ -204,10 +124,34 @@
           </ng-container>
 
 
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Durum</th>
+          <ng-container matColumnDef="transactionAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>İşlem Tutarı</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.status }}
+              {{ element.transactionAmount | currency }}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="incomingMoneyRegistrationDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ödenen Tarih</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.incomingMoneyRegistrationDate | date :'yyyy-MM-dd' }}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="incomingAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ödenen Tutar</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.incomingAmount | currency }}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Açıklama</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.description }}
             </td>
 
           </ng-container>
@@ -222,7 +166,6 @@
                 color="accent"
                 matTooltip="Düzenle"
                 matTooltipPosition="left"
-                (click)="sidenav.close()"
                 (click)="openEditDialog(element)"
               >
                 <mat-icon>edit</mat-icon>
@@ -232,16 +175,10 @@
                 color="warn"
                 matTooltip="Sil"
                 matTooltipPosition="right"
-                (click)="sidenav.close()"
                 (click)="openDeleteDialog(element)"
-
               >
                 <mat-icon>delete</mat-icon>
               </button>
-
-
-
-
             </td>
 
           </ng-container>
@@ -264,11 +201,3 @@
   </mat-card>
 </div>
 
-
-
-
-
-
-
-  </mat-drawer-content>
-</mat-drawer-container>

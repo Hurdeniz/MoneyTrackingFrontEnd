@@ -7,5 +7,6 @@ export interface ShipmentList {
   promissoryNumber:string;
   adress:string;
   date:Date;
-  status:string;
+  status:boolean;
+  result:string;
 }

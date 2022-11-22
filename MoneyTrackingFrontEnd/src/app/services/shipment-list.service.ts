@@ -15,8 +15,8 @@ export class ShipmentListService {
   @Inject('apiUrl') private apiUrl:string,
   private httpClient: HttpClient) { }
 
-  getAllShipmentListDetail(): Observable<ListResponseModel<ShipmentListDetailsDto>> {
-    let newPath = this.apiUrl + 'ShipmentList/GetAllShipmentListDetail';
+  getAllShipmentListDetailByStatusAndDate(status:boolean , startDate:string , endDate:string): Observable<ListResponseModel<ShipmentListDetailsDto>> {
+    let newPath = this.apiUrl + 'ShipmentList/GetAllShipmentListDetailByStatusAndDate?status='+status+'&startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<ShipmentListDetailsDto>>(newPath);
   }
 

@@ -127,7 +127,6 @@ export class PartialIncomingMoneyComponent implements OnInit {
   }
 
   update() {
-    debugger;
     if (this.futureMoneyForm.valid) {
       let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
       this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {

@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ShipmentListService } from 'src/app/services/shipment-list.service';
+import { Moment } from 'moment';
+import * as _moment from 'moment';
+const moment = _moment;
 
 @Component({
   selector: 'app-shipment-list-view',
@@ -11,6 +14,8 @@ import { ShipmentListService } from 'src/app/services/shipment-list.service';
 })
 export class ShipmentListViewComponent implements OnInit {
   shipmentListEditForm:FormGroup;
+  dateNow: FormControl;
+  dateInput: any;
 
   constructor(
     private shipmentListService: ShipmentListService,
@@ -21,6 +26,21 @@ export class ShipmentListViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dateNow = new FormControl(
+      moment().format('YYYY-MM-DD'),
+      Validators.required
+    );
+    this.dateInput = this.dateNow.value;
+this.getForms();
+  }
+
+  addEvent(event: any) {
+    let date: Moment = event.value;
+    this.dateInput = date.format('YYYY-MM-DD');
+   this.shipmentListEditForm.controls['date'].setValue(this.dateInput);
+  }
+
+  getForms() {
     this.createShipmentListForm();
     this.editShipmentListForm()
   }
@@ -29,13 +49,15 @@ export class ShipmentListViewComponent implements OnInit {
     this.shipmentListEditForm = this.formBuilder.group({
       shipmentListId:[this.editData.shipmentListId],
       userId: [this.editData.userId],
-      shipmentNumber:[''],
-        customerCode:[''],
-        customerNameSurname:[''],
-        promissoryNumber:[''],
+      shipmentNumber:[this.editData.shipmentNumber],
+        customerCode:['',Validators.required],
+        customerNameSurname:['',Validators.required],
+        promissoryNumber:['',Validators.required],
         adress:[''],
-        date:[''],
-        status: [''],
+        date:[this.dateInput, Validators.required],
+        result:[this.editData.result],
+        status: [this.editData.status],
+
     });
 
 
@@ -44,13 +66,10 @@ export class ShipmentListViewComponent implements OnInit {
 
 
   editShipmentListForm() {
-    this.shipmentListEditForm.controls['date'].setValue(this.editData.date);
-    this.shipmentListEditForm.controls['shipmentNumber'].setValue(this.editData.shipmentNumber);
     this.shipmentListEditForm.controls['customerCode'].setValue(this.editData.customerCode);
     this.shipmentListEditForm.controls['customerNameSurname'].setValue(this.editData.customerNameSurname);
     this.shipmentListEditForm.controls['promissoryNumber'].setValue(this.editData.promissoryNumber);
     this.shipmentListEditForm.controls['adress'].setValue(this.editData.adress);
-    this.shipmentListEditForm.controls['status'].setValue(this.editData.status);
   }
 
   update() {

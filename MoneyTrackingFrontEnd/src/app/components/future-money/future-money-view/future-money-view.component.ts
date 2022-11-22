@@ -138,7 +138,7 @@ export class FutureMoneyViewComponent implements OnInit {
         'Dikkat'
       );
     } else if (
-      futureMoneyModel.transactionAmount <= futureMoneyModel.amountPaid
+      futureMoneyModel.transactionAmount < futureMoneyModel.amountPaid
     ) {
       this.toastrService.error(
         'Ödenen Tutar İşlem Tutarından Büyük Olamaz ',

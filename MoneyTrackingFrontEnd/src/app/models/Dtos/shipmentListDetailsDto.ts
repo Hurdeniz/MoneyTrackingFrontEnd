@@ -8,5 +8,6 @@ export interface ShipmentListDetailsDto {
   promissoryNumber:string;
   adress:string;
   date:Date;
-  status:string;
+  status:boolean;
+  result:string;
 }

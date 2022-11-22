@@ -12,7 +12,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ShipmentListService } from 'src/app/services/shipment-list.service';
 import { ResearchListDeleteComponent } from './research-list-delete/research-list-delete.component';
 import { ResearchListViewComponent } from './research-list-view/research-list-view.component';
-
+import * as XLSX from 'xlsx';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+const moment = _moment;
 @Component({
   selector: 'app-research-list',
   templateUrl: './research-list.component.html',
@@ -41,6 +44,10 @@ export class ResearchListComponent implements OnInit {
  jwtHelper: JwtHelperService = new JwtHelperService();
  @ViewChild(MatPaginator) paginator: MatPaginator;
  @ViewChild(MatSort) sort: MatSort;
+ startDate = moment().format('YYYY-MM-DD');
+ endDate = moment().format('YYYY-MM-DD');
+ status:boolean=false;
+
 
   constructor(
     private shipmentService:ShipmentListService,
@@ -53,7 +60,7 @@ export class ResearchListComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh();
-    this.getAllShipmentListDetail();
+    this.getAllShipmentListDetailByStatusAndDate();
     this.createShipmentListForm();
   }
 
@@ -81,8 +88,8 @@ export class ResearchListComponent implements OnInit {
     }
   }
 
-  getAllShipmentListDetail() {
-    this.shipmentService.getAllShipmentListDetail().subscribe(
+  getAllShipmentListDetailByStatusAndDate() {
+    this.shipmentService.getAllShipmentListDetailByStatusAndDate(this.status,this.startDate,this.endDate).subscribe(
       (response) => {
         this.showSpinner();
         this.shipmentListDetailDto = response.data;
@@ -122,7 +129,7 @@ add()
 
         this.toastrService.success(response.message, 'Başarılı');
         this.shipmentListForm.reset();
-        this.getAllShipmentListDetail();
+        this.getAllShipmentListDetailByStatusAndDate();
 
       },
       (responseError) => {
@@ -151,7 +158,7 @@ openEditDialog(row: any) {
     .afterClosed()
     .subscribe((value) => {
       if (value === 'update') {
-        this.getAllShipmentListDetail();
+        this.getAllShipmentListDetailByStatusAndDate();
       }
     });
 }
@@ -166,7 +173,7 @@ openDeleteDialog(row: any) {
     .afterClosed()
     .subscribe((value) => {
       if (value === 'delete') {
-        this.getAllShipmentListDetail();
+        this.getAllShipmentListDetailByStatusAndDate();
       }
     });
 }

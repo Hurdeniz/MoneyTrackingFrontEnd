@@ -74,7 +74,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'E-Gelen',
       icon:'receipt_long',
-      path:''
+      path:'IncomingMoney'
     },
 
   ];

@@ -4,21 +4,16 @@
   <mat-dialog-content>
     <div class="row">
       <div class="col">
-         <mat-form-field appearance="outline" class="full-width" color="accent">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>Tarih Seçiniz</mat-label>
-          <input type="date" formControlName="date" matInput />
+          <input matInput [matDatepicker]="picker" (dateInput)="addEvent($event)" [formControl]="dateNow">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col">
-         <mat-form-field appearance="outline" class="full-width" color="accent">
-          <mat-label>Sıra No</mat-label>
-          <input type="number" formControlName="shipmentNumber" matInput />
-        </mat-form-field>
-      </div>
-    </div>
+
 
     <div class="row">
       <div class="col">
@@ -56,14 +51,6 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col">
-         <mat-form-field appearance="outline" class="full-width" color="accent">
-          <mat-label>Durum</mat-label>
-          <input type="text" formControlName="status" matInput />
-        </mat-form-field>
-      </div>
-    </div>
 
   </mat-dialog-content>
 
