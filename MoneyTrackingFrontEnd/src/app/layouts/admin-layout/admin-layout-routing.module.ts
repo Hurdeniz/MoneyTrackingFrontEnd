@@ -12,6 +12,11 @@ const routes: Routes = [
        loadChildren: () => import ("../../components/card-payment/card-payment.module").then(m => m.CardPaymentModule)
     },
     {
+      path: "Cancellation",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/cancellation/cancellation.module").then(m => m.CancellationModule)
+    },
+    {
       path: "Expenditure",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/expenditure/expenditure.module").then(m => m.ExpenditureModule)
@@ -86,6 +91,11 @@ const routes: Routes = [
       path: "IncomingMoney",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/incoming-money/incoming-money.module").then(m => m.IncomingMoneyModule)
+    },
+    {
+      path: "Satisfaction",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/satifaction/satifaction.module").then(m => m.SatifactionModule)
     },
 
   ]

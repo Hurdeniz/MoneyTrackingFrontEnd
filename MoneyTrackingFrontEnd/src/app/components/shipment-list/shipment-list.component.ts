@@ -194,9 +194,13 @@ export class ShipmentListComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((value) => {
+        if(value==undefined){
+          this.getAllShipmentListDetailByStatusAndDate();
+        }else{
         this.startDate = value.startDate.format('YYYY-MM-DD');
         this.endDate = value.endDate.format('YYYY-MM-DD');
         this.getAllShipmentListDetailByStatusAndDate();
+      }
       });
   }
 

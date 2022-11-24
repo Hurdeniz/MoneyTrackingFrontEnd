@@ -77,7 +77,7 @@ export class CardPaymentViewComponent implements OnInit {
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
-    this.getForms();
+    this.cardForm.controls['date'].setValue(this.dateInput);
   }
 
   createCardForm() {

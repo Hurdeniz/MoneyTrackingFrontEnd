@@ -45,6 +45,11 @@ export class SidenavComponent implements OnInit {
       path:'CentralPay'
     },
     {
+      name:'İptal İşlemi',
+      icon:'receipt_long',
+      path:'Cancellation'
+    },
+    {
       name:'Kasa Açık',
       icon:'receipt_long',
       path:'MonetaryDeficit'
@@ -97,7 +102,7 @@ export class SidenavComponent implements OnInit {
     {
       name:'Memnuniyet',
       icon:'receipt_long',
-      path:''
+      path:'Satisfaction'
     }
 
   ];
