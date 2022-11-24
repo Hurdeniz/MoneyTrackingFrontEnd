@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ResearchListRoutingModule } from './research-list-routing.module';
-import { ResearchListComponent } from './research-list.component';
-import { ResearchListDeleteComponent } from './research-list-delete/research-list-delete.component';
-import { ResearchListViewComponent } from './research-list-view/research-list-view.component';
+import { ShipmentResearchListRoutingModule } from './shipment-research-list-routing.module';
+import { ShipmentResearchListComponent } from './shipment-research-list.component';
+import { ShipmentResearchListFilterComponent } from './shipment-research-list-filter/shipment-research-list-filter.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -24,19 +22,17 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { ResearchListFilterComponent } from './research-list-filter/research-list-filter.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    ResearchListComponent,
-    ResearchListDeleteComponent,
-    ResearchListViewComponent,
-    ResearchListFilterComponent
+    ShipmentResearchListComponent,
+    ShipmentResearchListFilterComponent
   ],
   imports: [
     CommonModule,
-    ResearchListRoutingModule,
+    ShipmentResearchListRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
@@ -58,4 +54,4 @@ import { ResearchListFilterComponent } from './research-list-filter/research-lis
     MatDatepickerModule
   ]
 })
-export class ResearchListModule { }
+export class ShipmentResearchListModule { }

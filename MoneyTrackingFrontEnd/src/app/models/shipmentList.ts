@@ -9,4 +9,5 @@ export interface ShipmentList {
   date:Date;
   status:boolean;
   result:string;
+  description:string;
 }

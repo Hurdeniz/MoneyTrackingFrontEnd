@@ -10,4 +10,5 @@ export interface ShipmentListDetailsDto {
   date:Date;
   status:boolean;
   result:string;
+  description:string;
 }

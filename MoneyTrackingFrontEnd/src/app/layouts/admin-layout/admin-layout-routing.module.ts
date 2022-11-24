@@ -63,6 +63,11 @@ const routes: Routes = [
        loadChildren: () => import ("../../components/research-list/research-list.module").then(m => m.ResearchListModule)
     },
     {
+      path: "ShipmentResearchList",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/shipment-research-list/shipment-research-list.module").then(m => m.ShipmentResearchListModule)
+    },
+    {
       path: "CollectMoney",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/collect-money/collect-money.module").then(m => m.CollectMoneyModule)

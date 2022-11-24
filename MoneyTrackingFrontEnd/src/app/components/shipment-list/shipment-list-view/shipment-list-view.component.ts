@@ -56,6 +56,7 @@ this.getForms();
         adress:[''],
         date:[this.dateInput, Validators.required],
         result:[this.editData.result],
+        description:[this.editData.description],
         status: [this.editData.status],
 
     });
@@ -74,7 +75,6 @@ this.getForms();
 
   update() {
     if (this.shipmentListEditForm.valid) {
-      debugger
       let shipmentListModel = Object.assign({}, this.shipmentListEditForm.value);
       this.shipmentListService.update(shipmentListModel).subscribe(
         (response) => {

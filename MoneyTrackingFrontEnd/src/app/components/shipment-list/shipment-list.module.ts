@@ -39,6 +39,7 @@ import {MatChipsModule} from '@angular/material/chips';
     ShipmentListEnterResultComponent,
     ShipmentListFilterComponent,
 
+
   ],
   imports: [
     CommonModule,

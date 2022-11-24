@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -18,14 +23,15 @@ import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
+import { MatInput } from '@angular/material/input';
 const moment = _moment;
 @Component({
   selector: 'app-shipment-list',
   templateUrl: './shipment-list.component.html',
-  styleUrls: ['./shipment-list.component.scss']
+  styleUrls: ['./shipment-list.component.scss'],
 })
 export class ShipmentListComponent implements OnInit {
-  shipmentListDetailDto:ShipmentListDetailsDto[]=[];
+  shipmentListDetailDto: ShipmentListDetailsDto[] = [];
   shipmentListForm: FormGroup;
   displayedColumns: string[] = [
     'date',
@@ -33,64 +39,66 @@ export class ShipmentListComponent implements OnInit {
     'customerNameSurname',
     'promissoryNumber',
     'adress',
-    'action'
+    'action',
   ];
 
   dataSource: MatTableDataSource<ShipmentListDetailsDto> =
-  new MatTableDataSource<ShipmentListDetailsDto>();
- dataLoaded = false;
- searchHide = false;
- isAuthenticated: boolean = false;
- filterText: '';
- userId: number;
- dateNow: FormControl;
- dateInput: any;
- jwtHelper: JwtHelperService = new JwtHelperService();
- @ViewChild(MatPaginator) paginator: MatPaginator;
- @ViewChild(MatSort) sort: MatSort;
- startDate = moment().format('YYYY-MM-DD');
- endDate = moment().format('YYYY-MM-DD');
- status:boolean=true;
-
+    new MatTableDataSource<ShipmentListDetailsDto>();
+  dataLoaded = false;
+  searchHide = false;
+  isAuthenticated: boolean = false;
+  filterText: '';
+  userId: number;
+  dateNow: FormControl;
+  dateInput: any;
+  jwtHelper: JwtHelperService = new JwtHelperService();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  startDate = moment().format('YYYY-MM-DD');
+  endDate = moment().format('YYYY-MM-DD');
+  status: boolean = true;
+  @ViewChild('customerCode') nameInput: MatInput;
   constructor(
-    private shipmentService:ShipmentListService,
+    private shipmentService: ShipmentListService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
-    private authService: AuthService,
-  ) { }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+
     this.refresh();
     this.dateNow = new FormControl(
       moment().format('YYYY-MM-DD'),
       Validators.required
     );
     this.dateInput = this.dateNow.value;
-   this.getAllShipmentListDetailByStatusAndDate();
+    this.getAllShipmentListDetailByStatusAndDate();
     this.createShipmentListForm();
+
   }
 
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 
-  showSpinner(){
+  showSpinner() {
     this.spinner.show();
   }
 
-  hideSpinner(){
+  hideSpinner() {
     this.spinner.hide();
   }
 
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
-    this.startDate=date.format('YYYY-MM-DD');
-   this.endDate=date.format('YYYY-MM-DD');
-   this.shipmentListForm.controls['date'].setValue(this.dateInput);
-   this.getAllShipmentListDetailByStatusAndDate();
+    this.startDate = date.format('YYYY-MM-DD');
+    this.endDate = date.format('YYYY-MM-DD');
+    this.shipmentListForm.controls['date'].setValue(this.dateInput);
+    this.getAllShipmentListDetailByStatusAndDate();
   }
 
   refresh() {
@@ -106,59 +114,66 @@ export class ShipmentListComponent implements OnInit {
   }
 
   getAllShipmentListDetailByStatusAndDate() {
-    this.shipmentService.getAllShipmentListDetailByStatusAndDate(this.status,this.startDate,this.endDate).subscribe(
-      (response) => {
-        this.showSpinner();
-        this.shipmentListDetailDto = response.data;
-        this.hideSpinner();
-        this.dataSource = new MatTableDataSource<ShipmentListDetailsDto>(
-          this.shipmentListDetailDto
-        );
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.dataLoaded = true;
-
-      },
-      (responseError) => {
-        this.toastrService.error(responseError.data.message, 'Dikkat');
-      }
-    );
+    this.shipmentService
+      .getAllShipmentListDetailByStatusAndDate(
+        this.status,
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (response) => {
+          this.showSpinner();
+          this.shipmentListDetailDto = response.data;
+          this.hideSpinner();
+          this.dataSource = new MatTableDataSource<ShipmentListDetailsDto>(
+            this.shipmentListDetailDto
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.dataLoaded = true;
+        },
+        (responseError) => {
+          this.toastrService.error(responseError.data.message, 'Dikkat');
+        }
+      );
   }
 
   createShipmentListForm() {
-      this.shipmentListForm = this.formBuilder.group({
-        userId:[this.userId],
-        shipmentNumber:[0],
-        customerCode:['',Validators.required],
-        customerNameSurname:['',Validators.required],
-        promissoryNumber:['',Validators.required],
-        adress:[''],
-        date: [this.dateInput, Validators.required],
-        result:['-'],
-        status: [this.status],
-      });
+    this.shipmentListForm = this.formBuilder.group({
+      userId: [this.userId],
+      shipmentNumber: [0],
+      customerCode: ['', Validators.required],
+      customerNameSurname: ['', Validators.required],
+      promissoryNumber: ['', Validators.required],
+      adress: [''],
+      date: [this.dateInput, Validators.required],
+      result: [''],
+      description:[''],
+      status: [this.status],
+    });
   }
 
-  add()
-  {
-    debugger
+  add() {
     if (this.shipmentListForm.valid) {
       let shipmentListModel = Object.assign({}, this.shipmentListForm.value);
       this.shipmentService.add(shipmentListModel).subscribe(
         (response) => {
-
           this.toastrService.success(response.message, 'Başarılı');
+
           this.shipmentListForm.controls['customerCode'].setValue('');
           this.shipmentListForm.controls['customerNameSurname'].setValue('');
           this.shipmentListForm.controls['promissoryNumber'].setValue('');
           this.shipmentListForm.controls['adress'].setValue('');
-
+          this.nameInput.focus();
           this.getAllShipmentListDetailByStatusAndDate();
-
         },
         (responseError) => {
           if (responseError.error.ValidationErrors.length > 0) {
-            for (let i = 0; i < responseError.error.ValidationErrors.length; i++) {
+            for (
+              let i = 0;
+              i < responseError.error.ValidationErrors.length;
+              i++
+            ) {
               this.toastrService.error(
                 responseError.error.ValidationErrors[i].ErrorMessage,
                 'Doğrulama Hatası'
@@ -170,7 +185,6 @@ export class ShipmentListComponent implements OnInit {
     } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
-
   }
 
   openFilterDialog() {
@@ -180,11 +194,9 @@ export class ShipmentListComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((value) => {
-
         this.startDate = value.startDate.format('YYYY-MM-DD');
         this.endDate = value.endDate.format('YYYY-MM-DD');
         this.getAllShipmentListDetailByStatusAndDate();
-
       });
   }
 
@@ -201,7 +213,6 @@ export class ShipmentListComponent implements OnInit {
         }
       });
   }
-
 
   openDeleteDialog(row: any) {
     this.dialog
@@ -240,6 +251,4 @@ export class ShipmentListComponent implements OnInit {
 
     XLSX.writeFile(wb, 'Sevkiyat Listesi.xlsx');
   }
-
-
 }

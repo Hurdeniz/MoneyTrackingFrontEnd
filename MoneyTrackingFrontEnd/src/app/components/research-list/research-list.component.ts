@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -15,6 +15,8 @@ import { ResearchListViewComponent } from './research-list-view/research-list-vi
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
+import { MatInput } from '@angular/material/input';
+import { ResearchListFilterComponent } from './research-list-filter/research-list-filter.component';
 const moment = _moment;
 @Component({
   selector: 'app-research-list',
@@ -30,7 +32,7 @@ export class ResearchListComponent implements OnInit {
     'customerCode',
     'customerNameSurname',
     'promissoryNumber',
-    'status',
+    'description',
     'action'
   ];
 
@@ -41,12 +43,16 @@ export class ResearchListComponent implements OnInit {
  isAuthenticated: boolean = false;
  filterText: '';
  userId: number;
+ dateNow: FormControl;
+ dateInput: any;
  jwtHelper: JwtHelperService = new JwtHelperService();
  @ViewChild(MatPaginator) paginator: MatPaginator;
  @ViewChild(MatSort) sort: MatSort;
  startDate = moment().format('YYYY-MM-DD');
  endDate = moment().format('YYYY-MM-DD');
  status:boolean=false;
+ @ViewChild('customerCode') nameInput: MatInput;
+ shipmentNumber:number=1;
 
 
   constructor(
@@ -60,6 +66,11 @@ export class ResearchListComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh();
+    this.dateNow = new FormControl(
+      moment().format('YYYY-MM-DD'),
+      Validators.required
+    );
+    this.dateInput = this.dateNow.value;
     this.getAllShipmentListDetailByStatusAndDate();
     this.createShipmentListForm();
   }
@@ -74,6 +85,15 @@ export class ResearchListComponent implements OnInit {
 
   hideSpinner(){
     this.spinner.hide();
+  }
+  addEvent(event: any) {
+    let date: Moment = event.value;
+    this.dateInput = date.format('YYYY-MM-DD');
+    this.startDate = date.format('YYYY-MM-DD');
+    this.endDate = date.format('YYYY-MM-DD');
+    this.shipmentListForm.controls['date'].setValue(this.dateInput);
+    this.shipmentListForm.controls['shipmentNumber'].setValue(1);
+    this.getAllShipmentListDetailByStatusAndDate();
   }
 
   refresh() {
@@ -110,13 +130,16 @@ export class ResearchListComponent implements OnInit {
 
   createShipmentListForm() {
     this.shipmentListForm = this.formBuilder.group({
-      userId:[this.userId],
-      shipmentNumber:[''],
-      customerCode:[''],
-      customerNameSurname:[''],
-      promissoryNumber:[''],
-      date:[''],
-      status: [''],
+      userId: [this.userId],
+      shipmentNumber: [this.shipmentNumber],
+      customerCode: ['', Validators.required],
+      customerNameSurname: ['', Validators.required],
+      promissoryNumber: ['', Validators.required],
+      adress: [''],
+      date: [this.dateInput, Validators.required],
+      result: [''],
+      description:[''],
+      status: [this.status],
     });
 }
 
@@ -128,7 +151,11 @@ add()
       (response) => {
 
         this.toastrService.success(response.message, 'Başarılı');
-        this.shipmentListForm.reset();
+        this.shipmentListForm.controls['customerCode'].setValue('');
+        this.shipmentListForm.controls['customerNameSurname'].setValue('');
+        this.shipmentListForm.controls['promissoryNumber'].setValue('');
+        this.shipmentListForm.controls['description'].setValue('');
+        this.nameInput.focus();
         this.getAllShipmentListDetailByStatusAndDate();
 
       },
@@ -147,6 +174,27 @@ add()
     this.toastrService.error('Formunuz Eksik', 'Dikkat');
   }
 
+}
+
+deneme(){
+  let shipmentListModel = Object.assign({}, this.shipmentListForm.value);
+  let a = shipmentListModel.shipmentNumber
+  this.shipmentNumber=a+1;
+  this.shipmentListForm.controls['shipmentNumber'].setValue(this.shipmentNumber);
+  console.log(this.shipmentNumber);
+}
+
+openFilterDialog() {
+  this.dialog
+    .open(ResearchListFilterComponent, {
+      width: '20%',
+    })
+    .afterClosed()
+    .subscribe((value) => {
+      this.startDate = value.startDate.format('YYYY-MM-DD');
+      this.endDate = value.endDate.format('YYYY-MM-DD');
+      this.getAllShipmentListDetailByStatusAndDate();
+    });
 }
 
 openEditDialog(row: any) {
@@ -176,6 +224,16 @@ openDeleteDialog(row: any) {
         this.getAllShipmentListDetailByStatusAndDate();
       }
     });
+}
+
+exportXlsx() {
+  //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
+  let element = document.getElementById('researchListTable');
+  const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sor Listesi');
+
+  XLSX.writeFile(wb, 'Sor Listesi.xlsx');
 }
 
 
