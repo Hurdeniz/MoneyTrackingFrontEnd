@@ -9,7 +9,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
-import { NgxSpinnerModule } from "ngx-spinner";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -33,7 +32,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelectModule,
     MatDividerModule,
     MatCardModule,
-    NgxSpinnerModule,
     MatProgressBarModule,
     MatPaginatorModule,
     MatTableModule,
@@ -54,7 +52,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelectModule,
     MatDividerModule,
     MatCardModule,
-    NgxSpinnerModule,
     MatProgressBarModule,
     MatPaginatorModule,
     MatTableModule,
