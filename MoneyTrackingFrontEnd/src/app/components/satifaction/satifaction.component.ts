@@ -5,16 +5,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Satisfaction } from 'src/app/models/satisfaction';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
-import { MatInput } from '@angular/material/input';
+import { MatLegacyInput as MatInput } from '@angular/material/legacy-input';
 import { SatisfactionService } from 'src/app/services/satisfaction.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ToastrService } from 'ngx-toastr';
 import { SatisfactionFilterComponent } from './satisfaction-filter/satisfaction-filter.component';
 import { SatisfactionViewComponent } from './satisfaction-view/satisfaction-view.component';

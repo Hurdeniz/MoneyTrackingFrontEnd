@@ -5,14 +5,15 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
+import { CancellationService } from 'src/app/services/cancellation.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { User } from 'src/app/models/user';
-import { CancellationService } from 'src/app/services/cancellation.service';
-import { UserService } from 'src/app/services/user.service';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
+
 @Component({
   selector: 'app-cancellation-view',
   templateUrl: './cancellation-view.component.html',
@@ -20,10 +21,10 @@ const moment = _moment;
 })
 export class CancellationViewComponent implements OnInit {
   users: User[] = [];
-  userStatus: boolean = true;
-  dateNow: FormControl;
   cancellationForm: FormGroup;
+  dateNow: FormControl;
   dateInput: any;
+  userStatus: boolean = true;
   actionBtnName: string;
   dialogTitle: string;
 
@@ -45,7 +46,7 @@ export class CancellationViewComponent implements OnInit {
       );
       this.dateInput = this.dateNow.value;
       this.actionBtnName = 'Kaydet';
-      this.dialogTitle = 'Kredi Kartı Ekle';
+      this.dialogTitle = 'İptal İşlemi Ekle';
     } else if (!this.data.status) {
       this.dateNow = new FormControl(this.data.row.date, Validators.required);
       this.dateInput = this.data.row.date;
@@ -91,7 +92,7 @@ export class CancellationViewComponent implements OnInit {
     } else if (!this.data.status) {
       this.cancellationForm = this.formBuilder.group({
         cancellationId: [this.data.row.cancellationId],
-        userId: ['',Validators.required],
+        userId: ['', Validators.required],
         customerCode: ['', Validators.required],
         customerNameSurname: ['', Validators.required],
         promissoryNumber: ['', Validators.required],
@@ -104,9 +105,7 @@ export class CancellationViewComponent implements OnInit {
   }
 
   editCancellationForm() {
-    this.cancellationForm.controls['userId'].setValue(
-      this.data.row.userId
-    );
+    this.cancellationForm.controls['userId'].setValue(this.data.row.userId);
     this.cancellationForm.controls['customerCode'].setValue(
       this.data.row.customerCode
     );

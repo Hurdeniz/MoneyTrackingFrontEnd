@@ -5,30 +5,34 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { CancellationDetailsDto } from 'src/app/models/Dtos/cancellationDetailsDto';
-import { User } from 'src/app/models/user';
-import * as XLSX from 'xlsx';
-import * as _moment from 'moment';
-import { Moment } from 'moment';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { CancellationService } from 'src/app/services/cancellation.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
 import { CancellationFilterComponent } from './cancellation-filter/cancellation-filter.component';
 import { CancellationViewComponent } from './cancellation-view/cancellation-view.component';
 import { CancellationDeleteComponent } from './cancellation-delete/cancellation-delete.component';
+import { CancellationService } from 'src/app/services/cancellation.service';
+import { CancellationDetailsDto } from 'src/app/models/Dtos/cancellationDetailsDto';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ToastrService } from 'ngx-toastr';
+import { Moment } from 'moment';
+import * as XLSX from 'xlsx';
+import * as _moment from 'moment';
 const moment = _moment;
+
 @Component({
   selector: 'app-cancellation',
   templateUrl: './cancellation.component.html',
   styleUrls: ['./cancellation.component.scss'],
 })
 export class CancellationComponent implements OnInit {
-
   cancellationDetailsDto: CancellationDetailsDto[] = [];
   cancellationForm: FormGroup;
+  dateNow: FormControl;
+  dateInput: any;
+  dataLoaded = false;
+  searchHide = false;
+  filterText: '';
   displayedColumns: string[] = [
     'date',
     'userNameSurname',
@@ -38,16 +42,10 @@ export class CancellationComponent implements OnInit {
     'transactionAmount',
     'cancellationAmount',
     'description',
-    'action'
+    'action',
   ];
-
   dataSource: MatTableDataSource<CancellationDetailsDto> =
     new MatTableDataSource<CancellationDetailsDto>();
-  dataLoaded = false;
-  searchHide = false;
-  filterText: '';
-  dateNow: FormControl;
-  dateInput: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   startDate = moment().format('YYYY-MM-DD');
@@ -55,7 +53,6 @@ export class CancellationComponent implements OnInit {
 
   constructor(
     private cancellationService: CancellationService,
-    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) {}
@@ -69,6 +66,9 @@ export class CancellationComponent implements OnInit {
   }
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
+  }
+  getTotalCost() {
+    return this.cancellationDetailsDto.map(t => t.cancellationAmount).reduce((acc, value) => acc + value, 0);
   }
 
   addEvent(event: any) {
@@ -101,7 +101,7 @@ export class CancellationComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(CancellationViewComponent, {
-        width: '25%',
+        width: '40%',
         data: { status: true },
       })
       .afterClosed()
@@ -115,7 +115,7 @@ export class CancellationComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(CancellationViewComponent, {
-        width: '25%',
+        width: '40%',
         data: { status: false, row },
       })
       .afterClosed()
@@ -129,7 +129,7 @@ export class CancellationComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(CancellationFilterComponent, {
-        width: '20%',
+        width: '25%',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -146,7 +146,7 @@ export class CancellationComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(CancellationDeleteComponent, {
-        width: '25%',
+        width: '30%',
         data: row,
       })
       .afterClosed()

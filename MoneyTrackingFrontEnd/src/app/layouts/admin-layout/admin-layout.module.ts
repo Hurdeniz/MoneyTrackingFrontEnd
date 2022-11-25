@@ -5,8 +5,7 @@ import { AdminLayoutRoutingModule } from './admin-layout-routing.module';
 
 import { ComponentsModule } from './components/components.module';
 import { AdminLayoutComponent } from './admin-layout.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatIconModule} from '@angular/material/icon';
+import { SharedModule } from 'src/app/components/shared/shared.module';
 
 
 
@@ -20,10 +19,7 @@ import {MatIconModule} from '@angular/material/icon';
     CommonModule,
     AdminLayoutRoutingModule,
     ComponentsModule,
-    MatSidenavModule,
-    MatIconModule
-
-
+    SharedModule
   ]
 })
 export class AdminLayoutModule { }
