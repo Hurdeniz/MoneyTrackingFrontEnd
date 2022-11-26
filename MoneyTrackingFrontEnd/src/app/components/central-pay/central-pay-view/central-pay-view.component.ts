@@ -1,15 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { ToastrService } from 'ngx-toastr';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CentralPayService } from 'src/app/services/central-pay.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
+
 @Component({
   selector: 'app-central-pay-view',
   templateUrl: './central-pay-view.component.html',
-  styleUrls: ['./central-pay-view.component.scss']
+  styleUrls: ['./central-pay-view.component.scss'],
 })
 export class CentralPayViewComponent implements OnInit {
   centralPayForm: FormGroup;
@@ -24,7 +30,7 @@ export class CentralPayViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CentralPayViewComponent>,
     private toastrService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.data.status) {
@@ -36,15 +42,11 @@ export class CentralPayViewComponent implements OnInit {
       this.actionBtnName = 'Kaydet';
       this.dialogTitle = 'Merkez Ödemesi Ekle';
     } else if (!this.data.status) {
-      this.dateNow = new FormControl(
-        this.data.row.date,
-        Validators.required
-      );
+      this.dateNow = new FormControl(this.data.row.date, Validators.required);
       this.dateInput = this.data.row.date;
       this.actionBtnName = 'Güncelle';
       this.dialogTitle = 'Merkez Ödemesi Güncelle';
     }
-
     this.getForms();
   }
 
@@ -58,11 +60,11 @@ export class CentralPayViewComponent implements OnInit {
   addEvent(event: any) {
     let a: Moment = event.value;
     this.dateInput = a.format('YYYY-MM-DD');
-    this.getForms();
+    this.centralPayForm.controls['date'].setValue(this.dateInput);
   }
 
   createCentralPayForm() {
-    if (this.data.status)  {
+    if (this.data.status) {
       this.centralPayForm = this.formBuilder.group({
         amount: ['', Validators.required],
         date: [this.dateInput, Validators.required],
@@ -77,26 +79,37 @@ export class CentralPayViewComponent implements OnInit {
       });
     }
   }
-
   editCentralPayForm() {
     this.centralPayForm.controls['amount'].setValue(this.data.row.amount);
-    this.centralPayForm.controls['description'].setValue(this.data.row.description);
+    this.centralPayForm.controls['description'].setValue(
+      this.data.row.description
+    );
+  }
+
+  statusControl() {
+    if (this.data.status) {
+      this.add();
+    } else if (!this.data.status) {
+      this.update();
+    }
   }
 
   add() {
-    if (this.data.status) {
       if (this.centralPayForm.valid) {
         let centralPayModel = Object.assign({}, this.centralPayForm.value);
         this.centralPayService.add(centralPayModel).subscribe(
           (response) => {
-
             this.toastrService.success(response.message, 'Başarılı');
             this.centralPayForm.reset();
             this.dialogRef.close('save');
           },
           (responseError) => {
             if (responseError.error.ValidationErrors.length > 0) {
-              for (let i = 0; i < responseError.error.ValidationErrors.length; i++) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
                 this.toastrService.error(
                   responseError.error.ValidationErrors[i].ErrorMessage,
                   'Doğrulama Hatası'
@@ -108,9 +121,6 @@ export class CentralPayViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    } else if (!this.data.status) {
-      this.update();
-    }
   }
 
   update() {
@@ -137,10 +147,8 @@ export class CentralPayViewComponent implements OnInit {
           }
         }
       );
-    }
-    else {
+    } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
-
 }

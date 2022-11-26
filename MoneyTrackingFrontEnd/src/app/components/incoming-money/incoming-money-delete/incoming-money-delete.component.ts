@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
 import { IncomingMoneyService } from 'src/app/services/incoming-money.service';
@@ -31,7 +31,7 @@ export class IncomingMoneyDeleteComponent implements OnInit {
     this.futureAmount=this.deleteData.futureAmount;
     this.amountPaid=this.deleteData.amountPaid;
     this.futureMoneyStatus=this.deleteData.status;
-    console.log(this.deleteData)
+
   }
 
   delete() {

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   Validators,
@@ -28,8 +27,6 @@ const moment = _moment;
 export class CancellationComponent implements OnInit {
   cancellationDetailsDto: CancellationDetailsDto[] = [];
   cancellationForm: FormGroup;
-  dateNow: FormControl;
-  dateInput: any;
   dataLoaded = false;
   searchHide = false;
   filterText: '';
@@ -48,7 +45,7 @@ export class CancellationComponent implements OnInit {
     new MatTableDataSource<CancellationDetailsDto>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  startDate = moment().format('YYYY-MM-DD');
+  startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
 
   constructor(
@@ -58,10 +55,6 @@ export class CancellationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dateNow = new FormControl(
-      moment().format('YYYY-MM-DD'),
-      Validators.required
-    );
     this.getAllCancellationDetailByDate();
   }
   filterDataSource() {
@@ -71,14 +64,6 @@ export class CancellationComponent implements OnInit {
     return this.cancellationDetailsDto.map(t => t.cancellationAmount).reduce((acc, value) => acc + value, 0);
   }
 
-  addEvent(event: any) {
-    let date: Moment = event.value;
-    this.dateInput = date.format('YYYY-MM-DD');
-    this.startDate = date.format('YYYY-MM-DD');
-    this.endDate = date.format('YYYY-MM-DD');
-    this.cancellationForm.controls['date'].setValue(this.dateInput);
-    this.getAllCancellationDetailByDate();
-  }
   getAllCancellationDetailByDate() {
     this.cancellationService
       .getAllCancellationDetailByDate(this.startDate, this.endDate)
@@ -163,7 +148,6 @@ export class CancellationComponent implements OnInit {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'İptal İşlemleri');
-
     XLSX.writeFile(wb, 'İptal İşlemleri.xlsx');
   }
 }

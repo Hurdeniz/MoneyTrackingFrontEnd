@@ -1,8 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerPayService } from 'src/app/services/customer-pay.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -10,7 +15,7 @@ const moment = _moment;
 @Component({
   selector: 'app-customer-pay-view',
   templateUrl: './customer-pay-view.component.html',
-  styleUrls: ['./customer-pay-view.component.scss']
+  styleUrls: ['./customer-pay-view.component.scss'],
 })
 export class CustomerPayViewComponent implements OnInit {
   customerPayForm: FormGroup;
@@ -25,10 +30,9 @@ export class CustomerPayViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<CustomerPayViewComponent>,
     private toastrService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     if (this.data.status) {
       this.dateNow = new FormControl(
         moment().format('YYYY-MM-DD'),
@@ -38,15 +42,11 @@ export class CustomerPayViewComponent implements OnInit {
       this.actionBtnName = 'Kaydet';
       this.dialogTitle = 'Firma Ödemesi Ekle';
     } else if (!this.data.status) {
-      this.dateNow = new FormControl(
-        this.data.row.date,
-        Validators.required
-      );
+      this.dateNow = new FormControl(this.data.row.date, Validators.required);
       this.dateInput = this.data.row.date;
       this.actionBtnName = 'Güncelle';
       this.dialogTitle = 'Firma Ödemesi Güncelle';
     }
-
     this.getForms();
   }
 
@@ -56,12 +56,10 @@ export class CustomerPayViewComponent implements OnInit {
       this.editCustomerPayForm();
     }
   }
-
-
   addEvent(event: any) {
     let a: Moment = event.value;
     this.dateInput = a.format('YYYY-MM-DD');
-    this.getForms();
+    this.customerPayForm.controls['date'].setValue(this.dateInput);
   }
 
   createCustomerPayForm() {
@@ -84,39 +82,49 @@ export class CustomerPayViewComponent implements OnInit {
   }
 
   editCustomerPayForm() {
-    this.customerPayForm.controls['customerName'].setValue(this.data.row.customerName);
+    this.customerPayForm.controls['customerName'].setValue(
+      this.data.row.customerName
+    );
     this.customerPayForm.controls['amount'].setValue(this.data.row.amount);
-    this.customerPayForm.controls['description'].setValue(this.data.row.description);
+    this.customerPayForm.controls['description'].setValue(
+      this.data.row.description
+    );
+  }
+
+  statusControl() {
+    if (this.data.status) {
+      this.add();
+    } else if (!this.data.status) {
+      this.update();
+    }
   }
 
   add() {
-
-    if (this.data.status) {
-      if (this.customerPayForm.valid) {
-        let customerPayModel = Object.assign({}, this.customerPayForm.value);
-        this.customerPayService.add(customerPayModel).subscribe(
-          (response) => {
-
-            this.toastrService.success(response.message, 'Başarılı');
-            this.customerPayForm.reset();
-            this.dialogRef.close('save');
-          },
-          (responseError) => {
-            if (responseError.error.ValidationErrors.length > 0) {
-              for (let i = 0; i < responseError.error.ValidationErrors.length; i++) {
-                this.toastrService.error(
-                  responseError.error.ValidationErrors[i].ErrorMessage,
-                  'Doğrulama Hatası'
-                );
-              }
+    if (this.customerPayForm.valid) {
+      let customerPayModel = Object.assign({}, this.customerPayForm.value);
+      this.customerPayService.add(customerPayModel).subscribe(
+        (response) => {
+          this.toastrService.success(response.message, 'Başarılı');
+          this.customerPayForm.reset();
+          this.dialogRef.close('save');
+        },
+        (responseError) => {
+          if (responseError.error.ValidationErrors.length > 0) {
+            for (
+              let i = 0;
+              i < responseError.error.ValidationErrors.length;
+              i++
+            ) {
+              this.toastrService.error(
+                responseError.error.ValidationErrors[i].ErrorMessage,
+                'Doğrulama Hatası'
+              );
             }
           }
-        );
-      } else {
-        this.toastrService.error('Formunuz Eksik', 'Dikkat');
-      }
-    } else if (!this.data.status) {
-      this.update();
+        }
+      );
+    } else {
+      this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
 
@@ -144,10 +152,8 @@ export class CustomerPayViewComponent implements OnInit {
           }
         }
       );
-    }
-    else {
+    } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
-
 }

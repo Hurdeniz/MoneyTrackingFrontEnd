@@ -5,11 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { ToastrService } from 'ngx-toastr';
 import { Bank } from 'src/app/models/bank';
 import { BankService } from 'src/app/services/bank.service';
 import { CardPaymentService } from 'src/app/services/card-payment.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -27,15 +27,13 @@ export class CardPaymentViewComponent implements OnInit {
   actionBtnName: string;
   dialogTitle: string;
 
-
-
   constructor(
     private bankService: BankService,
     private cardPaymentService: CardPaymentService,
     private formBuilder: FormBuilder,
+    private toastrService: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<CardPaymentViewComponent>,
-    private toastrService: ToastrService
+    private dialogRef: MatDialogRef<CardPaymentViewComponent>
   ) {}
 
   ngOnInit(): void {
@@ -73,13 +71,11 @@ export class CardPaymentViewComponent implements OnInit {
       this.editCardForm();
     }
   }
-
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
     this.cardForm.controls['date'].setValue(this.dateInput);
   }
-
   createCardForm() {
     if (this.data.status) {
       this.cardForm = this.formBuilder.group({
@@ -100,13 +96,11 @@ export class CardPaymentViewComponent implements OnInit {
       });
     }
   }
-
   editCardForm() {
     this.cardForm.controls['bankId'].setValue(this.data.row.bankId);
     this.cardForm.controls['amount'].setValue(this.data.row.amount);
     this.cardForm.controls['description'].setValue(this.data.row.description);
   }
-
   add() {
     if (this.data.status) {
       if (this.cardForm.valid) {
@@ -139,7 +133,6 @@ export class CardPaymentViewComponent implements OnInit {
       this.update();
     }
   }
-
   update() {
     if (this.cardForm.valid) {
       let cardPaymentModel = Object.assign({}, this.cardForm.value);

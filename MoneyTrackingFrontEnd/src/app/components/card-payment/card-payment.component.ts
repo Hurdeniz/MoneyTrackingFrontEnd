@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { CardPaymetDetailsDto } from 'src/app/models/Dtos/cardPaymentDetailsDto';
-import { AuthService } from 'src/app/services/auth.service';
-import { CardPaymentService } from 'src/app/services/card-payment.service';
 import { CardPaymentDeleteComponent } from './card-payment-delete/card-payment-delete.component';
 import { CardPaymentViewComponent } from './card-payment-view/card-payment-view.component';
 import { CardPaymentFilterComponent } from './card-payment-filter/card-payment-filter.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { CardPaymentService } from 'src/app/services/card-payment.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
+import { CardPaymetDetailsDto } from 'src/app/models/Dtos/cardPaymentDetailsDto';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -22,7 +21,13 @@ const moment = _moment;
   styleUrls: ['./card-payment.component.scss'],
 })
 export class CardPaymentComponent implements OnInit {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
+  dataLoaded: boolean = false;
+  searchHide: boolean = false;
+  isAuthenticated: boolean = false;
+  userId: number;
+  filterText: '';
   displayedColumns: string[] = [
     'date',
     'bankName',
@@ -32,24 +37,16 @@ export class CardPaymentComponent implements OnInit {
   ];
   dataSource: MatTableDataSource<CardPaymetDetailsDto> =
     new MatTableDataSource<CardPaymetDetailsDto>();
-  dataLoaded = false;
-  searchHide = false;
-  isAuthenticated: boolean = false;
-  filterText: '';
-  userId: number;
-  jwtHelper: JwtHelperService = new JwtHelperService();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
   startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
 
   constructor(
     private cardPaymentService: CardPaymentService,
-    private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +55,9 @@ export class CardPaymentComponent implements OnInit {
   }
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
+  }
+  getTotalCost() {
+    return this.cardPaymnetDetailsDto.map(t => t.amount).reduce((acc, value) => acc + value, 0);
   }
   refresh() {
     this.isAuthenticated = this.authService.isAuthenticated();
@@ -68,16 +68,8 @@ export class CardPaymentComponent implements OnInit {
         x.endsWith('/nameidentifier')
       )[0];
       this.userId = decode[userId];
-
     }
   }
-  showSpinner() {
-    this.spinner.show();
-  }
-  hideSpinner() {
-    this.spinner.hide();
-  }
-
   getAllCardPaymentDetailByUserIdAndDate() {
     this.cardPaymentService
       .getAllCardPaymentDetailByUserIdAndDate(
@@ -87,9 +79,7 @@ export class CardPaymentComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          this.showSpinner();
           this.cardPaymnetDetailsDto = response.data;
-          this.hideSpinner();
           this.dataSource = new MatTableDataSource<CardPaymetDetailsDto>(
             this.cardPaymnetDetailsDto
           );
@@ -107,7 +97,7 @@ export class CardPaymentComponent implements OnInit {
     this.dialog
       .open(CardPaymentViewComponent, {
         width: '25%',
-        data: { status: true, userId: this.userId }
+        data: { status: true, userId: this.userId },
       })
       .afterClosed()
       .subscribe((value) => {
@@ -121,7 +111,7 @@ export class CardPaymentComponent implements OnInit {
     this.dialog
       .open(CardPaymentViewComponent, {
         width: '25%',
-        data: { status: false, row }
+        data: { status: false, row },
       })
       .afterClosed()
       .subscribe((value) => {
@@ -134,20 +124,24 @@ export class CardPaymentComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(CardPaymentFilterComponent, {
-        width: '20%',
+        width: '25%',
       })
       .afterClosed()
       .subscribe((value) => {
-        this.startDate = value.startDate.format('YYYY-MM-DD');
-        this.endDate = value.endDate.format('YYYY-MM-DD');
-        this.getAllCardPaymentDetailByUserIdAndDate();
+        if (value == undefined) {
+          this.getAllCardPaymentDetailByUserIdAndDate();
+        } else {
+          this.startDate = value.startDate.format('YYYY-MM-DD');
+          this.endDate = value.endDate.format('YYYY-MM-DD');
+          this.getAllCardPaymentDetailByUserIdAndDate();
+        }
       });
   }
 
   openDeleteDialog(row: any) {
     this.dialog
       .open(CardPaymentDeleteComponent, {
-        width: '25%',
+        width: '30%',
         data: row,
       })
       .afterClosed()
@@ -159,18 +153,12 @@ export class CardPaymentComponent implements OnInit {
   }
 
   exportXlsx() {
-    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
     let element = document.getElementById('cardPaymentTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Kart İşlemleri');
-
     XLSX.writeFile(wb, 'Kredi Kartı İşlemleri.xlsx');
   }
-
-
-
-
 
   printPage() {
     window.print();

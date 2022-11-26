@@ -1,12 +1,11 @@
-<h1 mat-dialog-title>{{bankName}} - {{amount}} ₺</h1>
+<h1 mat-dialog-title>{{ bankName }} - {{ amount }} ₺</h1>
 <mat-divider></mat-divider>
-<div class="delete-dialog-content" mat-dialog-content style="margin-top: 16px;">
+<mat-dialog-content>
   Banka Ödemesini Silmek İstediğinize Emin Misiniz ?
-</div>
-<div mat-dialog-actions [align]="'end'">
-  <button mat-button mat-dialog-close >Hayır</button>
-  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">Evet</button>
-</div>
-
-
-
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button mat-dialog-close>Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">
+    Evet
+  </button>
+</mat-dialog-actions>

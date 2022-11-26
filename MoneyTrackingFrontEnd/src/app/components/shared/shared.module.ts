@@ -26,6 +26,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 
+
 @NgModule({
   declarations: [],
   imports: [
@@ -51,7 +52,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+
   ],
   exports:[
     CommonModule,
@@ -76,7 +78,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
 
   ]
 })

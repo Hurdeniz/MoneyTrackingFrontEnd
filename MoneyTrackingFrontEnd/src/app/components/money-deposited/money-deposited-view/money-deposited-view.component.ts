@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { ToastrService } from 'ngx-toastr';
-import { Bank } from 'src/app/models/bank';
 import { BankService } from 'src/app/services/bank.service';
 import { MoneyDepositedService } from 'src/app/services/money-deposited.service';
+import { ToastrService } from 'ngx-toastr';
+import { Bank } from 'src/app/models/bank';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -33,7 +33,6 @@ export class MoneyDepositedViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBanks();
-
     if (this.data.status) {
       this.dateNow = new FormControl(
         moment().format('YYYY-MM-DD'),
@@ -70,7 +69,7 @@ export class MoneyDepositedViewComponent implements OnInit {
   addEvent(event: any) {
     let a: Moment = event.value;
     this.dateInput = a.format('YYYY-MM-DD');
-    this.getForms();
+    this.moneyDepositedForm.controls['date'].setValue(this.dateInput);
   }
 
 
@@ -100,9 +99,15 @@ export class MoneyDepositedViewComponent implements OnInit {
     this.moneyDepositedForm.controls['description'].setValue(this.data.row.description);
   }
 
+  statusControl() {
+    if (this.data.status) {
+      this.add();
+    } else if (!this.data.status) {
+      this.update();
+    }
+  }
 
   add() {
-    if (this.data.status)  {
       if (this.moneyDepositedForm.valid) {
         let moneyDepositedModel = Object.assign({}, this.moneyDepositedForm.value);
         this.moneyDepositedService.add(moneyDepositedModel).subscribe(
@@ -126,9 +131,6 @@ export class MoneyDepositedViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    } else if (!this.data.status) {
-      this.update();
-    }
   }
 
 

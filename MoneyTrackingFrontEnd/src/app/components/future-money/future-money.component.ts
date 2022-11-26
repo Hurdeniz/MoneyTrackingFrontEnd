@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { FutureMoneyDetailsDto } from 'src/app/models/Dtos/futureMoneyDetailsDto';
-import { AuthService } from 'src/app/services/auth.service';
-import { FutureMoneyService } from 'src/app/services/future-money.service';
 import { FutureMoneyDeleteComponent } from './future-money-delete/future-money-delete.component';
 import { FutureMoneyViewComponent } from './future-money-view/future-money-view.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { FutureMoneyService } from 'src/app/services/future-money.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
+import { FutureMoneyDetailsDto } from 'src/app/models/Dtos/futureMoneyDetailsDto';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-future-money',
   templateUrl: './future-money.component.html',
@@ -36,7 +36,6 @@ export class FutureMoneyComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +45,16 @@ export class FutureMoneyComponent implements OnInit {
 
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
+  }
+
+  getTotalAmountPaid() {
+    return this.futureMoneyDetailsDto.map(t => t.amountPaid).reduce((acc, value) => acc + value, 0);
+  }
+  getTotalTransactionAmount() {
+    return this.futureMoneyDetailsDto.map(t => t.transactionAmount).reduce((acc, value) => acc + value, 0);
+  }
+  getTotalFutureAmount() {
+    return this.futureMoneyDetailsDto.map(t => t.futureAmount).reduce((acc, value) => acc + value, 0);
   }
 
   refresh() {
@@ -60,21 +69,10 @@ export class FutureMoneyComponent implements OnInit {
     }
   }
 
-  showSpinner(){
-    this.spinner.show();
-  }
-
-  hideSpinner(){
-    this.spinner.hide();
-  }
-
-
   getAllFutureMoneyDetailByUserIdAndStatus() {
     this.futureMoneyService.getAllFutureMoneyDetailByUserIdAndStatus(this.userId,this.status).subscribe(
       (response) => {
-        this.showSpinner();
         this.futureMoneyDetailsDto = response.data;
-        this.hideSpinner();
         this.dataSource = new MatTableDataSource<FutureMoneyDetailsDto>(
           this.futureMoneyDetailsDto
         );
@@ -104,7 +102,6 @@ export class FutureMoneyComponent implements OnInit {
       });
   }
 
-
   openEditDialog(row: any) {
     this.dialog
       .open(FutureMoneyViewComponent, {
@@ -119,11 +116,10 @@ export class FutureMoneyComponent implements OnInit {
       });
   }
 
-
   openDeleteDialog(row: any) {
     this.dialog
       .open(FutureMoneyDeleteComponent, {
-        width: '25%',
+        width: '30%',
         data: row,
       })
       .afterClosed()
@@ -135,15 +131,10 @@ export class FutureMoneyComponent implements OnInit {
   }
 
   exportXlsx() {
-    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
     let element = document.getElementById('futureMoneyTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Elden Gelecekler');
-
     XLSX.writeFile(wb, 'Elden Gelecek İşlemleri.xlsx');
   }
-
-
-
 }

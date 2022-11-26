@@ -1,5 +1,5 @@
 <form [formGroup]="cancellationForm" class="form-dialog">
-  <h1 mat-dialog-title class="dialog-title" >{{ dialogTitle }}</h1>
+  <h1 mat-dialog-title class="dialog-title">{{ dialogTitle }}</h1>
   <mat-divider></mat-divider>
   <mat-dialog-content class="dialog-content">
     <div class="row">
@@ -16,11 +16,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-        <mat-form-field
-          appearance="outline"
-          color="accent"
-          class="full-width"
-        >
+        <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>Tarih Seçiniz</mat-label>
           <input
             matInput
@@ -111,7 +107,7 @@
   <mat-divider></mat-divider>
   <mat-dialog-actions class="dialog-actions">
     <button
-    class="actions-button"
+      class="actions-button"
       mat-raised-button
       [disabled]="cancellationForm.invalid"
       color="primary"

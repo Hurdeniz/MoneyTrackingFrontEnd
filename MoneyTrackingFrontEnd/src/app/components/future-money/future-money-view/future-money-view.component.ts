@@ -1,18 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/services/auth.service';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 const moment = _moment;
+
 @Component({
   selector: 'app-future-money-view',
   templateUrl: './future-money-view.component.html',
@@ -66,7 +65,7 @@ export class FutureMoneyViewComponent implements OnInit {
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
-    this.getForms();
+    this.futureMoneyForm.controls['futureMoneyRegistrationDate'].setValue(this.dateInput);
   }
 
   createFutureMoneyForm() {
@@ -148,12 +147,19 @@ export class FutureMoneyViewComponent implements OnInit {
       this.answer =
         futureMoneyModel.transactionAmount - futureMoneyModel.amountPaid;
       this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
+      this.statusControl();
+    }
+  }
+
+  statusControl() {
+    if (this.data.status) {
       this.add();
+    } else if (!this.data.status) {
+      this.update();
     }
   }
 
   add() {
-    if (this.data.status) {
       if (this.futureMoneyForm.valid) {
         let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
         this.futureMoneyService.add(futureMoneyModel).subscribe(
@@ -183,9 +189,6 @@ export class FutureMoneyViewComponent implements OnInit {
           'Dikkat'
         );
       }
-    } else if (!this.data.status) {
-      this.update();
-    }
   }
 
   update() {

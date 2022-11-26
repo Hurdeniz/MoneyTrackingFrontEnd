@@ -5,7 +5,7 @@ export interface IncomingMoneyDetailsDto {
   customerCode:string;
   customerNameSurname:string;
   promissoryNumber:string;
-  transactionAmount:string;
+  transactionAmount:number;
   futureMoneyRegistrationDate:Date;
   incomingMoneyRegistrationDate:Date;
   incomingAmount:number;
