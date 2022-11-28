@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { ShipmentListDeleteComponent } from '../../shipment-list/shipment-list-delete/shipment-list-delete.component';
 import { ToastrService } from 'ngx-toastr';
 import { ShipmentListService } from 'src/app/services/shipment-list.service';
-import { ShipmentListDeleteComponent } from '../../shipment-list/shipment-list-delete/shipment-list-delete.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-research-list-delete',

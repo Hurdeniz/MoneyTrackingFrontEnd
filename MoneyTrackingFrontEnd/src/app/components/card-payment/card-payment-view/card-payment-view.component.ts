@@ -37,6 +37,7 @@ export class CardPaymentViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.getAllBanks();
 
     if (this.data.status) {
@@ -71,6 +72,7 @@ export class CardPaymentViewComponent implements OnInit {
       this.editCardForm();
     }
   }
+
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
@@ -101,8 +103,16 @@ export class CardPaymentViewComponent implements OnInit {
     this.cardForm.controls['amount'].setValue(this.data.row.amount);
     this.cardForm.controls['description'].setValue(this.data.row.description);
   }
-  add() {
+
+  statusControl() {
     if (this.data.status) {
+      this.add();
+    } else if (!this.data.status) {
+      this.update();
+    }
+  }
+
+  add() {
       if (this.cardForm.valid) {
         let cardPaymentModel = Object.assign({}, this.cardForm.value);
         this.cardPaymentService.add(cardPaymentModel).subscribe(
@@ -129,10 +139,8 @@ export class CardPaymentViewComponent implements OnInit {
       } else {
         this.toastrService.error('Formunuz Eksik', 'Dikkat');
       }
-    } else if (!this.data.status) {
-      this.update();
-    }
   }
+
   update() {
     if (this.cardForm.valid) {
       let cardPaymentModel = Object.assign({}, this.cardForm.value);

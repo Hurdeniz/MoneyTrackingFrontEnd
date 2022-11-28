@@ -7,7 +7,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./collect-money.component.scss'],
 })
 export class CollectMoneyComponent implements OnInit {
-  ass: Number = 0;
+  answer: Number = 0;
   collectMoneyForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -25,14 +25,14 @@ export class CollectMoneyComponent implements OnInit {
       elli: [0],
       yuz: [0],
       ikiyuz: [0],
-      sonuc: [0],
+      answer: [0],
     });
   }
 
   topla() {
     let centralPayModel = Object.assign({}, this.collectMoneyForm.value);
 
-    this.ass =
+    this.answer =
       centralPayModel.bozuk +
       centralPayModel.bes * 5 +
       centralPayModel.on * 10 +
@@ -40,6 +40,6 @@ export class CollectMoneyComponent implements OnInit {
       centralPayModel.elli * 50 +
       centralPayModel.yuz * 100 +
       centralPayModel.ikiyuz * 200;
-    this.collectMoneyForm.controls['sonuc'].setValue(this.ass);
+    this.collectMoneyForm.controls['answer'].setValue(this.answer);
   }
 }

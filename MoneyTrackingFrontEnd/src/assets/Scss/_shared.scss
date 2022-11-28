@@ -1,21 +1,21 @@
-// mat-drawer-container {
-//   height: 93%;
+//sevkiyat
+mat-drawer-container {
+  height: 93%;
 
-//   .box{
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     margin: 10px;
-//   }
+  .box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  }
 
-//   .full-width {
-//     width: 100%;
-//   }
-
-// }
+  .full-width {
+    width: 100%;
+  }
+}
 
 //ANA FORM
-mat-icon{
+mat-icon {
   margin: 0px !important;
 }
 
@@ -35,7 +35,6 @@ mat-icon{
     }
 
     .card-content {
-
       .search-input-box {
         display: flex;
         justify-content: center;
@@ -50,7 +49,7 @@ mat-icon{
         table {
           width: 100%;
           height: 100%;
-          min-width: 700px;
+          min-width: 800px;
         }
       }
     }
@@ -79,5 +78,27 @@ mat-icon{
   }
 }
 
+//sevkiyat
 
+.shipment-sidenav {
+  padding: 10px;
 
+  .shipment-title {
+    text-align: center;
+  }
+
+  .shipment-add-form {
+    .row {
+      margin: 0px;
+      .col {
+        padding: 0;
+        .full-width {
+          width: 100%;
+        }
+      }
+    }
+    .shipment-add-button {
+      width: 100%;
+    }
+  }
+}

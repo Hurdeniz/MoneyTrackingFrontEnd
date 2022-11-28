@@ -1,8 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ShipmentListService } from 'src/app/services/shipment-list.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -10,10 +15,10 @@ const moment = _moment;
 @Component({
   selector: 'app-shipment-list-view',
   templateUrl: './shipment-list-view.component.html',
-  styleUrls: ['./shipment-list-view.component.scss']
+  styleUrls: ['./shipment-list-view.component.scss'],
 })
 export class ShipmentListViewComponent implements OnInit {
-  shipmentListEditForm:FormGroup;
+  shipmentListEditForm: FormGroup;
   dateNow: FormControl;
   dateInput: any;
 
@@ -23,7 +28,7 @@ export class ShipmentListViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<ShipmentListViewComponent>,
     private toastrService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.dateNow = new FormControl(
@@ -31,51 +36,55 @@ export class ShipmentListViewComponent implements OnInit {
       Validators.required
     );
     this.dateInput = this.dateNow.value;
-this.getForms();
+    this.getForms();
   }
 
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
-   this.shipmentListEditForm.controls['date'].setValue(this.dateInput);
+    this.shipmentListEditForm.controls['date'].setValue(this.dateInput);
   }
 
   getForms() {
     this.createShipmentListForm();
-    this.editShipmentListForm()
+    this.editShipmentListForm();
   }
 
-  createShipmentListForm(){
+  createShipmentListForm() {
     this.shipmentListEditForm = this.formBuilder.group({
-      shipmentListId:[this.editData.shipmentListId],
+      shipmentListId: [this.editData.shipmentListId],
       userId: [this.editData.userId],
-      shipmentNumber:[this.editData.shipmentNumber],
-        customerCode:['',Validators.required],
-        customerNameSurname:['',Validators.required],
-        promissoryNumber:['',Validators.required],
-        adress:[''],
-        date:[this.dateInput, Validators.required],
-        result:[this.editData.result],
-        description:[this.editData.description],
-        status: [this.editData.status],
-
+      shipmentNumber: [this.editData.shipmentNumber],
+      customerCode: ['', Validators.required],
+      customerNameSurname: ['', Validators.required],
+      promissoryNumber: ['', Validators.required],
+      adress: [''],
+      date: [this.dateInput, Validators.required],
+      result: [this.editData.result],
+      description: [this.editData.description],
+      status: [this.editData.status],
     });
-
-
   }
-
-
 
   editShipmentListForm() {
-    this.shipmentListEditForm.controls['customerCode'].setValue(this.editData.customerCode);
-    this.shipmentListEditForm.controls['customerNameSurname'].setValue(this.editData.customerNameSurname);
-    this.shipmentListEditForm.controls['promissoryNumber'].setValue(this.editData.promissoryNumber);
+    this.shipmentListEditForm.controls['customerCode'].setValue(
+      this.editData.customerCode
+    );
+    this.shipmentListEditForm.controls['customerNameSurname'].setValue(
+      this.editData.customerNameSurname
+    );
+    this.shipmentListEditForm.controls['promissoryNumber'].setValue(
+      this.editData.promissoryNumber
+    );
     this.shipmentListEditForm.controls['adress'].setValue(this.editData.adress);
   }
 
   update() {
     if (this.shipmentListEditForm.valid) {
-      let shipmentListModel = Object.assign({}, this.shipmentListEditForm.value);
+      let shipmentListModel = Object.assign(
+        {},
+        this.shipmentListEditForm.value
+      );
       this.shipmentListService.update(shipmentListModel).subscribe(
         (response) => {
           this.toastrService.success(response.message, 'Başarılı');
@@ -97,11 +106,8 @@ this.getForms();
           }
         }
       );
-    }
-    else {
+    } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
-
-
 }

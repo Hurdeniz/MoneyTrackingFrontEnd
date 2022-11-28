@@ -23,8 +23,8 @@ const moment = _moment;
 export class CardPaymentComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService();
   cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
-  dataLoaded: boolean = false;
-  searchHide: boolean = false;
+  dataLoaded= false;
+  searchHide= false;
   isAuthenticated: boolean = false;
   userId: number;
   filterText: '';
@@ -56,7 +56,7 @@ export class CardPaymentComponent implements OnInit {
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
-  getTotalCost() {
+  getTotalAmount() {
     return this.cardPaymnetDetailsDto.map(t => t.amount).reduce((acc, value) => acc + value, 0);
   }
   refresh() {

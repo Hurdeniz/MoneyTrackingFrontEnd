@@ -5,26 +5,25 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { ShipmentListDetailsDto } from 'src/app/models/Dtos/shipmentListDetailsDto';
-import { ShipmentList } from 'src/app/models/shipmentList';
-import { AuthService } from 'src/app/services/auth.service';
-import { ShipmentListService } from 'src/app/services/shipment-list.service';
 import { ShipmentListDeleteComponent } from './shipment-list-delete/shipment-list-delete.component';
 import { ShipmentListEnterResultComponent } from './shipment-list-enter-result/shipment-list-enter-result.component';
 import { ShipmentListViewComponent } from './shipment-list-view/shipment-list-view.component';
+import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { ShipmentListService } from 'src/app/services/shipment-list.service';
+import { ToastrService } from 'ngx-toastr';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ShipmentListDetailsDto } from 'src/app/models/Dtos/shipmentListDetailsDto';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatInput } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
+import { Moment } from 'moment';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
-import { Moment } from 'moment';
-import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
-import { MatLegacyInput as MatInput } from '@angular/material/legacy-input';
 const moment = _moment;
+
 @Component({
   selector: 'app-shipment-list',
   templateUrl: './shipment-list.component.html',
@@ -41,7 +40,6 @@ export class ShipmentListComponent implements OnInit {
     'adress',
     'action',
   ];
-
   dataSource: MatTableDataSource<ShipmentListDetailsDto> =
     new MatTableDataSource<ShipmentListDetailsDto>();
   dataLoaded = false;
@@ -58,17 +56,16 @@ export class ShipmentListComponent implements OnInit {
   endDate = moment().format('YYYY-MM-DD');
   status: boolean = true;
   @ViewChild('customerCode') nameInput: MatInput;
+
   constructor(
     private shipmentService: ShipmentListService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-
     this.refresh();
     this.dateNow = new FormControl(
       moment().format('YYYY-MM-DD'),
@@ -77,19 +74,10 @@ export class ShipmentListComponent implements OnInit {
     this.dateInput = this.dateNow.value;
     this.getAllShipmentListDetailByStatusAndDate();
     this.createShipmentListForm();
-
   }
 
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
-  }
-
-  showSpinner() {
-    this.spinner.show();
-  }
-
-  hideSpinner() {
-    this.spinner.hide();
   }
 
   addEvent(event: any) {
@@ -122,9 +110,7 @@ export class ShipmentListComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          this.showSpinner();
           this.shipmentListDetailDto = response.data;
-          this.hideSpinner();
           this.dataSource = new MatTableDataSource<ShipmentListDetailsDto>(
             this.shipmentListDetailDto
           );
@@ -148,7 +134,7 @@ export class ShipmentListComponent implements OnInit {
       adress: [''],
       date: [this.dateInput, Validators.required],
       result: [''],
-      description:[''],
+      description: [''],
       status: [this.status],
     });
   }
@@ -159,12 +145,9 @@ export class ShipmentListComponent implements OnInit {
       this.shipmentService.add(shipmentListModel).subscribe(
         (response) => {
           this.toastrService.success(response.message, 'Başarılı');
-
-          this.shipmentListForm.controls['customerCode'].setValue('');
-          this.shipmentListForm.controls['customerNameSurname'].setValue('');
-          this.shipmentListForm.controls['promissoryNumber'].setValue('');
-          this.shipmentListForm.controls['adress'].setValue('');
+          this.shipmentListForm.reset();
           this.nameInput.focus();
+          this.createShipmentListForm();
           this.getAllShipmentListDetailByStatusAndDate();
         },
         (responseError) => {
@@ -190,17 +173,17 @@ export class ShipmentListComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(ShipmentListFilterComponent, {
-        width: '20%',
+        width: '25%',
       })
       .afterClosed()
       .subscribe((value) => {
-        if(value==undefined){
+        if (value == undefined) {
           this.getAllShipmentListDetailByStatusAndDate();
-        }else{
-        this.startDate = value.startDate.format('YYYY-MM-DD');
-        this.endDate = value.endDate.format('YYYY-MM-DD');
-        this.getAllShipmentListDetailByStatusAndDate();
-      }
+        } else {
+          this.startDate = value.startDate.format('YYYY-MM-DD');
+          this.endDate = value.endDate.format('YYYY-MM-DD');
+          this.getAllShipmentListDetailByStatusAndDate();
+        }
       });
   }
 
@@ -221,7 +204,7 @@ export class ShipmentListComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(ShipmentListDeleteComponent, {
-        width: '25%',
+        width: '30%',
         data: row,
       })
       .afterClosed()
@@ -247,12 +230,10 @@ export class ShipmentListComponent implements OnInit {
   }
 
   exportXlsx() {
-    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
     let element = document.getElementById('shipmentListTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sevkiyat Listesi');
-
     XLSX.writeFile(wb, 'Sevkiyat Listesi.xlsx');
   }
 }

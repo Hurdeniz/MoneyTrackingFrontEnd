@@ -1,9 +1,10 @@
-
-
-<div mat-dialog-content style="margin-top: 16px;">
+<mat-dialog-content>
   Notu Silmek İstediğinize Emin Misiniz ?
-</div>
-<div mat-dialog-actions [align]="'end'">
-  <button mat-raised-button mat-dialog-close >Hayır</button>
-  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">Evet</button>
-</div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button mat-dialog-close>Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">
+    Evet
+  </button>
+</mat-dialog-actions>

@@ -1,8 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { SatisfactionService } from 'src/app/services/satisfaction.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -10,19 +15,20 @@ const moment = _moment;
 @Component({
   selector: 'app-satisfaction-view',
   templateUrl: './satisfaction-view.component.html',
-  styleUrls: ['./satisfaction-view.component.scss']
+  styleUrls: ['./satisfaction-view.component.scss'],
 })
 export class SatisfactionViewComponent implements OnInit {
-  satisfactionEditForm:FormGroup;
+  satisfactionEditForm: FormGroup;
   dateNow: FormControl;
   dateInput: any;
+
   constructor(
     private satisfactionService: SatisfactionService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<SatisfactionViewComponent>,
     private toastrService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.dateNow = new FormControl(
@@ -30,38 +36,54 @@ export class SatisfactionViewComponent implements OnInit {
       Validators.required
     );
     this.dateInput = this.dateNow.value;
-this.getForms();
+    this.getForms();
+  }
+
+  addEvent(event: any) {
+    let date: Moment = event.value;
+    this.dateInput = date.format('YYYY-MM-DD');
+    this.satisfactionEditForm.controls['date'].setValue(this.dateInput);
   }
 
   getForms() {
     this.createSatisfactionForm();
-    this.editSatisfactionForm()
+    this.editSatisfactionForm();
   }
 
-  createSatisfactionForm(){
-    this.satisfactionEditForm = this.formBuilder.group({
-      satisfactionId:[this.editData.satisfactionId],
-        customerCode:['',Validators.required],
-        customerNameSurname:['',Validators.required],
-        promissoryNumber:['',Validators.required],
-        phone: ['', Validators.required],
-        date: [this.dateInput, Validators.required],
-        result: ['', Validators.required],
 
+
+  createSatisfactionForm() {
+    this.satisfactionEditForm = this.formBuilder.group({
+      satisfactionId: [this.editData.satisfactionId],
+      customerCode: ['', Validators.required],
+      customerNameSurname: ['', Validators.required],
+      promissoryNumber: ['', Validators.required],
+      phone: ['', Validators.required],
+      date: [this.dateInput, Validators.required],
+      result: ['', Validators.required],
     });
   }
 
   editSatisfactionForm() {
-    this.satisfactionEditForm.controls['customerCode'].setValue(this.editData.customerCode);
-    this.satisfactionEditForm.controls['customerNameSurname'].setValue(this.editData.customerNameSurname);
-    this.satisfactionEditForm.controls['promissoryNumber'].setValue(this.editData.promissoryNumber);
+    this.satisfactionEditForm.controls['customerCode'].setValue(
+      this.editData.customerCode
+    );
+    this.satisfactionEditForm.controls['customerNameSurname'].setValue(
+      this.editData.customerNameSurname
+    );
+    this.satisfactionEditForm.controls['promissoryNumber'].setValue(
+      this.editData.promissoryNumber
+    );
     this.satisfactionEditForm.controls['phone'].setValue(this.editData.phone);
     this.satisfactionEditForm.controls['result'].setValue(this.editData.result);
   }
 
   update() {
     if (this.satisfactionEditForm.valid) {
-      let satisfactionModel = Object.assign({}, this.satisfactionEditForm.value);
+      let satisfactionModel = Object.assign(
+        {},
+        this.satisfactionEditForm.value
+      );
       this.satisfactionService.update(satisfactionModel).subscribe(
         (response) => {
           this.toastrService.success(response.message, 'Başarılı');
@@ -83,11 +105,8 @@ this.getForms();
           }
         }
       );
-    }
-    else {
+    } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
-
-
 }

@@ -14,7 +14,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Moment } from 'moment';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
 const moment = _moment;

@@ -1,6 +1,6 @@
 export interface Note {
   noteId:number;
   userId:number;
-  date:string;
+  date:Date;
   description:string;
 }

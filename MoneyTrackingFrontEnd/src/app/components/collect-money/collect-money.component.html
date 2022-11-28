@@ -1,4 +1,4 @@
-
+<!--
 <div class="box" style="    width: 100%;
 height: 80%;
 display: flex;
@@ -109,7 +109,7 @@ formControlName="ikiyuz"
 </div>
 
 <div class="row" style="width: 100%; height: 60px; justify-content: center; align-items: center;">
-  <button mat-stroked-button color="accent" style="width:50%;">Toplam Para : {{ass}} ₺</button>
+  <button mat-stroked-button color="accent" style="width:50%;">Toplam Para : {{answer}} ₺</button>
 </div>
 
 
@@ -120,4 +120,103 @@ formControlName="ikiyuz"
 
 
 
+ -->
 
+
+ <div class="container-fluid" style="height: 90%;">
+
+  <div class="row" style="background-color: blue; height: 100%; margin:0px; justify-content: center; align-items: center;">
+
+  <form [formGroup]="collectMoneyForm">
+    <div class="row" style="margin: 0px;">
+
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Bozuk</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="bozuk"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>5 ₺</mat-label>
+          <input
+            matInput
+            type="number"
+           formControlName="bes"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>10 ₺</mat-label>
+          <input
+            matInput
+            type="number"
+  formControlName="on"
+
+          />
+        </mat-form-field>
+
+
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>20 ₺</mat-label>
+          <input
+            matInput
+            type="number"
+  formControlName="yirmi"
+
+          />
+        </mat-form-field>
+
+      </div>
+      <div class="col">
+
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>50 ₺</mat-label>
+          <input
+            matInput
+            type="number"
+  formControlName="elli"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>100 ₺</mat-label>
+          <input
+            matInput
+            type="number"
+  formControlName="yuz"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>200 ₺</mat-label>
+          <input
+            matInput
+            type="number"
+  formControlName="ikiyuz"
+
+          />
+        </mat-form-field>
+      </div>
+
+
+
+    </div>
+  </form>
+
+</div>
+ </div>

@@ -5,20 +5,21 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { Satisfaction } from 'src/app/models/satisfaction';
-import * as XLSX from 'xlsx';
-import * as _moment from 'moment';
-import { Moment } from 'moment';
-import { MatLegacyInput as MatInput } from '@angular/material/legacy-input';
-import { SatisfactionService } from 'src/app/services/satisfaction.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { ToastrService } from 'ngx-toastr';
 import { SatisfactionFilterComponent } from './satisfaction-filter/satisfaction-filter.component';
 import { SatisfactionViewComponent } from './satisfaction-view/satisfaction-view.component';
 import { SatisfactionDeleteComponent } from './satisfaction-delete/satisfaction-delete.component';
+import { SatisfactionService } from 'src/app/services/satisfaction.service';
+import { ToastrService } from 'ngx-toastr';
+import { Satisfaction } from 'src/app/models/satisfaction';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatInput } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
+import { Moment } from 'moment';
+import * as XLSX from 'xlsx';
+import * as _moment from 'moment';
+
 const moment = _moment;
 
 @Component({
@@ -29,6 +30,7 @@ const moment = _moment;
 export class SatifactionComponent implements OnInit {
   satisfanction: Satisfaction[] = [];
   satisfactionForm: FormGroup;
+  myControl = new FormControl('');
   displayedColumns: string[] = [
     'date',
     'customerCode',
@@ -47,12 +49,10 @@ export class SatifactionComponent implements OnInit {
   dateInput: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('customerCode') nameInput: MatInput;
   startDate = moment().format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
-  @ViewChild('customerCode') nameInput: MatInput;
-
-  myControl = new FormControl('');
-  options: string[] = ['ok', 'iptal', 'memnun'];
+  options: string[] = ['Sorun Yok', 'Ulaşılamıyor', 'Değişim İstiyor','Açmamış','Cevap Yok', 'İptal İstiyor','Numara Yanlış','Meşgule Atıyor'];
 
   constructor(
     private satisfactionService: SatisfactionService,
@@ -122,6 +122,7 @@ export class SatifactionComponent implements OnInit {
           this.toastrService.success(response.message, 'Başarılı');
           this.satisfactionForm.reset();
           this.nameInput.focus();
+          this.createSatisfactionForm();
           this.getAllSatisfactionDetailByDate();
         },
         (responseError) => {
@@ -147,7 +148,7 @@ export class SatifactionComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(SatisfactionFilterComponent, {
-        width: '20%',
+        width: '25%',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -178,7 +179,7 @@ export class SatifactionComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(SatisfactionDeleteComponent, {
-        width: '25%',
+        width: '30%',
         data: row,
       })
       .afterClosed()
