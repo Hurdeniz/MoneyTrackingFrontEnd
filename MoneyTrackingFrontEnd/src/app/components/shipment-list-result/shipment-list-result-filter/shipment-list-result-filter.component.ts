@@ -1,17 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-shipment-research-list-filter',
-  templateUrl: './shipment-research-list-filter.component.html',
-  styleUrls: ['./shipment-research-list-filter.component.scss']
+  selector: 'app-shipment-list-result-filter',
+  templateUrl: './shipment-list-result-filter.component.html',
+  styleUrls: ['./shipment-list-result-filter.component.scss']
 })
-export class ShipmentResearchListFilterComponent implements OnInit {
+export class ShipmentListResultFilterComponent {
   dateForm: FormGroup;
 
   constructor(
-    private dialogRef: MatDialogRef<ShipmentResearchListFilterComponent>,
+    private dialogRef: MatDialogRef<ShipmentListResultFilterComponent>,
     @Inject(MAT_DIALOG_DATA) public dateData: any,
     private formBuilder: FormBuilder
   ) { }

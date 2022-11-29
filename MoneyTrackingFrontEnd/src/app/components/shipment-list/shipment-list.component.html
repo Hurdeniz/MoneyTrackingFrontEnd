@@ -1,4 +1,4 @@
-<mat-drawer-container autosize>
+<mat-drawer-container autosize >
   <mat-drawer #sidenav mode="side" position="end" class="shipment-sidenav">
     <h1 class="shipment-title">Sevkiyat Oluştur</h1>
 
@@ -266,17 +266,6 @@
                     (click)="openDeleteDialog(element)"
                   >
                     <mat-icon>delete</mat-icon>
-                  </button>
-
-                  <button
-                    mat-icon-button
-                    color="basic"
-                    matTooltip="Sonuç Gir"
-                    matTooltipPosition="right"
-                    (click)="sidenav.close()"
-                    (click)="openEnterResultDialog(element)"
-                  >
-                    <mat-icon>check_box</mat-icon>
                   </button>
                 </td>
               </ng-container>

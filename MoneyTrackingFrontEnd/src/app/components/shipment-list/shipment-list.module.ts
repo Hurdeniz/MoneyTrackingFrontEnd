@@ -6,7 +6,6 @@ import { ShipmentListRoutingModule } from './shipment-list-routing.module';
 import { ShipmentListComponent } from './shipment-list.component';
 import { ShipmentListViewComponent } from './shipment-list-view/shipment-list-view.component';
 import { ShipmentListDeleteComponent } from './shipment-list-delete/shipment-list-delete.component';
-import { ShipmentListEnterResultComponent } from './shipment-list-enter-result/shipment-list-enter-result.component';
 import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
 import { SharedModule } from '../shared/shared.module';
 
@@ -15,7 +14,6 @@ import { SharedModule } from '../shared/shared.module';
     ShipmentListComponent,
     ShipmentListViewComponent,
     ShipmentListDeleteComponent,
-    ShipmentListEnterResultComponent,
     ShipmentListFilterComponent,
   ],
   imports: [

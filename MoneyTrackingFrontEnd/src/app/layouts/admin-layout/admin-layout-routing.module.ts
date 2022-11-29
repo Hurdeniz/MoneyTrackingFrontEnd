@@ -56,11 +56,15 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/staff/staff.module").then(m => m.StaffModule)
     },
-
     {
       path: "ShipmentList",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/shipment-list/shipment-list.module").then(m => m.ShipmentListModule)
+    },
+    {
+      path: "ShipmentListResult",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/shipment-list-result/shipment-list-result.module").then(m => m.ShipmentListResultModule)
     },
     {
       path: "ResearchList",

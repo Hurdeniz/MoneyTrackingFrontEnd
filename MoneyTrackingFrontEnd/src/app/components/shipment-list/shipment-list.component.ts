@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ShipmentListDeleteComponent } from './shipment-list-delete/shipment-list-delete.component';
-import { ShipmentListEnterResultComponent } from './shipment-list-enter-result/shipment-list-enter-result.component';
 import { ShipmentListViewComponent } from './shipment-list-view/shipment-list-view.component';
 import { ShipmentListFilterComponent } from './shipment-list-filter/shipment-list-filter.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -210,20 +209,6 @@ export class ShipmentListComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
-          this.getAllShipmentListDetailByStatusAndDate();
-        }
-      });
-  }
-
-  openEnterResultDialog(row: any) {
-    this.dialog
-      .open(ShipmentListEnterResultComponent, {
-        width: '25%',
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((value) => {
-        if (value === 'result') {
           this.getAllShipmentListDetailByStatusAndDate();
         }
       });

@@ -85,17 +85,22 @@ export class SidenavComponent implements OnInit {
   ];
   shipping:RouteInfo[]=[
     {
-      name:'Sevkiyat Listesi ',
+      name:'Sevkiyat Oluştur',
       icon:'credit_card',
       path:'ShipmentList'
     },
     {
-      name:'Sor Listesi',
+      name:'Sor Oluştur',
       icon:'receipt_long',
       path:'ResearchList'
     },
     {
-      name:'Sevkiyatlar',
+      name:'Sevkiyat Sonuç',
+      icon:'receipt_long',
+      path:'ShipmentListResult'
+    },
+    {
+      name:'Sevkiyat Listesi',
       icon:'receipt_long',
       path:'ShipmentResearchList'
     },

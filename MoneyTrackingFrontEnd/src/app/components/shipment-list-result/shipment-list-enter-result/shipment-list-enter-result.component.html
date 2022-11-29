@@ -1,0 +1,69 @@
+<form [formGroup]="shipmentListResultForm" class="form-dialog">
+  <h1 mat-dialog-title class="dialog-title">Sevkiyat Sonuç</h1>
+  <mat-divider></mat-divider>
+
+  <mat-dialog-content class="dialog-content">
+    <div class="row">
+      <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-chip-listbox
+          class="mat-mdc-chip-set-stacked"
+          aria-label="Fish selection"
+        >
+          <mat-chip-option
+            color="accent"
+            selected
+            (click)="resultHide = false"
+            value="Ok"
+            (selectionChange)="result($event)"
+            >Ok</mat-chip-option
+          >
+          <mat-chip-option
+            (click)="resultHide = false"
+            value="Günlük"
+            (selectionChange)="result($event)"
+            >Günlük</mat-chip-option
+          >
+          <mat-chip-option
+            color="warn"
+            (click)="resultHide = false"
+            value="İptal İstiyor"
+            (selectionChange)="result($event)"
+            >İptal İstiyor</mat-chip-option
+          >
+          <mat-chip-option
+            (selectionChange)="resultHide = !resultHide"
+            value=""
+            (selectionChange)="result($event)"
+            >Diğer</mat-chip-option
+          >
+        </mat-chip-listbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field
+          *ngIf="resultHide"
+          appearance="outline"
+          class="full-width"
+          color="accent"
+          style="margin-top: 10px"
+        >
+          <mat-label>Sonuç</mat-label>
+          <input type="text" matInput formControlName="result" />
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-divider style="margin-top: 10px"></mat-divider>
+  <mat-dialog-actions class="dialog-actions">
+    <button
+      class="actions-button"
+      mat-raised-button
+      [disabled]="shipmentListResultForm.invalid"
+      (click)="updateResult()"
+      color="primary"
+    >
+      Kaydet
+    </button>
+  </mat-dialog-actions>
+</form>
