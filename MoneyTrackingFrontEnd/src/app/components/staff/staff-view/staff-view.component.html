@@ -1,38 +1,63 @@
-<form [formGroup]="staffForm">
-  <h1 mat-dialog-title style="text-align: center">{{ dialogTitle }}</h1>
-  <mat-divider style="margin-bottom: 16px"></mat-divider>
-  <mat-dialog-content>
+<form [formGroup]="staffForm" class="form-dialog">
+  <h1 mat-dialog-title class="dialog-title">{{ dialogTitle }}</h1>
+  <mat-divider></mat-divider>
+  <mat-dialog-content class="dialog-content">
     <div class="row">
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Giriş Tarih Seçiniz</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (dateInput)="addEvent($event)"
+            [formControl]="dateNow"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <mat-form-field appearance="outline" class="full-width" color="accent">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            formControlName="email"
+            matInput
+            placeholder="Ex.pat@example.com"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" class="full-width" color="accent">
           <mat-label>T.C. Kimlik No</mat-label>
           <input
             type="text"
             matInput
-
             formControlName="identityNumber"
-            placeholder="T.C. Kimlik No Giriniz"
+            placeholder="T.C. Kimlik No Giriniz."
+            maxlength="11"
           />
         </mat-form-field>
       </div>
-
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" class="full-width" color="accent">
           <mat-label>Adı Soyadı</mat-label>
           <input
             type="text"
             formControlName="nameSurname"
             matInput
-            placeholder="Adı Soyadı Giriniz"
+            placeholder="Adı Soyadı Giriniz."
           />
         </mat-form-field>
       </div>
     </div>
-
-
-
     <div class="row">
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" class="full-width" color="accent">
           <mat-label>Telefon 1</mat-label>
           <span matPrefix>+90 &nbsp;</span>
@@ -44,8 +69,7 @@
           />
         </mat-form-field>
       </div>
-
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" class="full-width" color="accent">
           <mat-label>Telefon 2</mat-label>
           <span matPrefix>+90 &nbsp;</span>
@@ -59,111 +83,79 @@
       </div>
     </div>
 
-
-
     <div class="row">
-      <div class="col">
-        <mat-form-field appearance="outline" class="full-width" color="accent">
-          <mat-label>Email</mat-label>
-          <input
-            type="email"
-            formControlName="email"
-            matInput
-            placeholder="Ex. pat@example.com"
-          />
-        </mat-form-field>
-      </div>
-
-      <div class="col">
-        <mat-form-field appearance="outline" class="full-width" color="accent">
-          <mat-label>Giriş Tarihi</mat-label>
-          <input
-            type="date"
-            formControlName="dateOfEntryIntoWork"
-            matInput
-            placeholder="Giriş Tarihi Seçiniz "
-          />
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>Görev Seçiniz</mat-label>
           <mat-select formControlName="staffTaskId">
-            <mat-option *ngFor="let staffTasks of staffTask" [value]="staffTasks.staffTaskId">
+            <mat-option
+              *ngFor="let staffTasks of staffTask"
+              [value]="staffTasks.staffTaskId"
+            >
               {{ staffTasks.staffTaskName }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-
       </div>
-      <div class="col">
-
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>Bölüm Seçiniz</mat-label>
           <mat-select formControlName="staffEpisodeId">
-            <mat-option *ngFor="let staffEpisodes of staffEpisode" [value]="staffEpisodes.staffEpisodeId">
+            <mat-option
+              *ngFor="let staffEpisodes of staffEpisode"
+              [value]="staffEpisodes.staffEpisodeId"
+            >
               {{ staffEpisodes.staffEpisodeName }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-
       </div>
     </div>
-
     <div class="row">
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>İl</mat-label>
           <input
             type="text"
             matInput
             formControlName="province"
-            placeholder="İl Giriniz"
+            placeholder="İl Giriniz."
           />
         </mat-form-field>
       </div>
-
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>İlçe</mat-label>
           <input
             type="text"
             matInput
             formControlName="district"
-            placeholder="İlçe Giriniz"
+            placeholder="İlçe Giriniz."
           />
         </mat-form-field>
       </div>
     </div>
-
-
-
     <div class="row">
-      <div class="col">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <mat-form-field appearance="outline" color="accent" class="full-width">
           <mat-label>Adres</mat-label>
           <textarea
             matInput
             formControlName="adress"
-            placeholder="Adres Giriniz"
-            style="height: 70px"
+            class="input-description"
           ></textarea>
         </mat-form-field>
       </div>
     </div>
   </mat-dialog-content>
-
   <mat-divider></mat-divider>
-  <mat-dialog-actions [align]="'end'">
+  <mat-dialog-actions class="dialog-actions">
     <button
+      class="actions-button"
       mat-raised-button
       [disabled]="staffForm.invalid"
       color="primary"
-      (click)="add()"
-      style="width: 100%"
+      (click)="statusControl()"
     >
       {{ actionBtnName }}
     </button>

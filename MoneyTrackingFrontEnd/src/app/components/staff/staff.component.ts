@@ -1,25 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { StaffDetailsDto } from 'src/app/models/Dtos/staffDetailsDto';
-import { StaffService } from 'src/app/services/staff.service';
 import { StaffDeleteComponent } from './staff-delete/staff-delete.component';
 import { StaffViewComponent } from './staff-view/staff-view.component';
+import { StaffService } from 'src/app/services/staff.service';
+import { ToastrService } from 'ngx-toastr';
+import { StaffDetailsDto } from 'src/app/models/Dtos/staffDetailsDto';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.scss']
+  styleUrls: ['./staff.component.scss'],
 })
 export class StaffComponent implements OnInit {
-
-  staffDetailsDto:StaffDetailsDto[]=[];
-
+  staffDetailsDto: StaffDetailsDto[] = [];
   displayedColumns: string[] = [
     'identityNumber',
     'nameSurname',
@@ -32,24 +29,22 @@ export class StaffComponent implements OnInit {
     'province',
     'district',
     'adress',
-    'action'
+    'action',
   ];
   dataSource: MatTableDataSource<StaffDetailsDto> =
-  new MatTableDataSource<StaffDetailsDto>();
- dataLoaded = false;
- searchHide = false;
- filterText: '';
- status: boolean=true;
- jwtHelper: JwtHelperService = new JwtHelperService();
- @ViewChild(MatPaginator) paginator: MatPaginator;
- @ViewChild(MatSort) sort: MatSort;
+    new MatTableDataSource<StaffDetailsDto>();
+  dataLoaded = false;
+  searchHide = false;
+  filterText: '';
+  status: boolean = true;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private staffService:StaffService,
+    private staffService: StaffService,
     private dialog: MatDialog,
-    private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getAllStaffDetailByStatus();
@@ -59,27 +54,16 @@ export class StaffComponent implements OnInit {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 
-  showSpinner(){
-    this.spinner.show();
-  }
-
-  hideSpinner(){
-    this.spinner.hide();
-  }
-
   getAllStaffDetailByStatus() {
     this.staffService.getAllStaffDetailByStatus(this.status).subscribe(
       (response) => {
-        this.showSpinner();
         this.staffDetailsDto = response.data;
-        this.hideSpinner();
         this.dataSource = new MatTableDataSource<StaffDetailsDto>(
           this.staffDetailsDto
         );
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.dataLoaded = true;
-
       },
       (responseError) => {
         this.toastrService.error(responseError.data.message, 'Dikkat');
@@ -91,6 +75,7 @@ export class StaffComponent implements OnInit {
     this.dialog
       .open(StaffViewComponent, {
         width: '40%',
+        data: { status: true },
       })
       .afterClosed()
       .subscribe((value) => {
@@ -100,12 +85,11 @@ export class StaffComponent implements OnInit {
       });
   }
 
-
   openEditDialog(row: any) {
     this.dialog
       .open(StaffViewComponent, {
         width: '40%',
-        data: row,
+        data: { status: false, row },
       })
       .afterClosed()
       .subscribe((value) => {
@@ -129,5 +113,11 @@ export class StaffComponent implements OnInit {
       });
   }
 
-
+  exportXlsx() {
+    let element = document.getElementById('staffTable');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Aktif Personeller');
+    XLSX.writeFile(wb, 'Personel Listesi.xlsx');
+  }
 }

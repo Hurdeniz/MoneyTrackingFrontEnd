@@ -66,7 +66,7 @@ export class ShipmentListEnterResultComponent {
       );
       this.shipmentListService.update(shipmentListModel).subscribe(
         (response) => {
-          this.toastrService.success(response.message, 'Başarılı');
+          this.toastrService.success('Sevkiyat Sonucunuz Girilmiştir', 'Başarılı');
           this.shipmentListResultForm.reset();
           this.dialogRef.close('result');
         },
