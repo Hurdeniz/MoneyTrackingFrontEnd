@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{ bankName }}</h1>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  Bankayı Silmek İstediğinize Emin Misiniz ?
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button mat-dialog-close>Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">
+    Evet
+  </button>
+</mat-dialog-actions>

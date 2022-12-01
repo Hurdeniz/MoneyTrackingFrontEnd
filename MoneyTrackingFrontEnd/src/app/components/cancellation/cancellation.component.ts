@@ -25,7 +25,6 @@ const moment = _moment;
 })
 export class CancellationComponent implements OnInit {
   cancellationDetailsDto: CancellationDetailsDto[] = [];
-  cancellationForm: FormGroup;
   dataLoaded = false;
   searchHide = false;
   filterText: '';
@@ -142,7 +141,6 @@ export class CancellationComponent implements OnInit {
   }
 
   exportXlsx() {
-    //   const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.cardPaymnetDetailsDto) sadece data yazdırmak istersek
     let element = document.getElementById('cancellationTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();

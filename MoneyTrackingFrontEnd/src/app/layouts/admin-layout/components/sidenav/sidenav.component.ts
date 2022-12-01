@@ -145,6 +145,21 @@ export class SidenavComponent implements OnInit {
       name:'Şifre Değiştir',
       icon:'credit_card',
       path:''
+    },
+    {
+      name:'Banka Ekle',
+      icon:'',
+      path:'Bank'
+    },
+    {
+      name:'Bölüm Ekle',
+      icon:'',
+      path:'StaffEpisode'
+    },
+    {
+      name:'Görev Ekle',
+      icon:'',
+      path:'StaffTask'
     }
 
 

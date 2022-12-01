@@ -80,7 +80,7 @@
         </mat-panel-title>
         <mat-panel-description> Ayarlar </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let settings of setting">
+      <mat-list-option *ngFor="let settings of setting" [routerLink]="[settings.path]">
         <mat-icon mat-list-icon>{{ settings.icon }}</mat-icon>
         {{ settings.name }}
       </mat-list-option>

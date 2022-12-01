@@ -1,75 +1,68 @@
-
-
-<div class="box">
-
-  <mat-card style="width: 100%; padding: 10px;">
-
-    <mat-card-actions [align]="'end'" style="margin: 0; justify-content: space-between;">
-      <div class="col-start" style="display:flex; align-items: center;" >
-        <mat-card-title style="margin: 0px;">Elden Gelecekler</mat-card-title>
-
+<div class="example-container">
+  <mat-card>
+    <mat-card-actions class="card-actions">
+      <div class="col-start">
+        <mat-card-title>Elden Gelecekler</mat-card-title>
       </div>
+      <div class="col-end">
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yeni"
+          matTooltipPosition="above"
+          (click)="openAddDialog()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
 
-      <div class="col">
-      <button
-        mat-button
-        style="margin: 0px"
-        matTooltip="Yeni"
-        matTooltipPosition="above"
-        (click)="openAddDialog()"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yazdır"
+          matTooltipPosition="above"
+        >
+          <mat-icon>print</mat-icon>
+        </button>
+        <button
+        class="card-actions-button"
+          mat-button
+          matTooltip="Excel"
+          matTooltipPosition="above"
+          (click)="exportXlsx()"
+        >
+          <mat-icon>description</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yenile"
+          matTooltipPosition="above"
+          (click)="searchHide = false"
+          (click)="getAllFutureMoneyDetailByStatus()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
 
-      <button
-        mat-button
-        style="margin: 0px"
-        matTooltip="Yazdır"
-        matTooltipPosition="above"
-      >
-        <mat-icon>print</mat-icon>
-      </button>
-      <button
-        mat-button
-        matTooltip="Gönder"
-        matTooltipPosition="above"
-        style="margin: 0px"
-        (click)="exportXlsx()"
-      >
-        <mat-icon>file_upload</mat-icon>
-      </button>
-      <button
-        mat-button
-        style="margin: 0px"
-        matTooltip="Yenile"
-        matTooltipPosition="above"
-        (click)="searchHide = false "
-        (click)="getAllFutureMoneyDetailByStatus()"
-      >
-        <mat-icon>refresh</mat-icon>
-      </button>
-
-      <button
-        mat-button
-        style="margin: 0px"
-        matTooltip="Ara"
-        matTooltipPosition="above"
-        (click)="searchHide = !searchHide"
-        (click)="filterText=''" (click)="filterDataSource()"
-
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-    </div>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Ara"
+          matTooltipPosition="above"
+          (click)="searchHide = !searchHide"
+          (click)="filterText = ''"
+          (click)="filterDataSource()"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
     </mat-card-actions>
 
-    <mat-card-content>
-      <ngx-spinner  *ngIf="dataLoaded == false" bdColor = "rgba(0,0,0,0.8)" size = "medium" color = "#7b1fa2" type = "square-jelly-box" [fullScreen] = "true"><p style="color: #fff" > Yükleniyor... </p></ngx-spinner>
+    <mat-card-content class="card-content">
       <mat-progress-bar
         *ngIf="dataLoaded == false"
         mode="indeterminate"
       ></mat-progress-bar>
-      <div  style="display:flex; justify-content: center ; align-items: center;">
+      <div class="search-input-box">
         <mat-form-field
           *ngIf="searchHide"
           appearance="outline"
@@ -77,92 +70,122 @@
           color="accent"
         >
           <mat-label>Ara</mat-label>
-          <input matInput  [(ngModel)]="filterText"(keyup)="filterDataSource()" placeholder="Aranacak Kelimeyi Yazınız." />
-          <button  matSuffix mat-icon-button aria-label="Clear" (click)="filterText=''" (click)="filterDataSource()">
-            <mat-icon>{{filterText ? 'clear' : 'search'}}</mat-icon>
+          <input
+            matInput
+            [(ngModel)]="filterText"
+            (keyup)="filterDataSource()"
+            placeholder="Aranacak Kelimeyi Yazınız."
+          />
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="filterText = ''"
+            (click)="filterDataSource()"
+          >
+            <mat-icon>{{ filterText ? "clear" : "search" }}</mat-icon>
           </button>
         </mat-form-field>
       </div>
-      <div class="mat-elevation-z8" style="overflow: auto; width: 100%;" >
+      <section class="section-example-container mat-elevation-z8">
         <table
           mat-table
           id="futureMoneyTable"
           [dataSource]="dataSource"
           matSort
-          style="min-width: 950px; width: 100%; height: 100%;"
         >
+          <ng-container matColumnDef="userNameSurname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Kasa Personel
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.userNameSurname }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef>Toplam</td>
+          </ng-container>
 
-
-        <ng-container matColumnDef="userNameSurname">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Kasa Personel</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.userNameSurname}}
-          </td>
-
-        </ng-container>
           <ng-container matColumnDef="futureMoneyRegistrationDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.futureMoneyRegistrationDate | date :'yyyy-MM-dd'  }}
+              {{ element.futureMoneyRegistrationDate | date: "yyyy-MM-dd" }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="typeOfOperation">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>İşlem Tipi</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              İşlem Tipi
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.typeOfOperation }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="customerCode">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Müşteri Kodu</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Müşteri Kodu
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.customerCode }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="customerNameSurname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Adı Soyadı</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Adı Soyadı
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.customerNameSurname }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="promissoryNumber">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Senet Numarası</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Senet Numarası
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.promissoryNumber }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-
           <ng-container matColumnDef="transactionAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>İşlem Tutarı</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              İşlem Tutarı
+            </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.transactionAmount | currency }}
+              {{ element.transactionAmount | currency:"₺ " }}
             </td>
-
+           <td mat-footer-cell *matFooterCellDef>
+              {{ getTotalTransactionAmount() | currency: "₺ " }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="amountPaid">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ödenen Tutar</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Ödenen Tutar
+            </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.amountPaid | currency }}
+              {{ element.amountPaid | currency:"₺ " }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef>
+              {{ getTotalAmountPaid() | currency: "₺ " }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="futureAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelecek Tutar</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Gelecek Tutar
+            </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.futureAmount | currency }}
+              {{ element.futureAmount | currency:"₺ " }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef>
+              {{ getTotalFutureAmount() | currency: "₺ " }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="description">
@@ -170,10 +193,8 @@
             <td mat-cell *matCellDef="let element">
               {{ element.description }}
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
-
-
 
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef></th>
@@ -198,42 +219,39 @@
               </button>
 
               <button
-              mat-icon-button
-              color="basic"
-              matTooltip="Ödeme Kapat"
-              matTooltipPosition="above"
-              (click)="openIncomingDialog(element)"
-            >
-              <mat-icon>check_box</mat-icon>
-            </button>
-            <button
-            mat-icon-button
-            color="primary"
-            matTooltip="Kısmi Ödeme Al"
-            matTooltipPosition="above"
-            (click)="openPartialIncomingDialog(element)"
-          >
-            <mat-icon>toll</mat-icon>
-          </button>
+                mat-icon-button
+                color="basic"
+                matTooltip="Ödeme Kapat"
+                matTooltipPosition="above"
+                (click)="openIncomingDialog(element)"
+              >
+                <mat-icon>check_box</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="primary"
+                matTooltip="Kısmi Ödeme Al"
+                matTooltipPosition="above"
+                (click)="openPartialIncomingDialog(element)"
+              >
+                <mat-icon>toll</mat-icon>
+              </button>
             </td>
-
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
         </table>
 
         <mat-paginator
           [pageSize]="10"
-          [pageSizeOptions]="[10, 20, 30, 50 , 100]"
+          [pageSizeOptions]="[10, 20, 30, 50, 100]"
           showFirstLastButtons
-          aria-label="Select page">
-
         >
         </mat-paginator>
-      </div>
+      </section>
     </mat-card-content>
   </mat-card>
 </div>
-

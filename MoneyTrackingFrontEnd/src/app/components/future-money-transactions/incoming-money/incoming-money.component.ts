@@ -5,10 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { ToastrService } from 'ngx-toastr';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
 import { IncomingMoneyService } from 'src/app/services/incoming-money.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -89,7 +89,7 @@ export class IncomingMoneyComponent implements OnInit {
   }
 
   update() {
-    this.answer=this.data.amountPaid+this.data.futureAmount;
+    this.answer = this.data.amountPaid + this.data.futureAmount;
     this.updateFutureMoneyForm();
     if (this.futureMoneyForm.valid) {
       let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
@@ -104,5 +104,4 @@ export class IncomingMoneyComponent implements OnInit {
       });
     }
   }
-
 }

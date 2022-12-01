@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import * as XLSX from 'xlsx';
+import { StaffCheckOutComponent } from './staff-check-out/staff-check-out.component';
 
 @Component({
   selector: 'app-staff',
@@ -108,6 +109,19 @@ export class StaffComponent implements OnInit {
       .afterClosed()
       .subscribe((value) => {
         if (value === 'delete') {
+          this.getAllStaffDetailByStatus();
+        }
+      });
+  }
+  openCheckOutDialog(row: any) {
+    this.dialog
+      .open(StaffCheckOutComponent, {
+        width: '20%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        if (value === 'checkout') {
           this.getAllStaffDetailByStatus();
         }
       });

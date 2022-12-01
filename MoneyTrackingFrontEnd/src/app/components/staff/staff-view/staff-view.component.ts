@@ -116,7 +116,7 @@ export class StaffViewComponent implements OnInit {
         adress: [''],
         staffTaskId: ['', Validators.required],
         staffEpisodeId: ['', Validators.required],
-        dateOfEntryIntoWork: ['', Validators.required],
+        dateOfEntryIntoWork: [this.dateInput, Validators.required],
         dateOfDismissal: [this.data.row.dateOfDismissal],
         status: [this.data.row.status],
       });

@@ -1,7 +1,33 @@
 <div class="example-container">
   <mat-card>
     <mat-card-actions class="card-actions">
-      <div class="col-start"></div>
+      <div class="col-start" style="width: 40%;">
+
+          <mat-form-field
+            *ngIf="searchHide"
+            appearance="outline"
+            style="width: 100%"
+            color="accent"
+          >
+            <mat-label>Ara</mat-label>
+            <input
+              matInput
+              [(ngModel)]="filterText"
+              (keyup)="filterDataSource()"
+              placeholder="Aranacak Kelimeyi Yazınız."
+            />
+            <button
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="filterText = ''"
+              (click)="filterDataSource()"
+            >
+              <mat-icon>{{ filterText ? "clear" : "search" }}</mat-icon>
+            </button>
+          </mat-form-field>
+
+      </div>
       <div class="col-end">
         <button
           class="card-actions-button"
@@ -60,31 +86,7 @@
         *ngIf="dataLoaded == false"
         mode="indeterminate"
       ></mat-progress-bar>
-      <div class="search-input-box">
-        <mat-form-field
-          *ngIf="searchHide"
-          appearance="outline"
-          style="width: 60%"
-          color="accent"
-        >
-          <mat-label>Ara</mat-label>
-          <input
-            matInput
-            [(ngModel)]="filterText"
-            (keyup)="filterDataSource()"
-            placeholder="Aranacak Kelimeyi Yazınız."
-          />
-          <button
-            matSuffix
-            mat-icon-button
-            aria-label="Clear"
-            (click)="filterText = ''"
-            (click)="filterDataSource()"
-          >
-            <mat-icon>{{ filterText ? "clear" : "search" }}</mat-icon>
-          </button>
-        </mat-form-field>
-      </div>
+
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
           <section class="section-example-container mat-elevation-z8">

@@ -81,7 +81,7 @@ export class CancellationViewComponent implements OnInit {
     if (this.data.status) {
       this.cancellationForm = this.formBuilder.group({
         userId: ['', Validators.required],
-        customerCode: ['', Validators.required],
+        customerCode: [''],
         customerNameSurname: ['', Validators.required],
         promissoryNumber: ['', Validators.required],
         transactionAmount: ['', Validators.required],
@@ -144,16 +144,20 @@ export class CancellationViewComponent implements OnInit {
           this.dialogRef.close('save');
         },
         (responseError) => {
-          if (responseError.error.ValidationErrors.length > 0) {
-            for (
-              let i = 0;
-              i < responseError.error.ValidationErrors.length;
-              i++
-            ) {
-              this.toastrService.error(
-                responseError.error.ValidationErrors[i].ErrorMessage,
-                'Doğrulama Hatası'
-              );
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
+            if (responseError.error.ValidationErrors.length > 0) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
+                this.toastrService.error(
+                  responseError.error.ValidationErrors[i].ErrorMessage,
+                  'Doğrulama Hatası'
+                );
+              }
             }
           }
         }
@@ -173,16 +177,20 @@ export class CancellationViewComponent implements OnInit {
           this.dialogRef.close('update');
         },
         (responseError) => {
-          if (responseError.error.ValidationErrors.length > 0) {
-            for (
-              let i = 0;
-              i < responseError.error.ValidationErrors.length;
-              i++
-            ) {
-              this.toastrService.error(
-                responseError.error.ValidationErrors[i].ErrorMessage,
-                'Doğrulama Hatası'
-              );
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
+            if (responseError.error.ValidationErrors.length > 0) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
+                this.toastrService.error(
+                  responseError.error.ValidationErrors[i].ErrorMessage,
+                  'Doğrulama Hatası'
+                );
+              }
             }
           }
         }

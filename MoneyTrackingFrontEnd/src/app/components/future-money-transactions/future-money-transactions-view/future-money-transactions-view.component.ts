@@ -5,11 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
+import { ToastrService } from 'ngx-toastr';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
 import { UserService } from 'src/app/services/user.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -76,7 +76,6 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
     }
   }
 
-
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
@@ -86,7 +85,7 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
   createFutureMoneyForm() {
     if (this.data.status) {
       this.futureMoneyForm = this.formBuilder.group({
-        userId: ['',Validators.required],
+        userId: ['', Validators.required],
         typeOfOperation: ['', Validators.required],
         customerCode: ['', Validators.required],
         customerNameSurname: ['', Validators.required],
@@ -101,7 +100,7 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
     } else if (!this.data.status) {
       this.futureMoneyForm = this.formBuilder.group({
         futureMoneyId: [this.data.row.futureMoneyId],
-        userId: ['',Validators.required],
+        userId: ['', Validators.required],
         typeOfOperation: ['', Validators.required],
         customerCode: ['', Validators.required],
         customerNameSurname: ['', Validators.required],
@@ -117,9 +116,7 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
   }
 
   editFutureMoneyForm() {
-    this.futureMoneyForm.controls['userId'].setValue(
-      this.data.row.userId
-    );
+    this.futureMoneyForm.controls['userId'].setValue(this.data.row.userId);
     this.futureMoneyForm.controls['typeOfOperation'].setValue(
       this.data.row.typeOfOperation
     );
@@ -164,16 +161,13 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
     } else {
       this.answer =
         futureMoneyModel.transactionAmount - futureMoneyModel.amountPaid;
-        this.futureMoneyForm.controls['futureAmount'].setValue(
-          this.answer
-         );
-         this.add();
+      this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
+      this.add();
     }
   }
 
-
   add() {
-    debugger
+    debugger;
     if (this.data.status) {
       if (this.futureMoneyForm.valid) {
         let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);

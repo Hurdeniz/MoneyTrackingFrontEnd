@@ -12,7 +12,7 @@
           matTooltipPosition="above"
           (click)="openAddDialog()"
         >
-          <mat-icon>add</mat-icon>
+          <mat-icon>person_add</mat-icon>
         </button>
         <button
           class="card-actions-button"
@@ -50,7 +50,7 @@
           (click)="filterText = ''"
           (click)="filterDataSource()"
         >
-          <mat-icon>search</mat-icon>
+          <mat-icon>person_search</mat-icon>
         </button>
       </div>
     </mat-card-actions>
@@ -85,12 +85,7 @@
         </mat-form-field>
       </div>
       <section class="section-example-container mat-elevation-z8">
-        <table
-          mat-table
-          id="staffTable"
-          [dataSource]="dataSource"
-          matSort
-        >
+        <table mat-table id="staffTable" [dataSource]="dataSource" matSort>
           <ng-container matColumnDef="identityNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               T.C. Kimlik No
@@ -184,16 +179,25 @@
                 matTooltipPosition="left"
                 (click)="openEditDialog(element)"
               >
-                <mat-icon>edit</mat-icon>
+                <mat-icon>manage_accounts</mat-icon>
               </button>
               <button
                 mat-icon-button
                 color="warn"
                 matTooltip="Sil"
-                matTooltipPosition="right"
+                matTooltipPosition="above"
                 (click)="openDeleteDialog(element)"
               >
-                <mat-icon>delete</mat-icon>
+                <mat-icon>person_remove</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="basic"
+                matTooltip="Çıkış Ver"
+                matTooltipPosition="above"
+                (click)="openCheckOutDialog(element)"
+              >
+                <mat-icon>person_off</mat-icon>
               </button>
             </td>
           </ng-container>

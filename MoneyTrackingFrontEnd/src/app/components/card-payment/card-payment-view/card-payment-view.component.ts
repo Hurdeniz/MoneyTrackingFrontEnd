@@ -37,9 +37,7 @@ export class CardPaymentViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.getAllBanks();
-
     if (this.data.status) {
       this.dateNow = new FormControl(
         moment().format('YYYY-MM-DD'),

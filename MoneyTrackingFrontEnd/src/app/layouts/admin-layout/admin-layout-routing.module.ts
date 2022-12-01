@@ -7,6 +7,11 @@ import { AdminLayoutComponent } from './admin-layout.component';
 const routes: Routes = [
   {path:"", component:AdminLayoutComponent,children:[
     {
+      path: "Bank",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/bank/bank.module").then(m => m.BankModule)
+    },
+    {
       path: "CardPayment",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/card-payment/card-payment.module").then(m => m.CardPaymentModule)
@@ -55,6 +60,16 @@ const routes: Routes = [
       path: "Staff",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/staff/staff.module").then(m => m.StaffModule)
+    },
+    {
+      path: "StaffEpisode",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/staff-episode/staff-episode.module").then(m => m.StaffEpisodeModule)
+    },
+    {
+      path: "StaffTask",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/staff-task/staff-task.module").then(m => m.StaffTaskModule)
     },
     {
       path: "ShipmentList",
