@@ -36,13 +36,14 @@ export class IncomingMoneyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data)
     this.dateNow = new FormControl(
       moment().format('YYYY-MM-DD'),
       Validators.required
     );
     this.dateInput = this.dateNow.value;
     this.createIncomingMoneyForm();
-    this.updateFutureMoneyForm();
+   // this.updateFutureMoneyForm();
   }
 
   addEvent(event: any) {
@@ -56,13 +57,7 @@ export class IncomingMoneyComponent implements OnInit {
       futureMoneyId: [this.data.futureMoneyId],
       incomingAmount: [this.data.futureAmount],
       incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
-      description: [''],
-    });
-  }
-
-  updateFutureMoneyForm() {
-    this.futureMoneyForm = this.formBuilder.group({
-      futureMoneyId: [this.data.futureMoneyId],
+      inComingMoneyDescription: [''],
       userId: [this.data.userId],
       typeOfOperation: [this.data.typeOfOperation],
       customerCode: [this.data.customerCode],
@@ -72,36 +67,44 @@ export class IncomingMoneyComponent implements OnInit {
       amountPaid: [this.answer],
       futureAmount: [this.data.futureAmount],
       futureMoneyRegistrationDate: [this.data.futureMoneyRegistrationDate],
-      description: [this.data.description],
+      futureMoneyDescription: [this.data.description],
       status: [this.futureMoneyStatus],
     });
   }
 
+
+
   add() {
+    debugger
     if (this.incomingMoneyForm.valid) {
       let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
       this.incomingMoneyService
         .add(incomingMoneyModel)
         .subscribe((response) => {
-          this.update();
+          this.toastrService.success(
+                    'Elden Gelecek Ödemesi Tamamlanmıştır.',
+                    'Başarılı'
+                  );
+                  this.incomingMoneyForm.reset();
+                  this.dialogRef.close('incoming');
         });
     }
   }
 
-  update() {
-    this.answer = this.data.amountPaid + this.data.futureAmount;
-    this.updateFutureMoneyForm();
-    if (this.futureMoneyForm.valid) {
-      let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
-      this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {
-        this.toastrService.success(
-          'Elden Gelecek Ödemesi Tamamlanmıştır.',
-          'Başarılı'
-        );
-        this.incomingMoneyForm.reset();
-        this.futureMoneyForm.reset();
-        this.dialogRef.close('incoming');
-      });
-    }
-  }
+  // update() {
+  //   this.answer = this.data.amountPaid + this.data.futureAmount;
+  //   this.updateFutureMoneyForm();
+  //   if (this.futureMoneyForm.valid) {
+  //     let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
+  //     this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {
+  //       this.toastrService.success(
+  //         'Elden Gelecek Ödemesi Tamamlanmıştır.',
+  //         'Başarılı'
+  //       );
+  //       this.incomingMoneyForm.reset();
+  //       this.futureMoneyForm.reset();
+  //       this.dialogRef.close('incoming');
+  //     });
+  //   }
+
 }

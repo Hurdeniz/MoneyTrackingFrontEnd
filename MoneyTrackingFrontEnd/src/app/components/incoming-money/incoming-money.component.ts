@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class IncomingMoneyComponent implements OnInit {
   incomingMoneyDetailsDto: IncomingMoneyDetailsDto[] = [];
-  displayedColumns: string[] = ['futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerNameSurname','promissoryNumber','transactionAmount', 'incomingMoneyRegistrationDate','incomingAmount','description', 'action'];
+  displayedColumns: string[] = ['futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerNameSurname','promissoryNumber','transactionAmount', 'incomingMoneyRegistrationDate','incomingAmount','inComingMoneyDescription', 'action'];
   dataSource: MatTableDataSource<IncomingMoneyDetailsDto> = new MatTableDataSource<IncomingMoneyDetailsDto>();
   dataLoaded = false;
   searchHide = false;

@@ -9,5 +9,5 @@ export interface IncomingMoneyDetailsDto {
   futureMoneyRegistrationDate:Date;
   incomingMoneyRegistrationDate:Date;
   incomingAmount:number;
-  description:string;
+  inComingMoneyDescription:string;
 }

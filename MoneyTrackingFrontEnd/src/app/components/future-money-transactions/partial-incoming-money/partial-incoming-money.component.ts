@@ -30,7 +30,6 @@ export class PartialIncomingMoneyComponent implements OnInit {
   amountPaid: number;
   dateNow: FormControl;
   dateInput: any;
-  answer: number;
 
   constructor(
     private incomingMoneyService: IncomingMoneyService,
@@ -56,7 +55,7 @@ export class PartialIncomingMoneyComponent implements OnInit {
     );
     this.dateInput = this.dateNow.value;
     this.createIncomingMoneyForm();
-    this.updateFutureMoneyForm();
+    //  this.updateFutureMoneyForm();
   }
   addEvent(event: any) {
     let date: Moment = event.value;
@@ -64,18 +63,21 @@ export class PartialIncomingMoneyComponent implements OnInit {
     this.createIncomingMoneyForm();
   }
 
+  // createIncomingMoneyForm() {
+  //   this.incomingMoneyForm = this.formBuilder.group({
+  //     futureMoneyId: [this.data.futureMoneyId],
+  //     incomingAmount: ['', Validators.required],
+  //     incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
+  //     description: [''],
+  //   });
+  // }
+
   createIncomingMoneyForm() {
     this.incomingMoneyForm = this.formBuilder.group({
       futureMoneyId: [this.data.futureMoneyId],
       incomingAmount: ['', Validators.required],
       incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
-      description: [''],
-    });
-  }
-
-  updateFutureMoneyForm() {
-    this.futureMoneyForm = this.formBuilder.group({
-      futureMoneyId: [this.data.futureMoneyId],
+      inComingMoneyDescription: [''],
       userId: [this.data.userId],
       typeOfOperation: [this.data.typeOfOperation],
       customerCode: [this.data.customerCode],
@@ -85,33 +87,55 @@ export class PartialIncomingMoneyComponent implements OnInit {
       amountPaid: [this.amountPaid],
       futureAmount: [this.futureAmount],
       futureMoneyRegistrationDate: [this.data.futureMoneyRegistrationDate],
-      description: [this.data.description],
+      futureMoneyDescription: [this.data.description],
       status: [this.data.status],
     });
   }
 
+  // updateFutureMoneyForm() {
+  //   this.futureMoneyForm = this.formBuilder.group({
+  //     futureMoneyId: [this.data.futureMoneyId],
+  //     userId: [this.data.userId],
+  //     typeOfOperation: [this.data.typeOfOperation],
+  //     customerCode: [this.data.customerCode],
+  //     customerNameSurname: [this.data.customerNameSurname],
+  //     promissoryNumber: [this.data.promissoryNumber],
+  //     transactionAmount: [this.data.transactionAmount],
+  //     amountPaid: [this.amountPaid],
+  //     futureAmount: [this.futureAmount],
+  //     futureMoneyRegistrationDate: [this.data.futureMoneyRegistrationDate],
+  //     description: [this.data.description],
+  //     status: [this.data.status],
+  //   });
+  // }
+
   control() {
-    let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
+    // let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
     let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
-    if (futureMoneyModel.futureAmount < incomingMoneyModel.incomingAmount) {
+    if (this.data.futureAmount < incomingMoneyModel.incomingAmount) {
       this.toastrService.error(
         'Gelen Tutar Gelecek Tutardan Büyük Olamaz',
         'Dikkat'
       );
-    } else if (
-      futureMoneyModel.futureAmount == incomingMoneyModel.incomingAmount
-    ) {
+    } else if (this.data.futureAmount == incomingMoneyModel.incomingAmount) {
       this.toastrService.error(
         'Ödemenin Tamamını Kapatmak İçin Lütfen Ödeme Kapat Butonunu Kullanın Sadece Kısmi Ödemeleri Buradan Yapabilsiniz.',
         'Dikkat'
       );
     } else {
-      this.answer = this.data.futureAmount - incomingMoneyModel.incomingAmount;
-      this.amountPaid =
+      let futureMoneyAnswer =
+        this.data.futureAmount - incomingMoneyModel.incomingAmount;
+      let amountPaidAnswer =
         this.data.amountPaid + incomingMoneyModel.incomingAmount;
-      this.futureAmount = this.answer;
-       this.updateFutureMoneyForm();
+      this.futureAmount = futureMoneyAnswer;
+      this.incomingMoneyForm.controls['amountPaid'].setValue(amountPaidAnswer);
+      this.incomingMoneyForm.controls['futureAmount'].setValue(
+        futureMoneyAnswer
+      );
+      //this.updateFutureMoneyForm();
        this.add();
+
+      console.log(this.incomingMoneyForm.value);
     }
   }
 
@@ -121,20 +145,23 @@ export class PartialIncomingMoneyComponent implements OnInit {
       this.incomingMoneyService
         .add(incomingMoneyModel)
         .subscribe((response) => {
-          this.update();
+          this.toastrService.success('Kısmi Ödeme Alınmıştır.', 'Başarılı');
+          this.incomingMoneyForm.reset();
+
+          this.dialogRef.close('partialincoming');
         });
     }
   }
 
-  update() {
-    if (this.futureMoneyForm.valid) {
-      let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
-      this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {
-        this.toastrService.success('Kısmi Ödeme Alınmıştır.', 'Başarılı');
-        this.incomingMoneyForm.reset();
-        this.futureMoneyForm.reset();
-        this.dialogRef.close('partialincoming');
-      });
-    }
-  }
+  // update() {
+  //   if (this.futureMoneyForm.valid) {
+  //     let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
+  //     this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {
+  //       this.toastrService.success('Kısmi Ödeme Alınmıştır.', 'Başarılı');
+  //       this.incomingMoneyForm.reset();
+  //       this.futureMoneyForm.reset();
+  //       this.dialogRef.close('partialincoming');
+  //     });
+  //   }
+  // }
 }

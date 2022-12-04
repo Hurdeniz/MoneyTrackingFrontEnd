@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-actions class="card-actions">
       <div class="col-start">
-        <mat-card-title>Kredi Kartı Çıkışları</mat-card-title>
+        <mat-card-title>Kasa Çıkışları</mat-card-title>
       </div>
       <div class="col-end">
         <button
@@ -47,7 +47,7 @@
           matTooltip="Yenile"
           matTooltipPosition="above"
           (click)="searchHide = false"
-          (click)="getAll()"
+          (click)="getAllMoneyOutputDetailByUserIdAndDate()"
         >
           <mat-icon>refresh</mat-icon>
         </button>
@@ -108,8 +108,6 @@
             </td>
             <td mat-footer-cell *matFooterCellDef>Toplam</td>
           </ng-container>
-
-
 
           <ng-container matColumnDef="totalAmount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tutar</th>

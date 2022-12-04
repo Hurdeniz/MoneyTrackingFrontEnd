@@ -16,10 +16,16 @@ export class MoneyOutputService {
     private httpClient: HttpClient
   ) { }
 
-  getByMoneyOutputDate(date:Date): Observable<ListResponseModel<MoneyOutputDetailsDto>> {
-    let newPath = this.apiUrl + 'MoneyOutput/GetByMoneyOutputDate?date='+date;
+  getAllMoneyOutputDetailByUserIdAndDate(userId:number , startDate:string , endDate:string): Observable<ListResponseModel<MoneyOutput>> {
+    let newPath = this.apiUrl + 'MoneyOutput/GetAllMoneyOutputDetailByUserIdAndDate?userId='+userId+'&startDate='+startDate+'&endDate='+endDate;
+    return this.httpClient.get<ListResponseModel<MoneyOutput>>(newPath);
+  }
+
+  getAllMoneyOutputDetailByDate(startDate:string , endDate:string): Observable<ListResponseModel<MoneyOutputDetailsDto>> {
+    let newPath = this.apiUrl + 'MoneyOutput/GetAllMoneyOutputDetailByDate?startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<MoneyOutputDetailsDto>>(newPath);
   }
+
 
   add(moneyOutput: MoneyOutput):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl+'MoneyOutput/Add',moneyOutput)
