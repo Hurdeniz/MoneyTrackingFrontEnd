@@ -7,29 +7,47 @@ import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CancellationService {
-
   constructor(
-    @Inject('apiUrl') private apiUrl:string,
+    @Inject('apiUrl') private apiUrl: string,
     private httpClient: HttpClient
   ) { }
 
-  getAllCancellationDetailByDate(startDate:string , endDate:string): Observable<ListResponseModel<CancellationDetailsDto>> {
-    let newPath = this.apiUrl + 'Cancellation/GetAllCancellationDetailByDate?startDate='+startDate+'&endDate='+endDate;
-    return this.httpClient.get<ListResponseModel<CancellationDetailsDto>>(newPath);
+  getAllCancellationDetailByDate(
+    startDate: string,
+    endDate: string
+  ): Observable<ListResponseModel<CancellationDetailsDto>> {
+    let newPath =
+      this.apiUrl +
+      'Cancellation/GetAllCancellationDetailByDate?startDate=' +
+      startDate +
+      '&endDate=' +
+      endDate;
+    return this.httpClient.get<ListResponseModel<CancellationDetailsDto>>(
+      newPath
+    );
   }
 
-  add(cancellation: Cancellation):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl+'Cancellation/Add',cancellation)
+  add(cancellation: Cancellation): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      this.apiUrl + 'Cancellation/Add',
+      cancellation
+    );
   }
 
-  update(cancellation: Cancellation):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl+'Cancellation/Update',cancellation)
+  update(cancellation: Cancellation): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      this.apiUrl + 'Cancellation/Update',
+      cancellation
+    );
   }
 
-  delete(cancellation: Cancellation):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl+'Cancellation/Delete',cancellation)
+  delete(cancellation: Cancellation): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      this.apiUrl + 'Cancellation/Delete',
+      cancellation
+    );
   }
 }

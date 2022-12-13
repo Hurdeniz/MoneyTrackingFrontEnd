@@ -160,6 +160,7 @@ export class FutureMoneyViewComponent implements OnInit {
   }
 
   add() {
+    debugger
       if (this.futureMoneyForm.valid) {
         let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
         this.futureMoneyService.add(futureMoneyModel).subscribe(

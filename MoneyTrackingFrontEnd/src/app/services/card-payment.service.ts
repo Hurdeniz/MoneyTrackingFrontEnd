@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardPayment } from '../models/cardPayment';
 import { CardPaymetDetailsDto } from '../models/Dtos/cardPaymentDetailsDto';
+import { CardPaymentGroupByBankNameDto } from '../models/Dtos/cardPaymentGroupByBankNameDto';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
 
@@ -16,14 +17,14 @@ export class CardPaymentService {
     private httpClient: HttpClient
   ) { }
 
-  getAllCardPaymentDetail(): Observable<ListResponseModel<CardPaymetDetailsDto>>{
-    let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentDetail';
-    return this.httpClient.get<ListResponseModel<CardPaymetDetailsDto>>(newPath);
-  }
-
   getAllCardPaymentDetailByUserIdAndDate(userId:number , startDate:string , endDate:string): Observable<ListResponseModel<CardPaymetDetailsDto>> {
     let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentDetailByUserIdAndDate?userId='+userId+'&startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<CardPaymetDetailsDto>>(newPath);
+  }
+
+  getAllCardPaymentsByDateGroupByBankName(date:string): Observable<ListResponseModel<CardPaymentGroupByBankNameDto>>{
+    let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentsByDateGroupByBankName?date='+date;
+    return this.httpClient.get<ListResponseModel<CardPaymentGroupByBankNameDto>>(newPath);
   }
 
   add(cardPayment: CardPayment):Observable<ResponseModel>{

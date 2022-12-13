@@ -1,1 +1,349 @@
-<p>money-output-transactions works!</p>
+<div class="example-container">
+  <mat-card>
+    <mat-card-actions class="card-actions">
+      <div class="col-start">
+        <mat-card-title>Kasa Çıkışları</mat-card-title>
+      </div>
+
+      <div class="col-center">
+        <mat-form-field appearance="outline" color="accent">
+          <mat-label>Tarih Seçiniz</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (dateInput)="addEvent($event)"
+            [formControl]="dateNow"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-end">
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yeni"
+          matTooltipPosition="above"
+          (click)="openAddDialog()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yazdır"
+          matTooltipPosition="above"
+        >
+          <mat-icon>print</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Excel"
+          matTooltipPosition="above"
+          (click)="exportXlsx()"
+        >
+          <mat-icon>description</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yenile"
+          matTooltipPosition="above"
+          (click)="searchHide = false"
+          (click)="getAllMoneyOutputDetailByDay()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Ara"
+          matTooltipPosition="above"
+          (click)="searchHide = !searchHide"
+          (click)="filterText = ''"
+          (click)="filterDataSource()"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </mat-card-actions>
+    <mat-card-content class="card-content">
+      <mat-progress-bar
+        *ngIf="dataLoaded == false"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      <div class="search-input-box">
+        <mat-form-field
+          *ngIf="searchHide"
+          appearance="outline"
+          style="width: 60%"
+          color="accent"
+        >
+          <mat-label>Ara</mat-label>
+          <input
+            matInput
+            [(ngModel)]="filterText"
+            (keyup)="filterDataSource()"
+            placeholder="Aranacak Kelimeyi Yazınız."
+          />
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="filterText = ''"
+            (click)="filterDataSource()"
+          >
+            <mat-icon>{{ filterText ? "clear" : "search" }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="section-example-container mat-elevation-z8">
+        <table
+          mat-table
+          id="moneyOutputTable"
+          [dataSource]="dataSource"
+          matSort
+        >
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.date | date : "yyyy-MM-dd" }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef>Toplam</td>
+          </ng-container>
+
+          <ng-container matColumnDef="userNameSurname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Kasa Personeli
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.userNameSurname }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tutar</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalAmount | currency : "₺" }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+              {{ getTotalAmount() | currency : "₺" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Açıklama</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.description }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                color="accent"
+                matTooltip="Düzenle"
+                matTooltipPosition="left"
+                (click)="openEditDialog(element)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                matTooltip="Sil"
+                matTooltipPosition="right"
+                (click)="openDeleteDialog(element)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+
+        <mat-paginator
+          [pageSize]="10"
+          [pageSizeOptions]="[10, 20, 30, 50, 100]"
+          showFirstLastButtons
+        >
+          >
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+<div class="container-fluid" style="padding: 10px;">
+<div class="row">
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Kasa</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Devir</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">İptal Tutarı</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">E-Gelecek</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">E-Gelen</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Merkez Ödemesi</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Firma Ödemesi</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Para Yatırma</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Kasa</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width" >
+          <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center;">Devir</mat-label>
+          <input
+          style="color: rgba(255, 255, 255, 0.87);"
+            matInput
+            disabled
+        value="{{getSumsDto.totalExpenditureAmount}}"
+
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+

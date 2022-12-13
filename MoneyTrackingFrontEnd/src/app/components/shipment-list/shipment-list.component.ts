@@ -173,6 +173,7 @@ export class ShipmentListComponent implements OnInit {
     this.dialog
       .open(ShipmentListFilterComponent, {
         width: '25%',
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

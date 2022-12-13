@@ -88,6 +88,7 @@ export class CardPaymentComponent implements OnInit {
           this.dataLoaded = true;
         },
         (responseError) => {
+          console.log(responseError)
           this.toastrService.error(responseError.data.message, 'Dikkat');
         }
       );
@@ -161,6 +162,8 @@ export class CardPaymentComponent implements OnInit {
   }
 
   printPage() {
+    let element = document.getElementById('cardPaymentTable');
+    let a = window.document.write(element.outerHTML);
     window.print();
   }
 }

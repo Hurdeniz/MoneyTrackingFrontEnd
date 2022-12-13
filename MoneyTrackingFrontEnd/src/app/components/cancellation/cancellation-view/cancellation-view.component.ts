@@ -144,6 +144,7 @@ export class CancellationViewComponent implements OnInit {
           this.dialogRef.close('save');
         },
         (responseError) => {
+          console.log(responseError)
           if (responseError.error.ValidationErrors == undefined) {
             this.toastrService.error(responseError.error, 'Dikkat');
           } else {

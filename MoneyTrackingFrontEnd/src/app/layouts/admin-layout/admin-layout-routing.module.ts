@@ -102,6 +102,11 @@ const routes: Routes = [
        loadChildren: () => import ("../../components/money-output/money-output.module").then(m => m.MoneyOutputModule)
     },
     {
+      path: "MoneyOutputTransactions",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/money-output-transactions/money-output-transactions.module").then(m => m.MoneyOutputTransactionsModule)
+    },
+    {
       path: "FutureMoneyTransactions",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/future-money-transactions/future-money-transactions.module").then(m => m.FutureMoneyTransactionsModule)

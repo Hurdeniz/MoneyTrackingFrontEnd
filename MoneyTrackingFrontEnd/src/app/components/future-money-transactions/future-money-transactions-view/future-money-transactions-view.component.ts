@@ -23,7 +23,6 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
   userStatus: boolean = true;
   futureMoneyForm: FormGroup;
   dateNow: FormControl;
-  para: FormControl;
   dateInput: any;
   actionBtnName: string;
   dialogTitle: string;
@@ -79,7 +78,9 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
-    this.getForms();
+    this.futureMoneyForm.controls['futureMoneyRegistrationDate'].setValue(
+      this.dateInput
+    );
   }
 
   createFutureMoneyForm() {

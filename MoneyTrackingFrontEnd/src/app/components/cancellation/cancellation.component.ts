@@ -89,7 +89,7 @@ export class CancellationComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((value) => {
-        if (value === 'save') {
+       if (value === 'save'){
           this.getAllCancellationDetailByDate();
         }
       });

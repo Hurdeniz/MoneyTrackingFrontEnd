@@ -30,7 +30,7 @@ export class AuthLayoutComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
@@ -39,21 +39,21 @@ export class AuthLayoutComponent implements OnInit {
   login() {
     if (this.loginForm.valid) {
       let loginModel = Object.assign({}, this.loginForm.value);
-
-      this.authService.login(loginModel).subscribe((res) => {
-        this.toastrService.success(res.message, 'Başarılı');
+      this.authService.login(loginModel).subscribe((response) => {
+        console.log(response)
+        this.toastrService.success('Sisteme Giriş Başarılı', 'Hoş Geldiniz');
 
         if (this.authService.redirectUrl) {
           this.router.navigate([this.authService.redirectUrl]);
         } else {
           this.router.navigate(['']);
         }
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('token', response.data.token);
 
       },
-      (err)=>{
+      (responseError)=>{
 
-
+this.toastrService.error(responseError.error,'Giriş Başarısız')
 
       });
 

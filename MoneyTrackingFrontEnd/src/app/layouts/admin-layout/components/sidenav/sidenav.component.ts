@@ -15,6 +15,11 @@ export class SidenavComponent implements OnInit {
 
   safetyBox:RouteInfo[]=[
     {
+      name:'Günlük Kasa',
+      icon:'credit_card',
+      path:'MoneyOutputTransactions'
+    },
+    {
       name:'Kredi Kartı',
       icon:'credit_card',
       path:'CardPayment'

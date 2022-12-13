@@ -5,14 +5,18 @@ import { MoneyOutputTransactionsRoutingModule } from './money-output-transaction
 import { MoneyOutputTransactionsComponent } from './money-output-transactions.component';
 import { MoneyOutputTransactionsViewComponent } from './money-output-transactions-view/money-output-transactions-view.component';
 import { MoneyOutputTransactionsDeleteComponent } from './money-output-transactions-delete/money-output-transactions-delete.component';
-import { MoneyOutputTransactionsFilterComponent } from './money-output-transactions-filter/money-output-transactions-filter.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [MoneyOutputTransactionsComponent, MoneyOutputTransactionsViewComponent, MoneyOutputTransactionsDeleteComponent, MoneyOutputTransactionsFilterComponent],
+  declarations: [MoneyOutputTransactionsComponent, MoneyOutputTransactionsViewComponent, MoneyOutputTransactionsDeleteComponent],
   imports: [
     CommonModule,
-    MoneyOutputTransactionsRoutingModule
+    MoneyOutputTransactionsRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class MoneyOutputTransactionsModule { }

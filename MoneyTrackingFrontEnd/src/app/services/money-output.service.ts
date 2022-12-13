@@ -26,6 +26,10 @@ export class MoneyOutputService {
     return this.httpClient.get<ListResponseModel<MoneyOutputDetailsDto>>(newPath);
   }
 
+  getAllMoneyOutputDetailByDay(day:string): Observable<ListResponseModel<MoneyOutputDetailsDto>> {
+    let newPath = this.apiUrl + 'MoneyOutput/GetAllMoneyOutputDetailByDay?day='+day;
+    return this.httpClient.get<ListResponseModel<MoneyOutputDetailsDto>>(newPath);
+  }
 
   add(moneyOutput: MoneyOutput):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl+'MoneyOutput/Add',moneyOutput)

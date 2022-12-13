@@ -32,6 +32,10 @@ mat-icon {
       justify-content: space-between;
       padding-left: 15px;
       padding-right: 15px;
+
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none !important;
+      }
     }
 
     .card-content {
@@ -105,4 +109,17 @@ mat-drawer-container{
     }
   }
 }
+}
+
+
+//money output
+
+.container-fluid{
+  .row{
+    margin: 0px;
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+  }
 }

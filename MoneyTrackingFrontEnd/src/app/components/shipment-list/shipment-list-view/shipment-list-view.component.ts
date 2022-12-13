@@ -37,6 +37,9 @@ export class ShipmentListViewComponent implements OnInit {
     );
     this.dateInput = this.dateNow.value;
     this.getForms();
+
+
+
   }
 
   addEvent(event: any) {
