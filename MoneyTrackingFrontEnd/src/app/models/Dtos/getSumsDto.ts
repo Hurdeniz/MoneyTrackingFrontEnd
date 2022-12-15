@@ -7,4 +7,5 @@ export interface GetSumsDto {
   totalIncomingMoneyAmount:number;
   totalMoneyDepositedAmount:number;
   totalMoneyOutputAmount:number;
+  turnover:number;
 }

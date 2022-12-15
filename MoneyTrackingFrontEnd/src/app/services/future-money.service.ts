@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FutureMoneyDetailsDto } from '../models/Dtos/futureMoneyDetailsDto';
+import { FutureMoneyGroupByCustomerDto } from '../models/Dtos/futureMoneyGroupByCustomerNameDto';
 import { FutureMoney } from '../models/futureMoney';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
@@ -22,19 +23,24 @@ export class FutureMoneyService {
   }
 
   getAllFutureMoneyDetailByUserIdAndStatus(userId:number,status:boolean): Observable<ListResponseModel<FutureMoneyDetailsDto>> {
-    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailByUserIdAndStatus?userId='+userId+'&status='+status
+    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyDetailByUserIdAndStatus?userId='+userId+'&status='+status;
     return this.httpClient.get<ListResponseModel<FutureMoneyDetailsDto>>(newPath);
   }
 
+  getAllFutureMoneyByDateGroupByCustomer(date:string): Observable<ListResponseModel<FutureMoneyGroupByCustomerDto>> {
+    let newPath = this.apiUrl + 'FutureMoney/GetAllFutureMoneyByDateGroupByCustomer?date='+date;
+    return this.httpClient.get<ListResponseModel<FutureMoneyGroupByCustomerDto>>(newPath);
+  }
+
   add(futureMoney: FutureMoney):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl+'FutureMoney/Add',futureMoney)
+    return this.httpClient.post<ResponseModel>(this.apiUrl+'FutureMoney/Add',futureMoney);
   }
 
   update(futureMoney: FutureMoney):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl+'FutureMoney/Update',futureMoney)
+    return this.httpClient.post<ResponseModel>(this.apiUrl+'FutureMoney/Update',futureMoney);
   }
 
   delete(futureMoney: FutureMoney):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl+'FutureMoney/Delete',futureMoney)
+    return this.httpClient.post<ResponseModel>(this.apiUrl+'FutureMoney/Delete',futureMoney);
   }
 }

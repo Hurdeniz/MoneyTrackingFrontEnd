@@ -1,0 +1,19 @@
+<h1 mat-dialog-title style="text-align: center;">Kasa Bilgileri</h1>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+ <h3> Tarih : {{date | date: "dd.MM.yyyy" }}</h3>
+ <h3> Kasa : {{ totalMoneyOutputAmount | currency: "₺ " }}</h3>
+ <h3> Devir : {{turnover | currency: "₺ " }}</h3>
+ <h3 *ngIf="incomingMoneyStatus"> E-Gelen : {{totalIncomingMoneyAmount | currency: "₺ " }}</h3>
+ <h3 *ngIf="futureMoneyStatus"> E-Gelecek : {{totalFutureMoneyAmount | currency: "₺ " }}</h3>
+ <h3> Toplam Kasa : {{totalSafeBox | currency: "₺ " }}</h3>
+ <div class="future-money-customer" *ngFor="let futureMoneyCustomers of futureMoneyGroupByCustomerDto">
+<h3>E-Gelecek : {{futureMoneyCustomers.customerCode }} - {{ futureMoneyCustomers.customerNameSurname}} - {{futureMoneyCustomers.futureAmount | currency: "₺ "}}</h3>
+ </div>
+ <div class="incoming-money-customer" *ngFor="let incomingMoneyCustomers of incomingMoneyGroupByCustomerDto">
+  <h3>E-Gelen : {{incomingMoneyCustomers.customerCode }} - {{ incomingMoneyCustomers.customerNameSurname}} - {{incomingMoneyCustomers.incomingAmount | currency: "₺ "}}</h3>
+   </div>
+ </mat-dialog-content>
+
+
+

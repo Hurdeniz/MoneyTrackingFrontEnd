@@ -16,7 +16,11 @@ import { CancellationService } from 'src/app/services/cancellation.service';
 import { GetSumsDto } from 'src/app/models/Dtos/getSumsDto';
 import { SafeBox } from 'src/app/models/safeBox';
 import { SafeBoxService } from 'src/app/services/safe-box.service';
+import { SafeBoxInformationComponent } from './safe-box-information/safe-box-information.component';
 const moment = _moment;
+
+
+
 
 @Component({
   selector: 'app-money-output-transactions',
@@ -25,18 +29,19 @@ const moment = _moment;
 })
 export class MoneyOutputTransactionsComponent {
   moneyOutputDetailsDto: MoneyOutputDetailsDto[] = [];
- // getSumsDto:GetSumsDto[]= [];
-  getSumsDto:GetSumsDto={
-    'totalCancellationAmount':0,
-    'totalCentralPayAmount':0,
-    'totalCustomerPayAmount':0,
-    'totalExpenditureAmount':0,
-    'totalFutureMoneyAmount':0,
-    'totalIncomingMoneyAmount':0,
-    'totalMoneyDepositedAmount':0,
-    'totalMoneyOutputAmount':0
+  getSumsDto: GetSumsDto = {
+    'totalCancellationAmount': 0,
+    'totalCentralPayAmount': 0,
+    'totalCustomerPayAmount': 0,
+    'totalExpenditureAmount': 0,
+    'totalFutureMoneyAmount': 0,
+    'totalIncomingMoneyAmount': 0,
+    'totalMoneyDepositedAmount': 0,
+    'totalMoneyOutputAmount': 0,
+    'turnover': 0,
   };
 
+  totalSafeBox: number;
   dataLoaded = false;
   searchHide = false;
   filterText: '';
@@ -54,15 +59,12 @@ export class MoneyOutputTransactionsComponent {
   @ViewChild(MatSort) sort: MatSort;
   day = moment().format('YYYY-MM-DD');
 
- // totalCancellationAmountData:any;
-  totalCancellationAmount:number;
-
   constructor(
     private moneyOutputService: MoneyOutputService,
-    private safeBoxService:SafeBoxService,
+    private safeBoxService: SafeBoxService,
     private dialog: MatDialog,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.dateNow = new FormControl(
@@ -70,7 +72,8 @@ export class MoneyOutputTransactionsComponent {
       Validators.required
     );
     this.getAllMoneyOutputDetailByDay();
-    this.deneme();
+    this.totalSumsByDay();
+
   }
 
   filterDataSource() {
@@ -87,7 +90,7 @@ export class MoneyOutputTransactionsComponent {
     let date: Moment = event.value;
     this.day = date.format('YYYY-MM-DD');
     this.getAllMoneyOutputDetailByDay();
-    this.deneme();
+    this.totalSumsByDay();
   }
 
 
@@ -111,14 +114,13 @@ export class MoneyOutputTransactionsComponent {
       );
   }
 
-  deneme() {
+  totalSumsByDay() {
     this.safeBoxService
       .totalSumsByDay(this.day)
       .subscribe(
         (response) => {
-this.getSumsDto=response.data;
-
-
+          this.getSumsDto = response.data;
+          this.totalSafeBox = (this.getSumsDto.totalMoneyOutputAmount + this.getSumsDto.turnover + this.getSumsDto.totalIncomingMoneyAmount) - (this.getSumsDto.totalCancellationAmount + this.getSumsDto.totalFutureMoneyAmount + this.getSumsDto.totalCentralPayAmount + this.getSumsDto.totalCustomerPayAmount + this.getSumsDto.totalMoneyDepositedAmount);
         },
         (responseError) => {
           this.toastrService.error(responseError.data.message, 'Dikkat');
@@ -168,6 +170,15 @@ this.getSumsDto=response.data;
           this.getAllMoneyOutputDetailByDay();
         }
       });
+  }
+
+  openSafeBoxInformationDialog() {
+    this.dialog
+      .open(SafeBoxInformationComponent, {
+        width: '500px',
+        data: { getSums: this.getSumsDto, date: this.day, totalSafeBox: this.totalSafeBox }
+      })
+
   }
 
 

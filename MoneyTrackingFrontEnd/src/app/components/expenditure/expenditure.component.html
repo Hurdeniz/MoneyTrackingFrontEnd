@@ -1,4 +1,4 @@
-<div class="example-container">
+<div id="expenditure" class="example-container">
 <mat-card>
   <mat-card-actions class="card-actions">
     <div class="col-start">
@@ -29,6 +29,9 @@
         mat-button
         matTooltip="Yazdır"
         matTooltipPosition="above"
+        printTitle="Money Tracking"
+        styleSheetFile="../../../assets/Scss/print/print.scss"
+        printSectionId="expenditure" ngxPrint
       >
         <mat-icon>print</mat-icon>
       </button>
@@ -102,7 +105,7 @@
           <td mat-cell *matCellDef="let element">
             {{ element.date | date: "yyyy-MM-dd" }}
           </td>
-          <td mat-footer-cell *matFooterCellDef>Toplam</td>
+          <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
         </ng-container>
 
         <ng-container matColumnDef="amount">
@@ -110,7 +113,7 @@
           <td mat-cell *matCellDef="let element">
             {{ element.amount | currency: "₺ " }}
           </td>
-          <td mat-footer-cell *matFooterCellDef>
+          <td class="td-footer" mat-footer-cell *matFooterCellDef>
             {{ getTotalCost() | currency: "₺ " }}
           </td>
         </ng-container>
@@ -123,9 +126,9 @@
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
+        <ng-container matColumnDef="action" stickyEnd>
+          <th class="action-header" mat-header-cell *matHeaderCellDef></th>
+          <td class="action-cell" mat-cell *matCellDef="let element">
             <button
               mat-icon-button
               color="accent"
@@ -145,7 +148,7 @@
               <mat-icon>delete</mat-icon>
             </button>
           </td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <td class="action-footer" mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

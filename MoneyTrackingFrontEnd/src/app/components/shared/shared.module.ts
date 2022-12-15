@@ -24,6 +24,7 @@ import {MatTableModule} from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {NgxPrintModule} from 'ngx-print';
 
 
 
@@ -53,6 +54,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatToolbarModule,
     MatTooltipModule,
     MatSortModule,
+    NgxPrintModule
 
   ],
   exports:[
@@ -79,6 +81,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatToolbarModule,
     MatTooltipModule,
     MatSortModule,
+    NgxPrintModule
 
   ]
 })

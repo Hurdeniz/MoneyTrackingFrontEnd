@@ -1,4 +1,4 @@
-<div class="example-container">
+<div id="future-money" class="example-container">
   <mat-card>
     <mat-card-actions class="card-actions">
       <div class="col-start">
@@ -19,6 +19,9 @@
           mat-button
           matTooltip="Yazdır"
           matTooltipPosition="above"
+          printTitle="Money Tracking"
+          styleSheetFile="../../../assets/Scss/print/print-main.scss"
+          printSectionId="future-money" ngxPrint
         >
           <mat-icon>print</mat-icon>
         </button>
@@ -97,7 +100,7 @@
             <td mat-cell *matCellDef="let element">
               {{ element.futureMoneyRegistrationDate | date: "yyyy-MM-dd" }}
             </td>
-            <td mat-footer-cell *matFooterCellDef>Toplam</td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
           </ng-container>
 
           <ng-container matColumnDef="typeOfOperation">
@@ -147,7 +150,7 @@
             <td mat-cell *matCellDef="let element">
               {{ element.transactionAmount | currency:"₺ " }}
             </td>
-            <td mat-footer-cell *matFooterCellDef>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
               {{ getTotalTransactionAmount() | currency: "₺ " }}
             </td>
           </ng-container>
@@ -159,7 +162,7 @@
             <td mat-cell *matCellDef="let element">
               {{ element.amountPaid | currency:"₺ " }}
             </td>
-            <td mat-footer-cell *matFooterCellDef>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
               {{ getTotalAmountPaid() | currency: "₺ " }}
             </td>
           </ng-container>
@@ -171,7 +174,7 @@
             <td mat-cell *matCellDef="let element">
               {{ element.futureAmount | currency:"₺ " }}
             </td>
-            <td mat-footer-cell *matFooterCellDef>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
               {{ getTotalFutureAmount() | currency: "₺ " }}
             </td>
           </ng-container>
@@ -185,8 +188,8 @@
           </ng-container>
 
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element">
+            <th class="action-header" mat-header-cell *matHeaderCellDef></th>
+            <td class="action-cell" mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
                 color="accent"
@@ -206,7 +209,7 @@
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
-            <td mat-footer-cell *matFooterCellDef></td>
+            <td class="action-footer" mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

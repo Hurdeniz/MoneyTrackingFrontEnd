@@ -161,9 +161,4 @@ export class CardPaymentComponent implements OnInit {
     XLSX.writeFile(wb, 'Kredi Kartı İşlemleri.xlsx');
   }
 
-  printPage() {
-    let element = document.getElementById('cardPaymentTable');
-    let a = window.document.write(element.outerHTML);
-    window.print();
-  }
 }
