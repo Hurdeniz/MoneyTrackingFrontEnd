@@ -15,8 +15,8 @@ export class MonetaryDeficitService {
     private httpClient: HttpClient
   ) { }
 
-  getAll(status:boolean): Observable<ListResponseModel<MonetaryDeficit>> {
-    let newPath = this.apiUrl + 'MonetaryDeficit/GetAll?status='+status;
+  getAll(): Observable<ListResponseModel<MonetaryDeficit>> {
+    let newPath = this.apiUrl + 'MonetaryDeficit/GetAll'
     return this.httpClient.get<ListResponseModel<MonetaryDeficit>>(newPath);
   }
 

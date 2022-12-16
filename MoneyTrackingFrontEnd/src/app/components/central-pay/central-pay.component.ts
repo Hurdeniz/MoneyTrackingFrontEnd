@@ -68,7 +68,7 @@ export class CentralPayComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(CentralPayViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -81,7 +81,7 @@ export class CentralPayComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(CentralPayViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -94,7 +94,7 @@ export class CentralPayComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(CentralPayFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -111,8 +111,9 @@ export class CentralPayComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(CentralPayDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

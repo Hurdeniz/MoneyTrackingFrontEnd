@@ -90,6 +90,7 @@ export class StaffEpisodeComponent {
       .open(StaffEpisodeDeleteComponent, {
         width: '20%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

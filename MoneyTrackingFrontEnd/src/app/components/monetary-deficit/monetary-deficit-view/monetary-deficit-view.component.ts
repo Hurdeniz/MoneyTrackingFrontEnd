@@ -65,7 +65,6 @@ export class MonetaryDeficitViewComponent implements OnInit {
         amount: ['', Validators.required],
         date:[this.dateInput,Validators.required],
         description: [''],
-        status:[this.status],
       });
     } else if (!this.data.status) {
       this.monetaryDeficitForm = this.formBuilder.group({
@@ -74,7 +73,6 @@ export class MonetaryDeficitViewComponent implements OnInit {
         amount: ['', Validators.required],
         date: [this.dateInput,Validators.required],
         description: [''],
-        status:[this.data.row.status],
       });
     }
   }

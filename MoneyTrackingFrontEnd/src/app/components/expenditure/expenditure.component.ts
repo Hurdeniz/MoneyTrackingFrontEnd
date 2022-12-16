@@ -96,7 +96,7 @@ export class ExpenditureComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(ExpenditureViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true, userId: this.userId },
       })
       .afterClosed()
@@ -110,7 +110,7 @@ export class ExpenditureComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(ExpenditureViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -124,7 +124,7 @@ export class ExpenditureComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(ExpenditureFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -141,8 +141,9 @@ export class ExpenditureComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(ExpenditureDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

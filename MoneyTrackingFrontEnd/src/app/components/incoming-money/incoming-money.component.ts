@@ -82,6 +82,7 @@ export class IncomingMoneyComponent implements OnInit {
       .open(IncomingMoneyDeleteComponent, {
         width: '30%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

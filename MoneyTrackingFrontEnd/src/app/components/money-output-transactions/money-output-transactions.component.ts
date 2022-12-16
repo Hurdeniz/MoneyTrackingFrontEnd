@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MoneyOutputTransactionsViewComponent } from './money-output-transactions-view/money-output-transactions-view.component';
 import { MoneyOutputTransactionsDeleteComponent } from './money-output-transactions-delete/money-output-transactions-delete.component';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,6 +17,9 @@ import { GetSumsDto } from 'src/app/models/Dtos/getSumsDto';
 import { SafeBox } from 'src/app/models/safeBox';
 import { SafeBoxService } from 'src/app/services/safe-box.service';
 import { SafeBoxInformationComponent } from './safe-box-information/safe-box-information.component';
+import { CardPaymentInformationComponent } from './card-payment-information/card-payment-information.component';
+import { CardPaymentCountDto } from 'src/app/models/Dtos/cardPaymentCountDto';
+import { CardPaymentService } from 'src/app/services/card-payment.service';
 const moment = _moment;
 
 
@@ -40,7 +43,8 @@ export class MoneyOutputTransactionsComponent {
     'totalMoneyOutputAmount': 0,
     'turnover': 0,
   };
-
+  cardPaymentCountDto: CardPaymentCountDto;
+  safeBoxForm: FormGroup;
   totalSafeBox: number;
   dataLoaded = false;
   searchHide = false;
@@ -62,6 +66,8 @@ export class MoneyOutputTransactionsComponent {
   constructor(
     private moneyOutputService: MoneyOutputService,
     private safeBoxService: SafeBoxService,
+    private cardPaymentService: CardPaymentService,
+    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) { }
@@ -73,6 +79,9 @@ export class MoneyOutputTransactionsComponent {
     );
     this.getAllMoneyOutputDetailByDay();
     this.totalSumsByDay();
+    this.createSafeBoxForm();
+    this.cardPaymentCount();
+
 
   }
 
@@ -91,9 +100,9 @@ export class MoneyOutputTransactionsComponent {
     this.day = date.format('YYYY-MM-DD');
     this.getAllMoneyOutputDetailByDay();
     this.totalSumsByDay();
+    this.cardPaymentCount();
+
   }
-
-
 
   getAllMoneyOutputDetailByDay() {
     this.moneyOutputService
@@ -114,6 +123,12 @@ export class MoneyOutputTransactionsComponent {
       );
   }
 
+  cardPaymentCount() {
+    this.cardPaymentService.countByDate(this.day).subscribe((response) => {
+      this.cardPaymentCountDto = response.data;
+    })
+  }
+
   totalSumsByDay() {
     this.safeBoxService
       .totalSumsByDay(this.day)
@@ -121,6 +136,8 @@ export class MoneyOutputTransactionsComponent {
         (response) => {
           this.getSumsDto = response.data;
           this.totalSafeBox = (this.getSumsDto.totalMoneyOutputAmount + this.getSumsDto.turnover + this.getSumsDto.totalIncomingMoneyAmount) - (this.getSumsDto.totalCancellationAmount + this.getSumsDto.totalFutureMoneyAmount + this.getSumsDto.totalCentralPayAmount + this.getSumsDto.totalCustomerPayAmount + this.getSumsDto.totalMoneyDepositedAmount);
+          this.createSafeBoxForm();
+
         },
         (responseError) => {
           this.toastrService.error(responseError.data.message, 'Dikkat');
@@ -128,6 +145,54 @@ export class MoneyOutputTransactionsComponent {
       );
   }
 
+  createSafeBoxForm() {
+    this.safeBoxForm = this.formBuilder.group({
+      totalMoneyOutputAmount: [this.getSumsDto.totalMoneyOutputAmount],
+      totalCancellationAmount: [this.getSumsDto.totalCancellationAmount],
+      totalFutureMoneyAmount: [this.getSumsDto.totalFutureMoneyAmount],
+      totalIncomingMoneyAmount: [this.getSumsDto.totalIncomingMoneyAmount],
+      totalCentralPayAmount: [this.getSumsDto.totalCentralPayAmount],
+      totalCustomerPayAmount: [this.getSumsDto.totalCustomerPayAmount],
+      totalMonetaryDepositedAmount: [this.getSumsDto.totalMoneyDepositedAmount],
+      totalSafeBoxAmount: [this.totalSafeBox],
+      date: [this.day],
+      description: [''],
+    });
+
+  }
+
+  addSafeBox() {
+    if (this.safeBoxForm.valid) {
+      let safeBoxModel = Object.assign({}, this.safeBoxForm.value);
+      this.safeBoxService.add(safeBoxModel).subscribe(
+        (response) => {
+          this.toastrService.success(response.message, 'Başarılı');
+          this.safeBoxForm.reset();
+
+        },
+        (responseError) => {
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
+            if (responseError.error.ValidationErrors.length > 0) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
+                this.toastrService.error(
+                  responseError.error.ValidationErrors[i].ErrorMessage,
+                  'Doğrulama Hatası'
+                );
+              }
+            }
+          }
+        }
+      );
+    } else {
+      this.toastrService.error('Formunuz Eksik', 'Dikkat');
+    }
+  }
 
 
   openAddDialog() {
@@ -138,6 +203,7 @@ export class MoneyOutputTransactionsComponent {
       })
       .afterClosed()
       .subscribe((value) => {
+        console.log(value)
         if (value === 'save') {
           this.getAllMoneyOutputDetailByDay();
         }
@@ -163,6 +229,7 @@ export class MoneyOutputTransactionsComponent {
       .open(MoneyOutputTransactionsDeleteComponent, {
         width: '30%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {
@@ -179,6 +246,19 @@ export class MoneyOutputTransactionsComponent {
         data: { getSums: this.getSumsDto, date: this.day, totalSafeBox: this.totalSafeBox }
       })
 
+  }
+
+  openCardPaymentInformationDialog() {
+    if (this.cardPaymentCountDto.count == 0) {
+      this.toastrService.info('Kayıtlı Kredi Kartı Bilgisi Yoktur', 'Bilgi')
+    }
+    else {
+      this.dialog
+        .open(CardPaymentInformationComponent, {
+          width: '300px',
+          data: this.day
+        })
+    }
   }
 
 

@@ -30,7 +30,7 @@ export class FutureMoneyTransactionsComponent implements OnInit {
     'amountPaid',
     'futureAmount',
     'description',
-    'action',
+    'actions',
   ];
   dataSource: MatTableDataSource<FutureMoneyDetailsDto> =
     new MatTableDataSource<FutureMoneyDetailsDto>();
@@ -86,7 +86,7 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(FutureMoneyTransactionsViewComponent, {
-        width: '40%',
+        width: '600px',
         data: { status: true },
       })
       .afterClosed()
@@ -100,7 +100,7 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(FutureMoneyTransactionsViewComponent, {
-        width: '40%',
+        width: '600px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -114,8 +114,9 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(FutureMoneyTransactionsDeleteComponent, {
-        width: '30%',
+        width: '500px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {
@@ -128,7 +129,7 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   openIncomingDialog(row: any) {
     this.dialog
       .open(IncomingMoneyComponent, {
-        width: '25%',
+        width: '350px',
         data: row,
       })
       .afterClosed()
@@ -142,7 +143,7 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   openPartialIncomingDialog(row: any) {
     this.dialog
       .open(PartialIncomingMoneyComponent, {
-        width: '40%',
+        width: '600px',
         data: row,
       })
       .afterClosed()

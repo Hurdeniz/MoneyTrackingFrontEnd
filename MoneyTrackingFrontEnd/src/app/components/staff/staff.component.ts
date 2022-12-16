@@ -105,6 +105,7 @@ export class StaffComponent implements OnInit {
       .open(StaffDeleteComponent, {
         width: '25%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

@@ -2,10 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardPayment } from '../models/cardPayment';
+import { CardPaymentCountDto } from '../models/Dtos/cardPaymentCountDto';
 import { CardPaymetDetailsDto } from '../models/Dtos/cardPaymentDetailsDto';
 import { CardPaymentGroupByBankNameDto } from '../models/Dtos/cardPaymentGroupByBankNameDto';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
+import { SingleResponseModel } from '../models/singleResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,11 @@ export class CardPaymentService {
   getAllCardPaymentsByDateGroupByBankName(date:string): Observable<ListResponseModel<CardPaymentGroupByBankNameDto>>{
     let newPath = this.apiUrl + 'CardPayment/GetAllCardPaymentsByDateGroupByBankName?date='+date;
     return this.httpClient.get<ListResponseModel<CardPaymentGroupByBankNameDto>>(newPath);
+  }
+
+  countByDate(date:string): Observable<SingleResponseModel<CardPaymentCountDto>> {
+    let newPath = this.apiUrl + 'CardPayment/CountByDate?date='+date ;
+    return this.httpClient.get<SingleResponseModel<CardPaymentCountDto>>(newPath);
   }
 
   add(cardPayment: CardPayment):Observable<ResponseModel>{

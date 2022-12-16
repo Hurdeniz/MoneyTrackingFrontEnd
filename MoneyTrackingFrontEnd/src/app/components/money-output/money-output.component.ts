@@ -42,7 +42,7 @@ export class MoneyOutputComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -97,7 +97,7 @@ export class MoneyOutputComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(MoneyOutputViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true, userId: this.userId },
       })
       .afterClosed()
@@ -111,7 +111,7 @@ export class MoneyOutputComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(MoneyOutputViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -125,8 +125,9 @@ export class MoneyOutputComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(MoneyOutputDeleteComponent, {
-        width: '25%',
+        width: '450px',
         data: row,
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {
@@ -138,7 +139,7 @@ export class MoneyOutputComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(MoneyOutputFilterComponent, {
-        width: '20%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {

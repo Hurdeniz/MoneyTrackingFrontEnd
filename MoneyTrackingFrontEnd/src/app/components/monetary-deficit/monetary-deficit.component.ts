@@ -27,7 +27,6 @@ export class MonetaryDeficitComponent implements OnInit {
     new MatTableDataSource<MonetaryDeficit>();
   dataLoaded = false;
   searchHide = false;
-  status: boolean = true;
   filterText: '';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -53,7 +52,7 @@ export class MonetaryDeficitComponent implements OnInit {
   }
 
   getAll() {
-    this.monetaryDeficitService.getAll(this.status).subscribe(
+    this.monetaryDeficitService.getAll().subscribe(
       (response) => {
         this.monetaryDeficit = response.data;
         this.dataSource = new MatTableDataSource<MonetaryDeficit>(
@@ -72,7 +71,7 @@ export class MonetaryDeficitComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(MonetaryDeficitViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -86,7 +85,7 @@ export class MonetaryDeficitComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(MonetaryDeficitViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -100,8 +99,9 @@ export class MonetaryDeficitComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(MonetaryDeficitDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

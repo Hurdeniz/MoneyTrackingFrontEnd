@@ -181,6 +181,7 @@ export class SatifactionComponent implements OnInit {
       .open(SatisfactionDeleteComponent, {
         width: '30%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

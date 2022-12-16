@@ -30,7 +30,7 @@ export class StaffTaskComponent {
     private staffTaskService: StaffTaskService,
     private dialog: MatDialog,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAll();
@@ -88,6 +88,7 @@ export class StaffTaskComponent {
       .open(StaffTaskDeleteComponent, {
         width: '20%',
         data: row,
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {

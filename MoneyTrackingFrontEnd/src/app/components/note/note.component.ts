@@ -78,7 +78,7 @@ export class NoteComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(NoteViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true, userId:this.userId },
       })
       .afterClosed()
@@ -92,7 +92,7 @@ export class NoteComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(NoteViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -106,8 +106,9 @@ export class NoteComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(NoteDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

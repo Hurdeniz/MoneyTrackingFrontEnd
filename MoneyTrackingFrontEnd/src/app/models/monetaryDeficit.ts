@@ -4,5 +4,4 @@ export interface MonetaryDeficit {
   amount:number;
   date:string;
   description:string;
-  status:Boolean;
 }

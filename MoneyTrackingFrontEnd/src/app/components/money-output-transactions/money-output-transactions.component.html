@@ -33,6 +33,16 @@
         </button>
 
         <button
+        class="card-actions-button"
+        mat-button
+        matTooltip="Kredi Kartı Detayları"
+        matTooltipPosition="above"
+        (click)="openCardPaymentInformationDialog()"
+      >
+        <mat-icon>credit_card</mat-icon>
+      </button>
+
+        <button
           class="card-actions-button"
           mat-button
           matTooltip="Yazdır"
@@ -310,15 +320,16 @@
     </div>
   </div>
   <div class="row center-xs center-sm center-md center-lg center-xl">
-    <div class="col" style="padding: 5px">
+    <div [formGroup]="safeBoxForm" class="col" style="padding: 5px">
       <mat-form-field
         appearance="outline"
         color="accent"
         class="full-width"
         style="width: 400px"
+
       >
         <mat-label>Açıklama</mat-label>
-        <textarea matInput style="height: 110px"></textarea>
+        <textarea matInput style="height: 110px"  formControlName="description"></textarea>
       </mat-form-field>
     </div>
   </div>
@@ -328,7 +339,7 @@
       <button mat-raised-button color="primary" style="width: 150px;" (click)="openSafeBoxInformationDialog()">Göster</button>
     </div>
     <div class="col" style="padding: 5px">
-      <button mat-raised-button color="primary" style="width:150px" >Kaydet</button>
+      <button mat-raised-button color="primary" style="width:150px" (click)="addSafeBox()" >Kaydet</button>
     </div>
 
 

@@ -32,7 +32,7 @@ export class FutureMoneyViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<FutureMoneyViewComponent>,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.data.status) {
@@ -51,6 +51,7 @@ export class FutureMoneyViewComponent implements OnInit {
       this.dateInput = this.data.row.futureMoneyRegistrationDate;
       this.actionBtnName = 'Güncelle';
       this.dialogTitle = 'Elden Gelecek Güncelle';
+      this.answer=this.data.row.futureAmount;
     }
     this.getForms();
   }
@@ -161,15 +162,18 @@ export class FutureMoneyViewComponent implements OnInit {
 
   add() {
     debugger
-      if (this.futureMoneyForm.valid) {
-        let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
-        this.futureMoneyService.add(futureMoneyModel).subscribe(
-          (response) => {
-            this.toastrService.success(response.message, 'Başarılı');
-            this.futureMoneyForm.reset();
-            this.dialogRef.close('save');
-          },
-          (responseError) => {
+    if (this.futureMoneyForm.valid) {
+      let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
+      this.futureMoneyService.add(futureMoneyModel).subscribe(
+        (response) => {
+          this.toastrService.success(response.message, 'Başarılı');
+          this.futureMoneyForm.reset();
+          this.dialogRef.close('save');
+        },
+        (responseError) => {
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
             if (responseError.error.ValidationErrors.length > 0) {
               for (
                 let i = 0;
@@ -183,13 +187,14 @@ export class FutureMoneyViewComponent implements OnInit {
               }
             }
           }
-        );
-      } else {
-        this.toastrService.error(
-          'Lütfen Tüm Zorunlu Alanları Doldurun',
-          'Dikkat'
-        );
-      }
+        }
+      );
+    } else {
+      this.toastrService.error(
+        'Lütfen Tüm Zorunlu Alanları Doldurun',
+        'Dikkat'
+      );
+    }
   }
 
   update() {
@@ -202,6 +207,9 @@ export class FutureMoneyViewComponent implements OnInit {
           this.dialogRef.close('update');
         },
         (responseError) => {
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
           if (responseError.error.ValidationErrors.length > 0) {
             for (
               let i = 0;
@@ -215,6 +223,7 @@ export class FutureMoneyViewComponent implements OnInit {
             }
           }
         }
+      }
       );
     } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');

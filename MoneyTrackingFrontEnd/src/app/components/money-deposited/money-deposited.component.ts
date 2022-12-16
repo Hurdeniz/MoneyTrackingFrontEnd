@@ -79,7 +79,7 @@ export class MoneyDepositedComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(MoneyDepositedViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -93,7 +93,7 @@ export class MoneyDepositedComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(MoneyDepositedViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -107,7 +107,7 @@ export class MoneyDepositedComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(MoneyDepositedFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -124,8 +124,9 @@ export class MoneyDepositedComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(MoneyDepositedDeleteComponent, {
-        width: '35%',
+        width: '480px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

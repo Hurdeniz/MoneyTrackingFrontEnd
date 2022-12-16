@@ -87,6 +87,7 @@ export class BankComponent {
       .open(BankDeleteComponent, {
         width: '20%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

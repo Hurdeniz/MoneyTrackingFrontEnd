@@ -207,6 +207,7 @@ export class ResearchListComponent implements OnInit {
       .open(ResearchListDeleteComponent, {
         width: '30%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

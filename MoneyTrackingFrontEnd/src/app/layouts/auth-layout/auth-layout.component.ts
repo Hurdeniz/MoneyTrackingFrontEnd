@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class AuthLayoutComponent implements OnInit {
 
-  hide=true;
+  hide = true;
   loginForm: FormGroup;
 
 
@@ -40,7 +40,6 @@ export class AuthLayoutComponent implements OnInit {
     if (this.loginForm.valid) {
       let loginModel = Object.assign({}, this.loginForm.value);
       this.authService.login(loginModel).subscribe((response) => {
-        console.log(response)
         this.toastrService.success('Sisteme Giriş Başarılı', 'Hoş Geldiniz');
 
         if (this.authService.redirectUrl) {
@@ -49,13 +48,10 @@ export class AuthLayoutComponent implements OnInit {
           this.router.navigate(['']);
         }
         localStorage.setItem('token', response.data.token);
-
       },
-      (responseError)=>{
-
-this.toastrService.error(responseError.error,'Giriş Başarısız')
-
-      });
+        (responseError) => {
+          this.toastrService.error(responseError.error, 'Giriş Başarısız')
+        });
 
     } else {
     }

@@ -127,11 +127,17 @@ export class CancellationViewComponent implements OnInit {
   }
 
   statusControl() {
+    let cancellationControl = Object.assign({}, this.cancellationForm.value);
+    if(cancellationControl.transactionAmount<cancellationControl.cancellationAmount){
+      this.toastrService.error('İşlem Tutarı İptal Tutarından Küçük Olamaz', 'Dikkat');
+    }
+    else{
     if (this.data.status) {
       this.add();
     } else if (!this.data.status) {
       this.update();
     }
+  }
   }
 
   add() {
@@ -144,7 +150,6 @@ export class CancellationViewComponent implements OnInit {
           this.dialogRef.close('save');
         },
         (responseError) => {
-          console.log(responseError)
           if (responseError.error.ValidationErrors == undefined) {
             this.toastrService.error(responseError.error, 'Dikkat');
           } else {

@@ -91,7 +91,7 @@ export class FutureMoneyComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(FutureMoneyViewComponent, {
-        width: '40%',
+        width: '600px',
         data: { status: true, userId: this.userId }
       })
       .afterClosed()
@@ -105,7 +105,7 @@ export class FutureMoneyComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(FutureMoneyViewComponent, {
-        width: '40%',
+        width: '600px',
         data: { status: false, row }
       })
       .afterClosed()
@@ -119,8 +119,9 @@ export class FutureMoneyComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(FutureMoneyDeleteComponent, {
-        width: '30%',
+        width: '500px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

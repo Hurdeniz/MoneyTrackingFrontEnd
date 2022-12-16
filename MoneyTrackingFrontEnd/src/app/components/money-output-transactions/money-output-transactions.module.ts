@@ -8,10 +8,11 @@ import { MoneyOutputTransactionsDeleteComponent } from './money-output-transacti
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { SafeBoxInformationComponent } from './safe-box-information/safe-box-information.component';
+import { CardPaymentInformationComponent } from './card-payment-information/card-payment-information.component';
 
 
 @NgModule({
-  declarations: [MoneyOutputTransactionsComponent, MoneyOutputTransactionsViewComponent, MoneyOutputTransactionsDeleteComponent, SafeBoxInformationComponent],
+  declarations: [MoneyOutputTransactionsComponent, MoneyOutputTransactionsViewComponent, MoneyOutputTransactionsDeleteComponent, SafeBoxInformationComponent, CardPaymentInformationComponent],
   imports: [
     CommonModule,
     MoneyOutputTransactionsRoutingModule,

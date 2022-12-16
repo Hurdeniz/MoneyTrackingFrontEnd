@@ -206,6 +206,7 @@ export class ShipmentListComponent implements OnInit {
       .open(ShipmentListDeleteComponent, {
         width: '30%',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

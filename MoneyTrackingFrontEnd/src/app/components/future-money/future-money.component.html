@@ -20,8 +20,9 @@
           matTooltip="Yazdır"
           matTooltipPosition="above"
           printTitle="Money Tracking"
-          styleSheetFile="../../../assets/Scss/print/print-main.scss"
-          printSectionId="future-money" ngxPrint
+          styleSheetFile="../../../assets/Scss/print/print.scss"
+          printSectionId="future-money"
+          ngxPrint
         >
           <mat-icon>print</mat-icon>
         </button>
@@ -65,9 +66,9 @@
       ></mat-progress-bar>
       <div class="search-input-box">
         <mat-form-field
+          class="search"
           *ngIf="searchHide"
-          appearance="outline"
-          style="width: 60%"
+          appearance="fill"
           color="accent"
         >
           <mat-label>Ara</mat-label>
@@ -98,7 +99,7 @@
           <ng-container matColumnDef="futureMoneyRegistrationDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.futureMoneyRegistrationDate | date: "yyyy-MM-dd" }}
+              {{ element.futureMoneyRegistrationDate | date : "yyyy-MM-dd" }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
           </ng-container>
@@ -148,10 +149,10 @@
               İşlem Tutarı
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.transactionAmount | currency:"₺ " }}
+              {{ element.transactionAmount | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalTransactionAmount() | currency: "₺ " }}
+              {{ getTotalTransactionAmount() | currency : "₺ " }}
             </td>
           </ng-container>
 
@@ -160,10 +161,10 @@
               Ödenen Tutar
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.amountPaid | currency:"₺ " }}
+              {{ element.amountPaid | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalAmountPaid() | currency: "₺ " }}
+              {{ getTotalAmountPaid() | currency : "₺ " }}
             </td>
           </ng-container>
 
@@ -172,10 +173,10 @@
               Gelecek Tutar
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.futureAmount | currency:"₺ " }}
+              {{ element.futureAmount | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalFutureAmount() | currency: "₺ " }}
+              {{ getTotalFutureAmount() | currency : "₺ " }}
             </td>
           </ng-container>
 
@@ -187,7 +188,7 @@
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <ng-container matColumnDef="action">
+          <ng-container matColumnDef="action" stickyEnd>
             <th class="action-header" mat-header-cell *matHeaderCellDef></th>
             <td class="action-cell" mat-cell *matCellDef="let element">
               <button

@@ -77,7 +77,7 @@ export class CustomerPayComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(CustomerPayViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -90,7 +90,7 @@ export class CustomerPayComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(CustomerPayViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -103,7 +103,7 @@ export class CustomerPayComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(CustomerPayFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -119,8 +119,9 @@ export class CustomerPayComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(CustomerPayDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title style="text-align: center">Kredi Kart Bilgileri</h1>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <div
+    class="card-payment-group-bankName"
+    *ngFor="let cardPayment of cardPaymentGroupByBankNameDto"
+  >
+    <h3>
+      {{ cardPayment.bankName }} : {{ cardPayment.amount | currency : "₺ " }}
+    </h3>
+  </div>
+</mat-dialog-content>

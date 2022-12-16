@@ -36,7 +36,7 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<FutureMoneyTransactionsViewComponent>,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllUserByStatus();
@@ -179,16 +179,20 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
             this.dialogRef.close('save');
           },
           (responseError) => {
-            if (responseError.error.ValidationErrors.length > 0) {
-              for (
-                let i = 0;
-                i < responseError.error.ValidationErrors.length;
-                i++
-              ) {
-                this.toastrService.error(
-                  responseError.error.ValidationErrors[i].ErrorMessage,
-                  'Doğrulama Hatası'
-                );
+            if (responseError.error.ValidationErrors == undefined) {
+              this.toastrService.error(responseError.error, 'Dikkat');
+            } else {
+              if (responseError.error.ValidationErrors.length > 0) {
+                for (
+                  let i = 0;
+                  i < responseError.error.ValidationErrors.length;
+                  i++
+                ) {
+                  this.toastrService.error(
+                    responseError.error.ValidationErrors[i].ErrorMessage,
+                    'Doğrulama Hatası'
+                  );
+                }
               }
             }
           }
@@ -209,21 +213,26 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
       let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
       this.futureMoneyService.update(futureMoneyModel).subscribe(
         (response) => {
+
           this.toastrService.success(response.message, 'Başarılı');
           this.futureMoneyForm.reset();
           this.dialogRef.close('update');
         },
         (responseError) => {
-          if (responseError.error.ValidationErrors.length > 0) {
-            for (
-              let i = 0;
-              i < responseError.error.ValidationErrors.length;
-              i++
-            ) {
-              this.toastrService.error(
-                responseError.error.ValidationErrors[i].ErrorMessage,
-                'Doğrulama Hatası'
-              );
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
+            if (responseError.error.ValidationErrors.length > 0) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
+                this.toastrService.error(
+                  responseError.error.ValidationErrors[i].ErrorMessage,
+                  'Doğrulama Hatası'
+                );
+              }
             }
           }
         }

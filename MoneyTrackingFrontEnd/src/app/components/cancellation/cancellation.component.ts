@@ -84,7 +84,7 @@ export class CancellationComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(CancellationViewComponent, {
-        width: '40%',
+        width: '600px',
         data: { status: true },
       })
       .afterClosed()
@@ -98,7 +98,7 @@ export class CancellationComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(CancellationViewComponent, {
-        width: '40%',
+        width: '600px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -112,7 +112,7 @@ export class CancellationComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(CancellationFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -129,8 +129,9 @@ export class CancellationComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(CancellationDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {

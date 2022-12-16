@@ -88,7 +88,6 @@ export class CardPaymentComponent implements OnInit {
           this.dataLoaded = true;
         },
         (responseError) => {
-          console.log(responseError)
           this.toastrService.error(responseError.data.message, 'Dikkat');
         }
       );
@@ -97,7 +96,7 @@ export class CardPaymentComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(CardPaymentViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: true, userId: this.userId },
       })
       .afterClosed()
@@ -111,7 +110,7 @@ export class CardPaymentComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(CardPaymentViewComponent, {
-        width: '25%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -125,7 +124,7 @@ export class CardPaymentComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(CardPaymentFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -142,8 +141,9 @@ export class CardPaymentComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(CardPaymentDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
+        disableClose:true
       })
       .afterClosed()
       .subscribe((value) => {
