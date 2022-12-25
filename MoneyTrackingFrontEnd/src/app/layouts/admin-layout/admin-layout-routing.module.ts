@@ -121,6 +121,11 @@ const routes: Routes = [
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/satifaction/satifaction.module").then(m => m.SatifactionModule)
     },
+    {
+      path: "User",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/user/user.module").then(m => m.UserModule)
+    },
 
   ]
 

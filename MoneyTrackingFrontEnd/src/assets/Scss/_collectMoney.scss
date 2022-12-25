@@ -1,0 +1,33 @@
+@mixin button {
+  height: 50px;
+  font-size: 18px;
+}
+
+.collect-form {
+  height: 90%;
+  .container-fluid {
+    height: 90%;
+    .form-row {
+      padding: 10px;
+      margin: 0px;
+      height: 60%;
+
+      .col {
+        padding: 5px;
+      }
+    }
+  }
+
+  .button-row {
+    height: 60px;
+    .total-button {
+      @include button();
+      width: 300px;
+    }
+
+    .answer {
+      @include button();
+      width: 400px;
+    }
+  }
+}

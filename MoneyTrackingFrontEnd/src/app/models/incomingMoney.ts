@@ -4,4 +4,5 @@ export interface IncomingMoney {
   incomingAmount:number;
   incomingMoneyRegistrationDate:Date;
   description:string;
+  status:boolean;
 }

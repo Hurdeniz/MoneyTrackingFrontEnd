@@ -79,7 +79,7 @@ export class ShipmentListResultComponent {
   openFilterDialog() {
     this.dialog
       .open(ShipmentListResultFilterComponent, {
-        width: '20%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -96,7 +96,7 @@ export class ShipmentListResultComponent {
   openEnterResultDialog(row: any) {
     this.dialog
       .open(ShipmentListEnterResultComponent, {
-        width: '20%',
+        width: '380px',
         data: row,
       })
       .afterClosed()

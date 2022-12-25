@@ -13,14 +13,16 @@ import { IncomingMoneyService } from 'src/app/services/incoming-money.service';
 export class IncomingMoneyDeleteComponent implements OnInit {
   incomingMoneyForm: FormGroup;
   futureMoneyForm: FormGroup;
-  futureAmount: number;
-  amountPaid: number;
+  futureMoneyStatus: boolean = true;
+  customerNameSurname: string;
+  incomingAmount: number;
   answerAmountPaid: number;
-  futureMoneyStatus: boolean;
+  answerFutureAmount: number;
+
+
 
   constructor(
-    private incomingService:IncomingMoneyService,
-    private futureMoneyService: FutureMoneyService,
+    private incomingMoneyService: IncomingMoneyService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public deleteData: any,
     private dialogRef: MatDialogRef<IncomingMoneyDeleteComponent>,
@@ -28,65 +30,74 @@ export class IncomingMoneyDeleteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.futureAmount=this.deleteData.futureAmount;
-    this.amountPaid=this.deleteData.amountPaid;
-    this.futureMoneyStatus=this.deleteData.status;
-
+    this.customerNameSurname = this.deleteData.customerNameSurname;
+    this.incomingAmount = this.deleteData.incomingAmount;
+    this.createIncomingMoneyForm();
   }
 
-  delete() {
-    this.futureMoneyService.delete(this.deleteData).subscribe((response) => {
-  this.update();
-
-    });
-  }
-
-  updateFutureMoneyForm() {
-    this.futureMoneyForm = this.formBuilder.group({
+  createIncomingMoneyForm() {
+    this.incomingMoneyForm = this.formBuilder.group({
+      incomingMoneyId: [this.deleteData.incomingMoneyId],
       futureMoneyId: [this.deleteData.futureMoneyId],
+      incomingAmount: [this.deleteData.incomingAmount],
+      incomingMoneyRegistrationDate: [this.deleteData.incomingMoneyRegistrationDate],
+      inComingMoneyDescription: [this.deleteData.inComingMoneyDescription],
+      incomingMoneyStatus: [this.deleteData.incomingMoneyStatus],
       userId: [this.deleteData.userId],
       typeOfOperation: [this.deleteData.typeOfOperation],
       customerCode: [this.deleteData.customerCode],
       customerNameSurname: [this.deleteData.customerNameSurname],
       promissoryNumber: [this.deleteData.promissoryNumber],
       transactionAmount: [this.deleteData.transactionAmount],
-      amountPaid: [this.amountPaid],
-      futureAmount: [this.futureAmount],
+      amountPaid: [this.deleteData.amountPaid],
+      futureAmount: [this.deleteData.futureAmount],
       futureMoneyRegistrationDate: [this.deleteData.futureMoneyRegistrationDate],
-      status: [this.futureMoneyStatus],
-      description:[this.deleteData.futureMoneyDescription]
+      futureMoneyDescription: [this.deleteData.futureMoneyDescription],
+      futureMoneyStatus: [this.futureMoneyStatus],
     });
   }
 
-  update() {
-    debugger
-    if (this.futureMoneyForm.valid) {
-      let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
-      this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {
-        this.toastrService.success('Gelen Ödeme Silinmiştir.', 'Başarılı');
-        this.dialogRef.close('delete');
-      });
+
+  delete() {
+    if (this.deleteData.incomingMoneyStatus == false) {
+      this.answerAmountPaid = this.deleteData.amountPaid - this.deleteData.incomingAmount;
+      this.answerFutureAmount = this.deleteData.incomingAmount + this.deleteData.futureAmount;
+      this.incomingMoneyForm.controls['amountPaid'].setValue(this.answerAmountPaid);
+      this.incomingMoneyForm.controls['futureAmount'].setValue(this.answerFutureAmount);
     }
-  }
+    if (this.incomingMoneyForm.valid) {
+      let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
+      this.incomingMoneyService
+        .delete(incomingMoneyModel)
+        .subscribe((response) => {
+          this.toastrService.success('Gelen Ödeme Silinmiştir', 'Başarılı');
+          this.incomingMoneyForm.reset();
 
-  control() {
-if(this.deleteData.status==false){
-  this.futureAmount=this.deleteData.futureAmount+this.deleteData.incomingAmount;
-     console.log(this.futureAmount);
-     this.amountPaid=this.deleteData.amountPaid-this.deleteData.incomingAmount;
-     console.log(this.amountPaid);
-     this.futureMoneyStatus=true;
-    this.updateFutureMoneyForm();
-this.delete();
-
-}else{
-this.futureAmount=this.deleteData.futureAmount+this.deleteData.incomingAmount;
-     console.log(this.futureAmount);
-     this.amountPaid=this.deleteData.amountPaid-this.deleteData.incomingAmount;
-     console.log(this.amountPaid);
-    this.updateFutureMoneyForm();
-this.delete();
-}
+          this.dialogRef.close('delete');
+        }, (responseError) => {
+          console.log(responseError)
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
+            if (responseError.error.ValidationErrors.length > 0) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
+                this.toastrService.error(
+                  responseError.error.ValidationErrors[i].ErrorMessage,
+                  'Doğrulama Hatası'
+                );
+              }
+            }
+          }
+        }
+        );
+    }
+    else {
+      this.toastrService.error('Formunuz Eksik', 'Dikkat');
+    }
   }
 
 }

@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { IncomingMoneyDetailsDto } from 'src/app/models/Dtos/incomingMoneyDetailDto';
 import { IncomingMoneyService } from 'src/app/services/incoming-money.service';
 import { IncomingMoneyDeleteComponent } from './incoming-money-delete/incoming-money-delete.component';
-import { IncomingMoneyViewComponent } from './incoming-money-view/incoming-money-view.component';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class IncomingMoneyComponent implements OnInit {
   incomingMoneyDetailsDto: IncomingMoneyDetailsDto[] = [];
-  displayedColumns: string[] = ['futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerNameSurname','promissoryNumber','transactionAmount', 'incomingMoneyRegistrationDate','incomingAmount','inComingMoneyDescription', 'action'];
+  displayedColumns: string[] = ['incomingMoneyRegistrationDate','futureMoneyRegistrationDate','typeOfOperation' , 'customerCode', 'customerNameSurname','promissoryNumber','incomingAmount','inComingMoneyDescription', 'action'];
   dataSource: MatTableDataSource<IncomingMoneyDetailsDto> = new MatTableDataSource<IncomingMoneyDetailsDto>();
   dataLoaded = false;
   searchHide = false;
@@ -38,9 +37,7 @@ export class IncomingMoneyComponent implements OnInit {
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
-  getTotalTransactionAmount() {
-    return this.incomingMoneyDetailsDto.map(t => t.transactionAmount).reduce((acc, value) => acc + value, 0);
-  }
+
   getTotalIncomingAmount() {
     return this.incomingMoneyDetailsDto.map(t => t.incomingAmount).reduce((acc, value) => acc + value, 0);
   }
@@ -63,24 +60,12 @@ export class IncomingMoneyComponent implements OnInit {
     );
   }
 
-  openEditDialog(row : any) {
-    this.dialog
-      .open(IncomingMoneyViewComponent, {
-        width: '40%',
-        data:row
-      })
-      .afterClosed()
-      .subscribe((value) => {
-        if (value === 'update') {
-          this.getAllIncomingMoneyDetail();
-        }
-      });
-  }
+
 
   openDeleteDialog(row: any) {
     this.dialog
       .open(IncomingMoneyDeleteComponent, {
-        width: '30%',
+        width: '455px',
         data: row,
         disableClose:true
       })

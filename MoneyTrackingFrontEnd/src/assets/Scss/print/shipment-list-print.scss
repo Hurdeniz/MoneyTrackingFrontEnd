@@ -1,0 +1,36 @@
+.card-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: medium;
+  color: black;
+  text-align: center;
+}
+table{
+  margin-top: 5px;
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+
+th {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: small;
+  padding: 10px;
+  color:black;
+  background: lightskyblue;
+  border: 1px solid ;
+}
+td{
+
+    text-align: center;
+    border: 1px solid ;
+    width: 350px;
+}
+
+
+.td-footer{
+  font-weight: bold;
+}
+ mat-paginator,button, .action-header ,.action-cell , .action-footer{
+    display: none;
+}

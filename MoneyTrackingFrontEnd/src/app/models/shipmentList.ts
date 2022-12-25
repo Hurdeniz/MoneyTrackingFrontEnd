@@ -1,6 +1,6 @@
 export interface ShipmentList {
   shipmentListId:number;
-  shipmentNumber:number;
+  shipmentNumber:string;
   userId:number;
   customerCode:string;
   customerNameSurname:string;

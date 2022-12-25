@@ -1,6 +1,6 @@
 export interface ShipmentListDetailsDto {
   shipmentListId:number;
-  shipmentNumber:number;
+  shipmentNumber:string;
   userId:number;
   userNameSurname:string;
   customerCode:string;

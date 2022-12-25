@@ -32,9 +32,10 @@ export class ShipmentListViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.dateNow = new FormControl(
-      moment().format('YYYY-MM-DD'),
+    this.editData.date,
       Validators.required
     );
+
     this.dateInput = this.dateNow.value;
     this.getForms();
 

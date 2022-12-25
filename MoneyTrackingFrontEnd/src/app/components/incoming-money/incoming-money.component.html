@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-actions class="card-actions">
       <div class="col-start">
-        <mat-card-title>Elden Gelecekler</mat-card-title>
+        <mat-card-title>Elden Gelenler</mat-card-title>
       </div>
       <div class="col-end">
         <button
@@ -55,9 +55,9 @@
       ></mat-progress-bar>
       <div class="search-input-box">
         <mat-form-field
+        class="search"
           *ngIf="searchHide"
-          appearance="outline"
-          style="width: 60%"
+          appearance="fill"
           color="accent"
         >
           <mat-label>Ara</mat-label>
@@ -85,12 +85,22 @@
           [dataSource]="dataSource"
           matSort
         >
+        <ng-container matColumnDef="incomingMoneyRegistrationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Ödenen Tarih
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.incomingMoneyRegistrationDate | date: "dd.MM.yyyy" }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
           <ng-container matColumnDef="futureMoneyRegistrationDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               İşlem Tarihi
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.futureMoneyRegistrationDate | date: "yyyy-MM-dd" }}
+              {{ element.futureMoneyRegistrationDate | date: "dd.MM.yyyy" }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
           </ng-container>
@@ -135,28 +145,6 @@
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <ng-container matColumnDef="transactionAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              İşlem Tutarı
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.transactionAmount | currency:"₺ " }}
-            </td>
-            <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalTransactionAmount() | currency: "₺ " }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="incomingMoneyRegistrationDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Ödenen Tarih
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.incomingMoneyRegistrationDate | date: "yyyy-MM-dd" }}
-            </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-
           <ng-container matColumnDef="incomingAmount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               Ödenen Tutar
@@ -180,15 +168,6 @@
           <ng-container matColumnDef="action" stickyEnd>
             <th class="action-header" mat-header-cell *matHeaderCellDef></th>
             <td class="action-cell" mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                color="accent"
-                matTooltip="Düzenle"
-                matTooltipPosition="left"
-                (click)="openEditDialog(element)"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
               <button
                 mat-icon-button
                 color="warn"

@@ -168,7 +168,6 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
   }
 
   add() {
-    debugger;
     if (this.data.status) {
       if (this.futureMoneyForm.valid) {
         let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);

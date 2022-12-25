@@ -1,56 +1,30 @@
-import { Component, Inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component ,Inject} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { StaffService } from 'src/app/services/staff.service';
-import { Moment } from 'moment';
-import * as _moment from 'moment';
-const moment = _moment;
 
 @Component({
-  selector: 'app-staff-check-out',
-  templateUrl: './staff-check-out.component.html',
-  styleUrls: ['./staff-check-out.component.scss'],
+  selector: 'app-staff-backspace',
+  templateUrl: './staff-backspace.component.html',
+  styleUrls: ['./staff-backspace.component.scss']
 })
-export class StaffCheckOutComponent {
+export class StaffBackspaceComponent {
   staffForm: FormGroup;
-  dateNow: FormControl;
-  dateInput: any;
-  status: boolean = false;
+  status:boolean=true;
   nameSurname:string;
-  staffEpisodeName:string;
-  staffTaskName:string;
 
   constructor(
     private staffService: StaffService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<StaffCheckOutComponent>,
+    private dialogRef: MatDialogRef<StaffBackspaceComponent>,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.nameSurname=this.data.nameSurname;
-    this.staffEpisodeName=this.data.staffEpisodeName;
-    this.staffTaskName=this.data.staffTaskName;
-    this.dateNow = new FormControl(
-      moment().format('YYYY-MM-DD'),
-      Validators.required
-    );
-    this.dateInput = this.dateNow.value;
-
-    this.createStaffForm();
-  }
-
-  addEvent(event: any) {
-    let date: Moment = event.value;
-    this.dateInput = date.format('YYYY-MM-DD');
-    this.staffForm.controls['dateOfDismissal'].setValue(this.dateInput);
+ this.createStaffForm();
   }
 
   createStaffForm() {
@@ -67,21 +41,26 @@ export class StaffCheckOutComponent {
       staffTaskId: [this.data.staffTaskId],
       staffEpisodeId: [this.data.staffEpisodeId],
       dateOfEntryIntoWork: [this.data.dateOfEntryIntoWork],
-      dateOfDismissal: [this.dateInput, Validators.required],
+      dateOfDismissal: [this.data.dateOfDismissal],
       status: [this.status],
     });
   }
 
   update() {
+    debugger
     if (this.staffForm.valid) {
       let staffModel = Object.assign({}, this.staffForm.value);
       this.staffService.update(staffModel).subscribe(
         (response) => {
-          this.toastrService.success('Personel Çıkışı Verilmiştir', 'Başarılı');
+          this.toastrService.success('Personel Başarıyla Aktifleştirildi', 'Başarılı');
+          this.toastrService.info('Personel Bilgilerini Güncelleyin', 'Bilgilendirme');
           this.staffForm.reset();
-          this.dialogRef.close('checkout');
+          this.dialogRef.close('backspace');
         },
         (responseError) => {
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
           if (responseError.error.ValidationErrors.length > 0) {
             for (
               let i = 0;
@@ -95,9 +74,12 @@ export class StaffCheckOutComponent {
             }
           }
         }
+      }
       );
     } else {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
+
+
 }

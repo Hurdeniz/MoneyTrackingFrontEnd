@@ -67,7 +67,7 @@
         </mat-panel-title>
         <mat-panel-description> Kullanıcı </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let users of user">
+      <mat-list-option *ngFor="let users of user"[routerLink]="[users.path]">
         <mat-icon mat-list-icon>{{ users.icon }}</mat-icon>
         {{ users.name }}
       </mat-list-option>

@@ -27,11 +27,11 @@ export class IncomingMoneyService {
     return this.httpClient.get<ListResponseModel<IncomingMoneyGroupByCustomerDto>>(newPath);
   }
 
-  add(incomingMoney: IncomingMoney):Observable<ResponseModel>{
+  add(incomingMoney: IncomingMoneyDetailsDto):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl+'IncomingMoney/Add',incomingMoney)
   }
 
-  delete(incomingMoney: IncomingMoney):Observable<ResponseModel>{
+  delete(incomingMoney: IncomingMoneyDetailsDto):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl+'IncomingMoney/Delete',incomingMoney)
   }
 

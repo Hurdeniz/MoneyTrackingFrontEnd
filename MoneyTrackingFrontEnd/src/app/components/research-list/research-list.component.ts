@@ -128,7 +128,7 @@ export class ResearchListComponent implements OnInit {
   createShipmentListForm() {
     this.shipmentListForm = this.formBuilder.group({
       userId: [this.userId],
-      shipmentNumber: [''],
+      shipmentNumber: ['',Validators.required],
       customerCode: ['', Validators.required],
       customerNameSurname: ['', Validators.required],
       promissoryNumber: ['', Validators.required],
@@ -141,6 +141,7 @@ export class ResearchListComponent implements OnInit {
   }
 
   add() {
+
     if (this.shipmentListForm.valid) {
       let shipmentListModel = Object.assign({}, this.shipmentListForm.value);
       this.shipmentService.add(shipmentListModel).subscribe(
@@ -152,6 +153,9 @@ export class ResearchListComponent implements OnInit {
           this.getAllShipmentListDetailByStatusAndDate();
         },
         (responseError) => {
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
           if (responseError.error.ValidationErrors.length > 0) {
             for (
               let i = 0;
@@ -164,6 +168,7 @@ export class ResearchListComponent implements OnInit {
               );
             }
           }
+          }
         }
       );
     } else {
@@ -174,7 +179,7 @@ export class ResearchListComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(ResearchListFilterComponent, {
-        width: '20%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -191,7 +196,7 @@ export class ResearchListComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(ResearchListViewComponent, {
-        width: '25%',
+        width: '400px',
         data: row,
       })
       .afterClosed()
@@ -205,7 +210,7 @@ export class ResearchListComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(ResearchListDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
         disableClose:true
       })

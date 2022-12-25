@@ -206,6 +206,7 @@ export class MoneyOutputTransactionsComponent {
         console.log(value)
         if (value === 'save') {
           this.getAllMoneyOutputDetailByDay();
+          this.totalSumsByDay();
         }
       });
   }
@@ -220,6 +221,7 @@ export class MoneyOutputTransactionsComponent {
       .subscribe((value) => {
         if (value === 'update') {
           this.getAllMoneyOutputDetailByDay();
+          this.totalSumsByDay();
         }
       });
   }
@@ -235,6 +237,7 @@ export class MoneyOutputTransactionsComponent {
       .subscribe((value) => {
         if (value === 'delete') {
           this.getAllMoneyOutputDetailByDay();
+          this.totalSumsByDay();
         }
       });
   }

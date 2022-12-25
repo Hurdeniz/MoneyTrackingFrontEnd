@@ -51,8 +51,8 @@ export class ShipmentListComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  startDate = moment().format('YYYY-MM-DD');
-  endDate = moment().format('YYYY-MM-DD');
+  startDate = moment().add('1','days').format('YYYY-MM-DD');
+  endDate = moment().add('1','days').format('YYYY-MM-DD');
   status: boolean = true;
   @ViewChild('customerCode') nameInput: MatInput;
 
@@ -67,7 +67,7 @@ export class ShipmentListComponent implements OnInit {
   ngOnInit(): void {
     this.refresh();
     this.dateNow = new FormControl(
-      moment().format('YYYY-MM-DD'),
+      moment().add('1','days').format('YYYY-MM-DD'),
       Validators.required
     );
     this.dateInput = this.dateNow.value;
@@ -172,8 +172,7 @@ export class ShipmentListComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(ShipmentListFilterComponent, {
-        width: '25%',
-        disableClose:true
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -190,7 +189,7 @@ export class ShipmentListComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(ShipmentListViewComponent, {
-        width: '25%',
+        width: '400px',
         data: row,
       })
       .afterClosed()
@@ -204,7 +203,7 @@ export class ShipmentListComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(ShipmentListDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
         disableClose:true
       })

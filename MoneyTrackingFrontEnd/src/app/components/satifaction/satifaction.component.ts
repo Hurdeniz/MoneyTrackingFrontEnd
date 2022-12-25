@@ -148,7 +148,7 @@ export class SatifactionComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(SatisfactionFilterComponent, {
-        width: '25%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -165,7 +165,7 @@ export class SatifactionComponent implements OnInit {
   openEditDialog(row: any) {
     this.dialog
       .open(SatisfactionViewComponent, {
-        width: '25%',
+        width: '400px',
         data: row,
       })
       .afterClosed()
@@ -179,7 +179,7 @@ export class SatifactionComponent implements OnInit {
   openDeleteDialog(row: any) {
     this.dialog
       .open(SatisfactionDeleteComponent, {
-        width: '30%',
+        width: '450px',
         data: row,
         disableClose:true
       })

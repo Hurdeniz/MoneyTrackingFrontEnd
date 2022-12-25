@@ -4,6 +4,22 @@
   <mat-dialog-content class="dialog-content">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-label>Çıkış Tarihi Seçiniz</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (dateInput)="addEvent($event)"
+            [formControl]="dateNow"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <mat-form-field appearance="outline" class="full-width" color="accent">
           <mat-label>Personel Adı Soyadı</mat-label>
           <input type="text" value="{{ nameSurname }}" matInput disabled />
@@ -21,22 +37,7 @@
           <input type="text" value="{{ staffTaskName }}" matInput disabled />
         </mat-form-field>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <mat-form-field appearance="outline" color="accent" class="full-width">
-          <mat-label>Çıkış Tarihi Seçiniz</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            (dateInput)="addEvent($event)"
-            [formControl]="dateNow"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
+
     </div>
   </mat-dialog-content>
   <mat-divider></mat-divider>

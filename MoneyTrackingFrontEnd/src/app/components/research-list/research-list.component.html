@@ -35,7 +35,7 @@
           >
             <mat-label>Sıra No</mat-label>
             <input
-              type="number"
+              type="text"
               formControlName="shipmentNumber"
               matInput
               #shipmentNumber="matInput"
@@ -105,15 +105,25 @@
       >
         Kaydet
       </button>
+
+      <button
+      mat-button
+      class="shipment-close-button"
+      mat-stroked-button
+      color="basic"
+      (click)="sidenav.close()"
+    >
+      Kapat
+    </button>
     </form>
   </mat-drawer>
 
-  <mat-drawer-content>
+  <mat-drawer-content id="researchList">
     <div class="example-container">
       <mat-card>
         <mat-card-actions class="card-actions">
           <div class="col-start">
-            <mat-card-title>Sor Listesi</mat-card-title>
+            <h1 class="card-title">Sor Listesi</h1>
           </div>
           <div class="col-end">
             <button
@@ -139,6 +149,9 @@
               mat-button
               matTooltip="Yazdır"
               matTooltipPosition="above"
+              printTitle="Money Tracking"
+              styleSheetFile="../../../assets/Scss/print/shipment-list-print.scss"
+              printSectionId="researchList" ngxPrint
             >
               <mat-icon>print</mat-icon>
             </button>
@@ -181,9 +194,9 @@
           ></mat-progress-bar>
           <div class="search-input-box">
             <mat-form-field
+            class="search"
               *ngIf="searchHide"
-              appearance="outline"
-              style="width: 60%"
+              appearance="fill"
               color="accent"
             >
               <mat-label>Ara</mat-label>
@@ -214,7 +227,7 @@
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ element.date | date: "yyyy-MM-dd" }}
+                  {{ element.date | date: "dd.MM.yyyy" }}
                 </td>
               </ng-container>
 
@@ -263,9 +276,9 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let element">
+              <ng-container matColumnDef="action" stickyEnd>
+                <th class="action-header" mat-header-cell *matHeaderCellDef></th>
+                <td class="action-cell" mat-cell *matCellDef="let element">
                   <button
                     mat-icon-button
                     color="accent"

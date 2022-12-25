@@ -1,25 +1,4 @@
-//sevkiyat
-// mat-drawer-container {
-//   height: 91%;
-
-//   .box {
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     margin: 10px;
-//   }
-
-//   .full-width {
-//     width: 100%;
-//   }
-// }
-
-//ANA FORM
-mat-icon {
-  margin: 0px !important;
-}
-
-.example-container {
+@mixin example-container{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,6 +11,10 @@ mat-icon {
       justify-content: space-between;
       padding-left: 15px;
       padding-right: 15px;
+
+      .card-title{
+        margin: 0px;
+      }
 
       .mat-mdc-form-field-subscript-wrapper {
         display: none !important;
@@ -67,6 +50,16 @@ mat-icon {
       }
     }
   }
+
+}
+
+//ANA FORM
+mat-icon {
+  margin: 0px !important;
+}
+
+.example-container {
+@include example-container();
 }
 
 //view
@@ -116,8 +109,17 @@ mat-drawer-container{
       width: 100%;
       margin: 0;
     }
+    .shipment-close-button {
+      width: 100%;
+      margin-top: 10px;
+    }
+
   }
 }
+.example-container{
+  @include example-container();
+}
+
 }
 
 

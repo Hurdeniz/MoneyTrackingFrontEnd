@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { IncomingMoneyService } from 'src/app/services/incoming-money.service';
-import { FutureMoneyService } from 'src/app/services/future-money.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 const moment = _moment;
@@ -19,8 +18,7 @@ const moment = _moment;
 })
 export class PartialIncomingMoneyComponent implements OnInit {
   incomingMoneyForm: FormGroup;
-  futureMoneyForm: FormGroup;
-  futureMoneyStatus: boolean = false;
+  incomingMoneyStatus:boolean=false;
   futureMoneyId: string;
   futureAmount: number;
   typeOfOperation: string;
@@ -33,12 +31,11 @@ export class PartialIncomingMoneyComponent implements OnInit {
 
   constructor(
     private incomingMoneyService: IncomingMoneyService,
-    private futureMoneyService: FutureMoneyService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<PartialIncomingMoneyComponent>,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.futureMoneyId = this.data.futureMoneyId;
@@ -55,7 +52,6 @@ export class PartialIncomingMoneyComponent implements OnInit {
     );
     this.dateInput = this.dateNow.value;
     this.createIncomingMoneyForm();
-    //  this.updateFutureMoneyForm();
   }
   addEvent(event: any) {
     let date: Moment = event.value;
@@ -63,21 +59,13 @@ export class PartialIncomingMoneyComponent implements OnInit {
     this.createIncomingMoneyForm();
   }
 
-  // createIncomingMoneyForm() {
-  //   this.incomingMoneyForm = this.formBuilder.group({
-  //     futureMoneyId: [this.data.futureMoneyId],
-  //     incomingAmount: ['', Validators.required],
-  //     incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
-  //     description: [''],
-  //   });
-  // }
-
   createIncomingMoneyForm() {
     this.incomingMoneyForm = this.formBuilder.group({
       futureMoneyId: [this.data.futureMoneyId],
       incomingAmount: ['', Validators.required],
       incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
       inComingMoneyDescription: [''],
+      incomingMoneyStatus:[this.incomingMoneyStatus],
       userId: [this.data.userId],
       typeOfOperation: [this.data.typeOfOperation],
       customerCode: [this.data.customerCode],
@@ -88,29 +76,11 @@ export class PartialIncomingMoneyComponent implements OnInit {
       futureAmount: [this.futureAmount],
       futureMoneyRegistrationDate: [this.data.futureMoneyRegistrationDate],
       futureMoneyDescription: [this.data.description],
-      status: [this.data.status],
+      futureMoneyStatus: [this.data.status]
     });
   }
 
-  // updateFutureMoneyForm() {
-  //   this.futureMoneyForm = this.formBuilder.group({
-  //     futureMoneyId: [this.data.futureMoneyId],
-  //     userId: [this.data.userId],
-  //     typeOfOperation: [this.data.typeOfOperation],
-  //     customerCode: [this.data.customerCode],
-  //     customerNameSurname: [this.data.customerNameSurname],
-  //     promissoryNumber: [this.data.promissoryNumber],
-  //     transactionAmount: [this.data.transactionAmount],
-  //     amountPaid: [this.amountPaid],
-  //     futureAmount: [this.futureAmount],
-  //     futureMoneyRegistrationDate: [this.data.futureMoneyRegistrationDate],
-  //     description: [this.data.description],
-  //     status: [this.data.status],
-  //   });
-  // }
-
   control() {
-    // let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
     let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
     if (this.data.futureAmount < incomingMoneyModel.incomingAmount) {
       this.toastrService.error(
@@ -132,10 +102,7 @@ export class PartialIncomingMoneyComponent implements OnInit {
       this.incomingMoneyForm.controls['futureAmount'].setValue(
         futureMoneyAnswer
       );
-      //this.updateFutureMoneyForm();
-       this.add();
-
-      console.log(this.incomingMoneyForm.value);
+      this.add();
     }
   }
 
@@ -149,19 +116,29 @@ export class PartialIncomingMoneyComponent implements OnInit {
           this.incomingMoneyForm.reset();
 
           this.dialogRef.close('partialincoming');
-        });
+        }, (responseError) => {
+          console.log(responseError)
+          if (responseError.error.ValidationErrors == undefined) {
+            this.toastrService.error(responseError.error, 'Dikkat');
+          } else {
+            if (responseError.error.ValidationErrors.length > 0) {
+              for (
+                let i = 0;
+                i < responseError.error.ValidationErrors.length;
+                i++
+              ) {
+                this.toastrService.error(
+                  responseError.error.ValidationErrors[i].ErrorMessage,
+                  'Doğrulama Hatası'
+                );
+              }
+            }
+          }
+        }
+        );
+    }
+    else {
+      this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
-
-  // update() {
-  //   if (this.futureMoneyForm.valid) {
-  //     let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
-  //     this.futureMoneyService.update(futureMoneyModel).subscribe((response) => {
-  //       this.toastrService.success('Kısmi Ödeme Alınmıştır.', 'Başarılı');
-  //       this.incomingMoneyForm.reset();
-  //       this.futureMoneyForm.reset();
-  //       this.dialogRef.close('partialincoming');
-  //     });
-  //   }
-  // }
 }

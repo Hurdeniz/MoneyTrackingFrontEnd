@@ -28,6 +28,7 @@ export class CardPaymentComponent implements OnInit {
   isAuthenticated: boolean = false;
   userId: number;
   filterText: '';
+  role:[]=[];
   displayedColumns: string[] = [
     'date',
     'bankName',
@@ -52,6 +53,7 @@ export class CardPaymentComponent implements OnInit {
   ngOnInit(): void {
     this.refresh();
     this.getAllCardPaymentDetailByUserIdAndDate();
+
   }
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
@@ -68,6 +70,12 @@ export class CardPaymentComponent implements OnInit {
         x.endsWith('/nameidentifier')
       )[0];
       this.userId = decode[userId];
+      let rol = Object.keys(decode).filter((x) =>
+      x.endsWith('/role')
+    )[0];
+    this.role=decode[rol];
+    console.log(decode)
+    console.log(this.role)
     }
   }
   getAllCardPaymentDetailByUserIdAndDate() {

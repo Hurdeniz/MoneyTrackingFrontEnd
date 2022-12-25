@@ -44,7 +44,8 @@ export class ShipmentResearchListComponent implements OnInit {
   filterText: '';
   @ViewChild(MatPaginator) paginatorShipment: MatPaginator;
   @ViewChild(MatPaginator) paginatorResearch: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sortShipment: MatSort;
+  @ViewChild(MatSort) sortResearch: MatSort;
   startDate = moment().format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
   statusShipment: boolean = true;
@@ -74,14 +75,13 @@ export class ShipmentResearchListComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          this.researchListDetailDto = response.data;
-
+          this.shipmentListDetailDto = response.data;
           this.dataSourceShipment =
             new MatTableDataSource<ShipmentListDetailsDto>(
-              this.researchListDetailDto
+              this.shipmentListDetailDto
             );
           this.dataSourceShipment.paginator = this.paginatorShipment;
-          this.dataSourceShipment.sort = this.sort;
+          this.dataSourceShipment.sort = this.sortShipment;
           this.dataLoaded = true;
         },
         (responseError) => {
@@ -99,13 +99,13 @@ export class ShipmentResearchListComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          this.shipmentListDetailDto = response.data;
+          this.researchListDetailDto = response.data;
           this.dataSourceResearch =
             new MatTableDataSource<ShipmentListDetailsDto>(
-              this.shipmentListDetailDto
+              this.researchListDetailDto
             );
           this.dataSourceResearch.paginator = this.paginatorResearch;
-          this.dataSourceResearch.sort = this.sort;
+          this.dataSourceResearch.sort = this.sortResearch;
           this.dataLoaded = true;
         },
         (responseError) => {
@@ -117,7 +117,7 @@ export class ShipmentResearchListComponent implements OnInit {
   openFilterDialog() {
     this.dialog
       .open(ShipmentResearchListFilterComponent, {
-        width: '20%',
+        width: '350px',
       })
       .afterClosed()
       .subscribe((value) => {
