@@ -126,7 +126,7 @@ export class ShipmentListComponent implements OnInit {
   createShipmentListForm() {
     this.shipmentListForm = this.formBuilder.group({
       userId: [this.userId],
-      shipmentNumber: [0],
+      shipmentNumber: ['0'],
       customerCode: ['', Validators.required],
       customerNameSurname: ['', Validators.required],
       promissoryNumber: ['', Validators.required],
@@ -139,6 +139,7 @@ export class ShipmentListComponent implements OnInit {
   }
 
   add() {
+    debugger
     if (this.shipmentListForm.valid) {
       let shipmentListModel = Object.assign({}, this.shipmentListForm.value);
       this.shipmentService.add(shipmentListModel).subscribe(

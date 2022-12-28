@@ -23,12 +23,12 @@ const moment = _moment;
 export class CardPaymentComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService();
   cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
-  dataLoaded= false;
-  searchHide= false;
+  dataLoaded = false;
+  searchHide = false;
   isAuthenticated: boolean = false;
   userId: number;
   filterText: '';
-  role:[]=[];
+  role: string[] = [];
   displayedColumns: string[] = [
     'date',
     'bankName',
@@ -42,13 +42,19 @@ export class CardPaymentComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
+
+
 
   constructor(
     private cardPaymentService: CardPaymentService,
     private authService: AuthService,
     private toastrService: ToastrService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -71,11 +77,49 @@ export class CardPaymentComponent implements OnInit {
       )[0];
       this.userId = decode[userId];
       let rol = Object.keys(decode).filter((x) =>
-      x.endsWith('/role')
-    )[0];
-    this.role=decode[rol];
-    console.log(decode)
-    console.log(this.role)
+        x.endsWith('/role')
+      )[0];
+      this.role = decode[rol];
+    }
+
+    const arrayControl = Array.isArray(this.role);
+    if (arrayControl == false) {
+      if (this.role.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.role.toString() == 'Staff') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+    }
+    else {
+      this.role.forEach(element => {
+        if (element == 'Admin' || element == 'Staff') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+
+        if (element == 'CardPayment.Add') {
+          this.add = true;
+        }
+        if (element == 'CardPayment.Delete') {
+          this.delete = true;
+        }
+        if (element == 'CardPayment.Update') {
+          this.update = true;
+        }
+        if (element == 'CardPayment.GetAllCardPaymentDetailByUserIdAndDate') {
+          this.list = true;
+        }
+      })
+
     }
   }
   getAllCardPaymentDetailByUserIdAndDate() {
@@ -151,7 +195,7 @@ export class CardPaymentComponent implements OnInit {
       .open(CardPaymentDeleteComponent, {
         width: '450px',
         data: row,
-        disableClose:true
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {
