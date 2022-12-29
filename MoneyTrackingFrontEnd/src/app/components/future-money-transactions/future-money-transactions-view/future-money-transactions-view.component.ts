@@ -146,25 +146,10 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
 
   control() {
     let futureMoneyModel = Object.assign({}, this.futureMoneyForm.value);
-
-    if (futureMoneyModel.transactionAmount == futureMoneyModel.amountPaid) {
-      this.toastrService.error(
-        'İşlem Tutarı İle Ödenen Tutar Aynı Olamaz ',
-        'Dikkat'
-      );
-    } else if (
-      futureMoneyModel.transactionAmount <= futureMoneyModel.amountPaid
-    ) {
-      this.toastrService.error(
-        'Ödenen Tutar İşlem Tutarından Büyük  Olamaz ',
-        'Dikkat'
-      );
-    } else {
-      this.answer =
-        futureMoneyModel.transactionAmount - futureMoneyModel.amountPaid;
-      this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
-      this.add();
-    }
+    this.answer =
+      futureMoneyModel.transactionAmount - futureMoneyModel.amountPaid;
+    this.futureMoneyForm.controls['futureAmount'].setValue(this.answer);
+    this.add();
   }
 
   add() {
@@ -178,6 +163,7 @@ export class FutureMoneyTransactionsViewComponent implements OnInit {
             this.dialogRef.close('save');
           },
           (responseError) => {
+            console.log(responseError)
             if (responseError.error.ValidationErrors == undefined) {
               this.toastrService.error(responseError.error, 'Dikkat');
             } else {

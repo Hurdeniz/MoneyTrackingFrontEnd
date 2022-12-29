@@ -18,7 +18,7 @@ const moment = _moment;
 })
 export class PartialIncomingMoneyComponent implements OnInit {
   incomingMoneyForm: FormGroup;
-  incomingMoneyStatus:boolean=false;
+  incomingMoneyStatus: boolean = false;
   futureMoneyId: string;
   futureAmount: number;
   typeOfOperation: string;
@@ -65,7 +65,7 @@ export class PartialIncomingMoneyComponent implements OnInit {
       incomingAmount: ['', Validators.required],
       incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
       inComingMoneyDescription: [''],
-      incomingMoneyStatus:[this.incomingMoneyStatus],
+      incomingMoneyStatus: [this.incomingMoneyStatus],
       userId: [this.data.userId],
       typeOfOperation: [this.data.typeOfOperation],
       customerCode: [this.data.customerCode],
@@ -89,7 +89,7 @@ export class PartialIncomingMoneyComponent implements OnInit {
       );
     } else if (this.data.futureAmount == incomingMoneyModel.incomingAmount) {
       this.toastrService.error(
-        'Ödemenin Tamamını Kapatmak İçin Lütfen Ödeme Kapat Butonunu Kullanın Sadece Kısmi Ödemeleri Buradan Yapabilsiniz.',
+        'Ödemenin Tamamını Kapatmak İçin Lütfen Ödeme Kapat Butonunu Kullanın Sadece Kısmi Ödemeleri Buradan Yapabilirsiniz',
         'Dikkat'
       );
     } else {
@@ -114,10 +114,8 @@ export class PartialIncomingMoneyComponent implements OnInit {
         .subscribe((response) => {
           this.toastrService.success('Kısmi Ödeme Alınmıştır.', 'Başarılı');
           this.incomingMoneyForm.reset();
-
           this.dialogRef.close('partialincoming');
         }, (responseError) => {
-          console.log(responseError)
           if (responseError.error.ValidationErrors == undefined) {
             this.toastrService.error(responseError.error, 'Dikkat');
           } else {

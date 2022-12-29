@@ -80,9 +80,7 @@ export class IncomingMoneyComponent implements OnInit {
         .add(incomingMoneyModel)
         .subscribe((response) => {
           this.toastrService.success(
-            'Elden Gelecek Ödemesi Tamamlanmıştır.',
-            'Başarılı'
-          );
+            response.message, 'Başarılı');
           this.incomingMoneyForm.reset();
           this.dialogRef.close('incoming');
         },
