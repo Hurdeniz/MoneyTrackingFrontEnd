@@ -23,13 +23,19 @@ export class FutureMoneyComponent implements OnInit {
   dataSource: MatTableDataSource<FutureMoneyDetailsDto> = new MatTableDataSource<FutureMoneyDetailsDto>();
   dataLoaded = false;
   searchHide = false;
-  isAuthenticated: boolean = false;
   filterText: '';
-  userId: number;
   status:boolean=true;
   jwtHelper: JwtHelperService = new JwtHelperService();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  isAuthenticated: boolean = false;
+  userId: number;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
+
 
   constructor(
     private futureMoneyService:FutureMoneyService,
@@ -39,8 +45,62 @@ export class FutureMoneyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.refresh();
+    this.tokenAndUserControl();
     this.getAllFutureMoneyDetailByUserIdAndStatus();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let userId = Object.keys(decode).filter((x) =>
+        x.endsWith('/nameidentifier')
+      )[0];
+      this.userId = decode[userId];
+      let role = Object.keys(decode).filter((x) =>
+      x.endsWith('/role')
+    )[0];
+    this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Staff') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin' || element == 'Staff') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'FutureMoney.Add') {
+          this.add = true;
+        }
+        if (element == 'FutureMoney.Delete') {
+          this.delete = true;
+        }
+        if (element == 'FutureMoney.Update') {
+          this.update = true;
+        }
+        if (element == 'FutureMoney.GetAllFutureMoneyDetailByUserIdAndStatus') {
+          this.list = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {
@@ -55,18 +115,6 @@ export class FutureMoneyComponent implements OnInit {
   }
   getTotalFutureAmount() {
     return this.futureMoneyDetailsDto.map(t => t.futureAmount).reduce((acc, value) => acc + value, 0);
-  }
-
-  refresh() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      let token = localStorage.getItem('token');
-      let decode = this.jwtHelper.decodeToken(token);
-      let userId = Object.keys(decode).filter((x) =>
-        x.endsWith('/nameidentifier')
-      )[0];
-      this.userId = decode[userId];
-    }
   }
 
   getAllFutureMoneyDetailByUserIdAndStatus() {

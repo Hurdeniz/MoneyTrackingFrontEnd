@@ -25,10 +25,8 @@ export class CardPaymentComponent implements OnInit {
   cardPaymnetDetailsDto: CardPaymetDetailsDto[] = [];
   dataLoaded = false;
   searchHide = false;
-  isAuthenticated: boolean = false;
   userId: number;
   filterText: '';
-  role: string[] = [];
   displayedColumns: string[] = [
     'date',
     'bankName',
@@ -42,12 +40,12 @@ export class CardPaymentComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
   add: boolean = false;
   delete: boolean = false;
   update: boolean = false;
   list: boolean = false;
-
-
 
   constructor(
     private cardPaymentService: CardPaymentService,
@@ -57,17 +55,11 @@ export class CardPaymentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.refresh();
+    this.tokenAndUserControl();
     this.getAllCardPaymentDetailByUserIdAndDate();
+  }
 
-  }
-  filterDataSource() {
-    this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
-  }
-  getTotalAmount() {
-    return this.cardPaymnetDetailsDto.map(t => t.amount).reduce((acc, value) => acc + value, 0);
-  }
-  refresh() {
+  tokenAndUserControl() {
     this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
       let token = localStorage.getItem('token');
@@ -76,36 +68,38 @@ export class CardPaymentComponent implements OnInit {
         x.endsWith('/nameidentifier')
       )[0];
       this.userId = decode[userId];
-      let rol = Object.keys(decode).filter((x) =>
+      let role = Object.keys(decode).filter((x) =>
         x.endsWith('/role')
       )[0];
-      this.role = decode[rol];
+      this.userRole = decode[role];
+
+      console.log(decode);
     }
 
-    const arrayControl = Array.isArray(this.role);
+    const arrayControl = Array.isArray(this.userRole);
     if (arrayControl == false) {
-      if (this.role.toString() == 'Admin') {
+      if (this.userRole.toString() == 'Admin') {
         this.add = true;
         this.delete = true;
         this.update = true;
         this.list = true;
       }
-      if (this.role.toString() == 'Staff') {
+      if (this.userRole.toString() == 'Staff') {
         this.add = true;
         this.delete = true;
         this.update = true;
         this.list = true;
       }
+
     }
     else {
-      this.role.forEach(element => {
+      this.userRole.forEach(element => {
         if (element == 'Admin' || element == 'Staff') {
           this.add = true;
           this.delete = true;
           this.update = true;
           this.list = true;
         }
-
         if (element == 'CardPayment.Add') {
           this.add = true;
         }
@@ -118,10 +112,18 @@ export class CardPaymentComponent implements OnInit {
         if (element == 'CardPayment.GetAllCardPaymentDetailByUserIdAndDate') {
           this.list = true;
         }
-      })
-
+      });
     }
   }
+
+  filterDataSource() {
+    this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
+  }
+
+  getTotalAmount() {
+    return this.cardPaymnetDetailsDto.map(t => t.amount).reduce((acc, value) => acc + value, 0);
+  }
+
   getAllCardPaymentDetailByUserIdAndDate() {
     this.cardPaymentService
       .getAllCardPaymentDetailByUserIdAndDate(

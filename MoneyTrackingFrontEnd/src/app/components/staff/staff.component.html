@@ -6,7 +6,7 @@
       </div>
       <div class="col-end">
         <button
-          *ngIf="addButton"
+          *ngIf="add,addButton"
           class="card-actions-button"
           mat-button
           matTooltip="Yeni"
@@ -96,7 +96,7 @@
         *ngIf="tableActive"
         class="section-example-container mat-elevation-z8"
       >
-        <table mat-table id="staffTable" [dataSource]="dataSource" matSort>
+        <table *ngIf="list" mat-table id="staffTable" [dataSource]="dataSource" matSort>
           <ng-container matColumnDef="identityNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               T.C. Kimlik No
@@ -184,6 +184,7 @@
             <th class="action-header" mat-header-cell *matHeaderCellDef></th>
             <td class="action-cell" mat-cell *matCellDef="let element">
               <button
+              *ngIf="update"
                 mat-icon-button
                 color="accent"
                 matTooltip="Düzenle"
@@ -193,6 +194,7 @@
                 <mat-icon>manage_accounts</mat-icon>
               </button>
               <button
+              *ngIf="delete"
                 mat-icon-button
                 color="warn"
                 matTooltip="Sil"
@@ -202,6 +204,7 @@
                 <mat-icon>person_remove</mat-icon>
               </button>
               <button
+              *ngIf="statusOff"
                 mat-icon-button
                 color="basic"
                 matTooltip="Çıkış Ver"

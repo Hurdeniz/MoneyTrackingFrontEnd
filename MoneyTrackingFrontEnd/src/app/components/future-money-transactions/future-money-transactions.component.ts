@@ -11,6 +11,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-future-money-transactions',
@@ -18,6 +20,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./future-money-transactions.component.scss'],
 })
 export class FutureMoneyTransactionsComponent implements OnInit {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   futureMoneyDetailsDto: FutureMoneyDetailsDto[] = [];
   displayedColumns: string[] = [
     'userNameSurname',
@@ -40,15 +43,79 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   status: boolean = true;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  futureMoneyAdd: boolean = false;
+  futureMoneyDelete: boolean = false;
+  futureMoneyUpdate: boolean = false;
+  futureMoneyList: boolean = false;
+  incomingMoneyAdd: boolean = false;
+  partialIncomingMoneyAdd: boolean = false;
 
   constructor(
     private futureMoneyService: FutureMoneyService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService,
   ) {}
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.getAllFutureMoneyDetailByStatus();
+  }
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.futureMoneyAdd = true;
+        this.futureMoneyDelete = true;
+        this.futureMoneyUpdate = true;
+        this.futureMoneyList = true;
+        this.incomingMoneyAdd = true;
+        this.partialIncomingMoneyAdd = true;
+      }
+
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin') {
+          this.futureMoneyAdd = true;
+          this.futureMoneyDelete = true;
+          this.futureMoneyUpdate = true;
+          this.futureMoneyList = true;
+          this.incomingMoneyAdd = true;
+          this.partialIncomingMoneyAdd = true;
+        }
+        if (element == 'FutureMoney.Add') {
+          this.futureMoneyAdd = true;
+        }
+        if (element == 'FutureMoney.Delete') {
+          this.futureMoneyDelete = true;
+        }
+        if (element == 'FutureMoney.Update') {
+          this.futureMoneyUpdate = true;
+        }
+        if (element == 'FutureMoney.GetAllFutureMoneyDetailByStatus') {
+          this.futureMoneyList = true;
+        }
+        if (element == 'IncomingMoney.Add') {
+          this.incomingMoneyAdd = true;
+        }
+        if (element == 'IncomingMoney.PartialAdd') {
+          this.partialIncomingMoneyAdd = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {

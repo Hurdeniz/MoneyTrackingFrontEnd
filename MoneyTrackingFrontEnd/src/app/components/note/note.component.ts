@@ -24,31 +24,32 @@ export class NoteComponent implements OnInit {
   note: Note[] = [];
   dataLoaded = false;
   searchHide = false;
-  isAuthenticated: boolean = false;
   filterText: '';
-  userId: number;
   displayedColumns: string[] = ['date', 'description', 'action'];
   dataSource: MatTableDataSource<Note> = new MatTableDataSource<Note>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  isAuthenticated: boolean = false;
+  userId: number;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private noteService: NoteService,
     private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.refresh();
+    this.tokenAndUserControl();
     this.getAllByUser();
   }
 
-  filterDataSource() {
-    this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
-  }
-
-  refresh() {
+  tokenAndUserControl() {
     this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
       let token = localStorage.getItem('token');
@@ -57,7 +58,52 @@ export class NoteComponent implements OnInit {
         x.endsWith('/nameidentifier')
       )[0];
       this.userId = decode[userId];
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
     }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Staff') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin' || element == 'Staff') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'Note.Add') {
+          this.add = true;
+        }
+        if (element == 'Note.Delete') {
+          this.delete = true;
+        }
+        if (element == 'Note.Update') {
+          this.update = true;
+        }
+        if (element == 'Note.GetAllByUser') {
+          this.list = true;
+        }
+      });
+    }
+  }
+  filterDataSource() {
+    this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 
   getAllByUser() {
@@ -79,7 +125,7 @@ export class NoteComponent implements OnInit {
     this.dialog
       .open(NoteViewComponent, {
         width: '400px',
-        data: { status: true, userId:this.userId },
+        data: { status: true, userId: this.userId },
       })
       .afterClosed()
       .subscribe((value) => {
@@ -108,7 +154,7 @@ export class NoteComponent implements OnInit {
       .open(NoteDeleteComponent, {
         width: '450px',
         data: row,
-        disableClose:true
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {

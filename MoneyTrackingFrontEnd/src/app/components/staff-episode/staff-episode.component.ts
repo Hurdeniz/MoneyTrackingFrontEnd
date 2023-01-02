@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { StaffEpisode } from 'src/app/models/staffEpisode';
+import { AuthService } from 'src/app/services/auth.service';
 import { StaffEpisodeService } from 'src/app/services/staff-episode.service';
 import * as XLSX from 'xlsx';
 import { StaffEpisodeDeleteComponent } from './staff-episode-delete/staff-episode-delete.component';
@@ -16,6 +18,7 @@ import { StaffEpisodeViewComponent } from './staff-episode-view/staff-episode-vi
   styleUrls: ['./staff-episode.component.scss'],
 })
 export class StaffEpisodeComponent {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   staffEpisode: StaffEpisode[] = [];
   dataLoaded = false;
   searchHide = false;
@@ -25,15 +28,68 @@ export class StaffEpisodeComponent {
     new MatTableDataSource<StaffEpisode>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private staffEpisodeService: StaffEpisodeService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.getAll();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'StaffEpisode.Add') {
+          this.add = true;
+        }
+        if (element == 'StaffEpisode.Delete') {
+          this.delete = true;
+        }
+        if (element == 'StaffEpisode.Update') {
+          this.update = true;
+        }
+        if (element == 'StaffEpisode.GetAll') {
+          this.list = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {

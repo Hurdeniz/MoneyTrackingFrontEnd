@@ -12,14 +12,14 @@ import { MoneyOutputService } from 'src/app/services/money-output.service';
 import { Moment } from 'moment';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
-import { CancellationService } from 'src/app/services/cancellation.service';
 import { GetSumsDto } from 'src/app/models/Dtos/getSumsDto';
-import { SafeBox } from 'src/app/models/safeBox';
 import { SafeBoxService } from 'src/app/services/safe-box.service';
 import { SafeBoxInformationComponent } from './safe-box-information/safe-box-information.component';
 import { CardPaymentInformationComponent } from './card-payment-information/card-payment-information.component';
 import { CardPaymentCountDto } from 'src/app/models/Dtos/cardPaymentCountDto';
 import { CardPaymentService } from 'src/app/services/card-payment.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from 'src/app/services/auth.service';
 const moment = _moment;
 
 
@@ -31,6 +31,7 @@ const moment = _moment;
   styleUrls: ['./money-output-transactions.component.scss'],
 })
 export class MoneyOutputTransactionsComponent {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   moneyOutputDetailsDto: MoneyOutputDetailsDto[] = [];
   getSumsDto: GetSumsDto = {
     'totalCancellationAmount': 0,
@@ -62,11 +63,22 @@ export class MoneyOutputTransactionsComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   day = moment().format('YYYY-MM-DD');
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
+  moneyOutputAdd: boolean = false;
+  totalsByDayList: boolean = false;
+  cardPaymentInformation:boolean=false;
+  safeBoxInformation:boolean=false;
 
   constructor(
     private moneyOutputService: MoneyOutputService,
     private safeBoxService: SafeBoxService,
     private cardPaymentService: CardPaymentService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toastrService: ToastrService
@@ -77,12 +89,52 @@ export class MoneyOutputTransactionsComponent {
       moment().format('YYYY-MM-DD'),
       Validators.required
     );
+
     this.getAllMoneyOutputDetailByDay();
-    this.totalSumsByDay();
+    this.totalsByDay();
     this.createSafeBoxForm();
     this.cardPaymentCount();
+  }
 
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
 
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+        this.moneyOutputAdd=true;
+        this.totalsByDayList=true;
+        this.cardPaymentInformation=true;
+        this.safeBoxInformation=true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+          this.moneyOutputAdd=true;
+          this.totalsByDayList=true;
+          this.cardPaymentInformation=true;
+          this.safeBoxInformation=true;
+        }
+
+      });
+    }
   }
 
   filterDataSource() {
@@ -99,7 +151,7 @@ export class MoneyOutputTransactionsComponent {
     let date: Moment = event.value;
     this.day = date.format('YYYY-MM-DD');
     this.getAllMoneyOutputDetailByDay();
-    this.totalSumsByDay();
+    this.totalsByDay();
     this.cardPaymentCount();
 
   }
@@ -129,9 +181,9 @@ export class MoneyOutputTransactionsComponent {
     })
   }
 
-  totalSumsByDay() {
+  totalsByDay() {
     this.safeBoxService
-      .totalSumsByDay(this.day)
+      .totalsByDay(this.day)
       .subscribe(
         (response) => {
           this.getSumsDto = response.data;
@@ -206,7 +258,7 @@ export class MoneyOutputTransactionsComponent {
         console.log(value)
         if (value === 'save') {
           this.getAllMoneyOutputDetailByDay();
-          this.totalSumsByDay();
+          this.totalsByDay();
         }
       });
   }
@@ -221,7 +273,7 @@ export class MoneyOutputTransactionsComponent {
       .subscribe((value) => {
         if (value === 'update') {
           this.getAllMoneyOutputDetailByDay();
-          this.totalSumsByDay();
+          this.totalsByDay();
         }
       });
   }
@@ -237,7 +289,7 @@ export class MoneyOutputTransactionsComponent {
       .subscribe((value) => {
         if (value === 'delete') {
           this.getAllMoneyOutputDetailByDay();
-          this.totalSumsByDay();
+          this.totalsByDay();
         }
       });
   }

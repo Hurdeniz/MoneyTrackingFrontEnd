@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IncomingMoneyDetailsDto } from '../models/Dtos/incomingMoneyDetailDto';
+import { IncomingMoneyDetailsDto } from '../models/Dtos/incomingMoneyDetailsDto';
 import { IncomingMoneyGroupByCustomerDto } from '../models/Dtos/incomingMoneyGroupByCustomerDto';
 import { IncomingMoney } from '../models/incomingMoney';
 import { ListResponseModel } from '../models/listResponseModel';

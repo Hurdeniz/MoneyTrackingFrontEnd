@@ -19,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from 'src/app/services/auth.service';
 
 const moment = _moment;
 
@@ -28,6 +30,7 @@ const moment = _moment;
   styleUrls: ['./satifaction.component.scss'],
 })
 export class SatifactionComponent implements OnInit {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   satisfanction: Satisfaction[] = [];
   satisfactionForm: FormGroup;
   myControl = new FormControl('');
@@ -52,25 +55,83 @@ export class SatifactionComponent implements OnInit {
   @ViewChild('customerCode') nameInput: MatInput;
   startDate = moment().format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
-  options: string[] = ['Sorun Yok', 'Ulaşılamıyor', 'Değişim İstiyor','Açmamış','Cevap Yok', 'İptal İstiyor','Numara Yanlış','Meşgule Atıyor'];
+  options: string[] = ['Sorun Yok', 'Ulaşılamıyor','Değişim İstiyor','Cevap Yok', 'İptal İstiyor','Numara Yanlış','Meşgule Atıyor'];
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private satisfactionService: SatisfactionService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.dateNow = new FormControl(
       moment().format('YYYY-MM-DD'),
       Validators.required
     );
     this.dateInput = this.dateNow.value;
-
     this.getAllSatisfactionDetailByDate();
     this.createSatisfactionForm();
   }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Service') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin' || element == 'Service') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'Satisfaction.Add') {
+          this.add = true;
+        }
+        if (element == 'Satisfaction.Delete') {
+          this.delete = true;
+        }
+        if (element == 'Satisfaction.Update') {
+          this.update = true;
+        }
+        if (element == 'Satisfaction.GetAllSatisfactionDetailByDate') {
+          this.list = true;
+        }
+      });
+    }
+  }
+
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
@@ -114,7 +175,7 @@ export class SatifactionComponent implements OnInit {
     });
   }
 
-  add() {
+  satisfactionAdd() {
     if (this.satisfactionForm.valid) {
       let satisfactionModel = Object.assign({}, this.satisfactionForm.value);
       this.satisfactionService.add(satisfactionModel).subscribe(

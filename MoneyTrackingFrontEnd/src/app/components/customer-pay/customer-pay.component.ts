@@ -5,12 +5,15 @@ import { CustomerPayFilterComponent } from './customer-pay-filter/customer-pay-f
 import { CustomerPay } from 'src/app/models/customerPay';
 import { CustomerPayService } from 'src/app/services/customer-pay.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
+
 const moment = _moment;
 
 @Component({
@@ -19,6 +22,7 @@ const moment = _moment;
   styleUrls: ['./customer-pay.component.scss'],
 })
 export class CustomerPayComponent implements OnInit {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   customerPay: CustomerPay[] = [];
   dataLoaded = false;
   searchHide = false;
@@ -36,20 +40,73 @@ export class CustomerPayComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private customerPayService: CustomerPayService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.getAllCustomerPayDetailByDate();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'CustomerPay.Add') {
+          this.add = true;
+        }
+        if (element == 'CustomerPay.Delete') {
+          this.delete = true;
+        }
+        if (element == 'CustomerPay.Update') {
+          this.update = true;
+        }
+        if (element == 'CustomerPay.GetAllCustomerPayDetailByDate') {
+          this.list = true;
+        }
+      })
+    }
   }
 
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
+
   getTotalCost() {
     return this.customerPay
       .map((t) => t.amount)
@@ -74,6 +131,7 @@ export class CustomerPayComponent implements OnInit {
         }
       );
   }
+
   openAddDialog() {
     this.dialog
       .open(CustomerPayViewComponent, {
@@ -87,6 +145,7 @@ export class CustomerPayComponent implements OnInit {
         }
       });
   }
+
   openEditDialog(row: any) {
     this.dialog
       .open(CustomerPayViewComponent, {
@@ -100,6 +159,7 @@ export class CustomerPayComponent implements OnInit {
         }
       });
   }
+
   openFilterDialog() {
     this.dialog
       .open(CustomerPayFilterComponent, {
@@ -116,12 +176,13 @@ export class CustomerPayComponent implements OnInit {
         }
       });
   }
+
   openDeleteDialog(row: any) {
     this.dialog
       .open(CustomerPayDeleteComponent, {
         width: '450px',
         data: row,
-        disableClose:true
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {
@@ -130,6 +191,7 @@ export class CustomerPayComponent implements OnInit {
         }
       });
   }
+
   exportXlsx() {
     let element = document.getElementById('customerPayTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);

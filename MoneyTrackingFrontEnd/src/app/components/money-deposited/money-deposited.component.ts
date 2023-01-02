@@ -11,6 +11,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from 'src/app/services/auth.service';
 const moment = _moment;
 
 @Component({
@@ -19,6 +21,7 @@ const moment = _moment;
   styleUrls: ['./money-deposited.component.scss'],
 })
 export class MoneyDepositedComponent implements OnInit {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   moneyDepositedDetailsDto: MoneyDepositedDetailsDto[] = [];
   displayedColumns: string[] = [
     'date',
@@ -36,15 +39,66 @@ export class MoneyDepositedComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private moneyDepositedService: MoneyDepositedService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.getAllMoneyDepositedDetailByDate();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'MoneyDeposited.Add') {
+          this.add = true;
+        }
+        if (element == 'MoneyDeposited.Delete') {
+          this.delete = true;
+        }
+        if (element == 'MoneyDeposited.Update') {
+          this.update = true;
+        }
+        if (element == 'MoneyDeposited.GetAllMoneyDepositedDetailByDate') {
+          this.list = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {

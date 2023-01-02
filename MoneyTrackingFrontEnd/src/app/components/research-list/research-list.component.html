@@ -101,11 +101,10 @@
         mat-raised-button
         [disabled]="shipmentListForm.invalid"
         color="primary"
-        (click)="add()"
+        (click)="researchAdd()"
       >
         Kaydet
       </button>
-
       <button
       mat-button
       class="shipment-close-button"
@@ -127,6 +126,7 @@
           </div>
           <div class="col-end">
             <button
+            *ngIf="add"
               class="card-actions-button"
               mat-button
               matTooltip="Yeni"
@@ -219,6 +219,7 @@
           </div>
           <section class="section-example-container mat-elevation-z8">
             <table
+            *ngIf="list"
               mat-table
               id="researchListTable"
               [dataSource]="dataSource"
@@ -280,6 +281,7 @@
                 <th class="action-header" mat-header-cell *matHeaderCellDef></th>
                 <td class="action-cell" mat-cell *matCellDef="let element">
                   <button
+                  *ngIf="update"
                     mat-icon-button
                     color="accent"
                     matTooltip="Düzenle"
@@ -290,6 +292,7 @@
                     <mat-icon>edit</mat-icon>
                   </button>
                   <button
+                  *ngIf="delete"
                     mat-icon-button
                     color="warn"
                     matTooltip="Sil"
@@ -305,7 +308,6 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
-
             <mat-paginator
               [pageSize]="10"
               [pageSizeOptions]="[10, 20, 30, 50, 100]"

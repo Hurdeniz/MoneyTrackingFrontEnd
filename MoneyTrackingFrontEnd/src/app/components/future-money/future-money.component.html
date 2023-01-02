@@ -6,6 +6,7 @@
       </div>
       <div class="col-end">
         <button
+          *ngIf="add"
           class="card-actions-button"
           mat-button
           matTooltip="Yeni"
@@ -91,6 +92,7 @@
       </div>
       <section class="section-example-container mat-elevation-z8">
         <table
+          *ngIf="list"
           mat-table
           id="futureMoneyTable"
           [dataSource]="dataSource"
@@ -192,6 +194,7 @@
             <th class="action-header" mat-header-cell *matHeaderCellDef></th>
             <td class="action-cell" mat-cell *matCellDef="let element">
               <button
+                *ngIf="update"
                 mat-icon-button
                 color="accent"
                 matTooltip="Düzenle"
@@ -201,6 +204,7 @@
                 <mat-icon>edit</mat-icon>
               </button>
               <button
+                *ngIf="delete"
                 mat-icon-button
                 color="warn"
                 matTooltip="Sil"

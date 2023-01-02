@@ -11,6 +11,8 @@ import { MatSort } from '@angular/material/sort';
 import * as XLSX from 'xlsx';
 import { StaffCheckOutComponent } from './staff-check-out/staff-check-out.component';
 import { StaffBackspaceComponent } from './staff-backspace/staff-backspace.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-staff',
@@ -18,6 +20,7 @@ import { StaffBackspaceComponent } from './staff-backspace/staff-backspace.compo
   styleUrls: ['./staff.component.scss'],
 })
 export class StaffComponent implements OnInit {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   staffDetailsDto: StaffDetailsDto[] = [];
   displayedActiveColumns: string[] = [
     'identityNumber',
@@ -60,20 +63,74 @@ export class StaffComponent implements OnInit {
   tablePassive: boolean = false;
   addButton: boolean = true;
   editButton: boolean = true;
-
-
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
+  statusOff: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private staffService: StaffService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.getAllStaffDetailByStatus();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+        this.statusOff=true;
+      }
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'Staff.Add') {
+          this.add = true;
+        }
+        if (element == 'Staff.Delete') {
+          this.delete = true;
+        }
+        if (element == 'Staff.Update') {
+          this.update = true;
+        }
+        if (element == 'Staff.UpdateStatus') {
+          this.statusOff=true;
+        }
+        if (element == 'Staff.GetAllStaffDetailByStatus') {
+          this.list = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {

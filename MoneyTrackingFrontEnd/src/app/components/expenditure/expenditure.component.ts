@@ -25,9 +25,7 @@ export class ExpenditureComponent implements OnInit {
   displayedColumns: string[] = ['date', 'amount', 'description', 'action'];
   dataLoaded = false;
   searchHide = false;
-  isAuthenticated: boolean = false;
   filterText: '';
-  userId: number;
   dataSource: MatTableDataSource<ExpenditureDetailsDto> =
     new MatTableDataSource<ExpenditureDetailsDto>();
   jwtHelper: JwtHelperService = new JwtHelperService();
@@ -35,18 +33,81 @@ export class ExpenditureComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
+  isAuthenticated: boolean = false;
+  userId: number;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private expenditureService: ExpenditureService,
     private dialog: MatDialog,
     private authService: AuthService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.refresh();
+    this.tokenAndUserControl();
     this.getAllExpenditureDetailByUserIdAndDate();
   }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let userId = Object.keys(decode).filter((x) =>
+        x.endsWith('/nameidentifier')
+      )[0];
+      this.userId = decode[userId];
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Staff') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin' || element == 'Staff') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'Expenditure.Add') {
+          this.add = true;
+        }
+        if (element == 'Expenditure.Delete') {
+          this.delete = true;
+        }
+        if (element == 'Expenditure.Update') {
+          this.update = true;
+        }
+        if (element == 'Expenditure.GetAllExpenditureDetailByUserIdAndDate') {
+          this.list = true;
+        }
+      });
+    }
+  }
+
 
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
@@ -58,17 +119,6 @@ export class ExpenditureComponent implements OnInit {
       .reduce((acc, value) => acc + value, 0);
   }
 
-  refresh() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      let token = localStorage.getItem('token');
-      let decode = this.jwtHelper.decodeToken(token);
-      let userId = Object.keys(decode).filter((x) =>
-        x.endsWith('/nameidentifier')
-      )[0];
-      this.userId = decode[userId];
-    }
-  }
 
   getAllExpenditureDetailByUserIdAndDate() {
     this.expenditureService
@@ -143,7 +193,7 @@ export class ExpenditureComponent implements OnInit {
       .open(ExpenditureDeleteComponent, {
         width: '450px',
         data: row,
-        disableClose:true
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {

@@ -10,6 +10,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from 'src/app/services/auth.service';
 const moment = _moment;
 
 @Component({
@@ -18,6 +20,7 @@ const moment = _moment;
   styleUrls: ['./shipment-list-result.component.scss'],
 })
 export class ShipmentListResultComponent {
+  jwtHelper: JwtHelperService = new JwtHelperService();
   shipmentListDetailDto: ShipmentListDetailsDto[] = [];
   displayedColumns: string[] = [
     'date',
@@ -38,15 +41,85 @@ export class ShipmentListResultComponent {
   status: boolean = true;
   startDate = moment().format('YYYY-MM-DD');
   endDate = moment().format('YYYY-MM-DD');
+  isAuthenticated: boolean = false;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private shipmentService: ShipmentListService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.getAllShipmentListDetailByStatusAndDate();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Staff') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Shipment') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Service') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin' || element == 'Staff' || element == 'Shipment'|| element == 'Service') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'ShipmentList.Add') {
+          this.add = true;
+        }
+        if (element == 'ShipmentList.Delete') {
+          this.delete = true;
+        }
+        if (element == 'ShipmentList.Update') {
+          this.update = true;
+        }
+        if (element == 'ShipmentList.GetAllShipmentListDetailByStatusAndDate') {
+          this.list = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {

@@ -23,7 +23,7 @@ export class SafeBoxService {
     return this.httpClient.get<ListResponseModel<SafeBox>>(newPath);
   }
 
-  totalSumsByDay(date:string): Observable<SingleResponseModel<GetSumsDto>> {
+  totalsByDay(date:string): Observable<SingleResponseModel<GetSumsDto>> {
     let newPath = this.apiUrl + 'SafeBox/TotalSumsByDay?date='+date ;
     return this.httpClient.get<SingleResponseModel<GetSumsDto>>(newPath);
   }

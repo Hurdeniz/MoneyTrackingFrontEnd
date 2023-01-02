@@ -43,9 +43,7 @@ export class ShipmentListComponent implements OnInit {
     new MatTableDataSource<ShipmentListDetailsDto>();
   dataLoaded = false;
   searchHide = false;
-  isAuthenticated: boolean = false;
   filterText: '';
-  userId: number;
   dateNow: FormControl;
   dateInput: any;
   jwtHelper: JwtHelperService = new JwtHelperService();
@@ -55,6 +53,13 @@ export class ShipmentListComponent implements OnInit {
   endDate = moment().add('1','days').format('YYYY-MM-DD');
   status: boolean = true;
   @ViewChild('customerCode') nameInput: MatInput;
+  isAuthenticated: boolean = false;
+  userId: number;
+  userRole: string[] = [];
+  add: boolean = false;
+  delete: boolean = false;
+  update: boolean = false;
+  list: boolean = false;
 
   constructor(
     private shipmentService: ShipmentListService,
@@ -65,7 +70,7 @@ export class ShipmentListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.refresh();
+    this.tokenAndUserControl();
     this.dateNow = new FormControl(
       moment().add('1','days').format('YYYY-MM-DD'),
       Validators.required
@@ -73,6 +78,73 @@ export class ShipmentListComponent implements OnInit {
     this.dateInput = this.dateNow.value;
     this.getAllShipmentListDetailByStatusAndDate();
     this.createShipmentListForm();
+  }
+
+  tokenAndUserControl() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      let token = localStorage.getItem('token');
+      let decode = this.jwtHelper.decodeToken(token);
+      let userId = Object.keys(decode).filter((x) =>
+        x.endsWith('/nameidentifier')
+      )[0];
+      this.userId = decode[userId];
+      let role = Object.keys(decode).filter((x) =>
+        x.endsWith('/role')
+      )[0];
+      this.userRole = decode[role];
+    }
+
+    const arrayControl = Array.isArray(this.userRole);
+    if (arrayControl == false) {
+      if (this.userRole.toString() == 'Admin') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Staff') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Shipment') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+      if (this.userRole.toString() == 'Service') {
+        this.add = true;
+        this.delete = true;
+        this.update = true;
+        this.list = true;
+      }
+
+    }
+    else {
+      this.userRole.forEach(element => {
+        if (element == 'Admin' || element == 'Staff' || element == 'Shipment'|| element == 'Service') {
+          this.add = true;
+          this.delete = true;
+          this.update = true;
+          this.list = true;
+        }
+        if (element == 'ShipmentList.Add') {
+          this.add = true;
+        }
+        if (element == 'ShipmentList.Delete') {
+          this.delete = true;
+        }
+        if (element == 'ShipmentList.Update') {
+          this.update = true;
+        }
+        if (element == 'ShipmentList.GetAllShipmentListDetailByStatusAndDate') {
+          this.list = true;
+        }
+      });
+    }
   }
 
   filterDataSource() {
@@ -86,18 +158,6 @@ export class ShipmentListComponent implements OnInit {
     this.endDate = date.format('YYYY-MM-DD');
     this.shipmentListForm.controls['date'].setValue(this.dateInput);
     this.getAllShipmentListDetailByStatusAndDate();
-  }
-
-  refresh() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      let token = localStorage.getItem('token');
-      let decode = this.jwtHelper.decodeToken(token);
-      let userId = Object.keys(decode).filter((x) =>
-        x.endsWith('/nameidentifier')
-      )[0];
-      this.userId = decode[userId];
-    }
   }
 
   getAllShipmentListDetailByStatusAndDate() {
@@ -138,7 +198,7 @@ export class ShipmentListComponent implements OnInit {
     });
   }
 
-  add() {
+  shipmentAdd() {
     debugger
     if (this.shipmentListForm.valid) {
       let shipmentListModel = Object.assign({}, this.shipmentListForm.value);
