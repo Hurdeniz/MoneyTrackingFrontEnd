@@ -8,12 +8,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import * as XLSX from 'xlsx';
 import { StaffCheckOutComponent } from './staff-check-out/staff-check-out.component';
 import { StaffBackspaceComponent } from './staff-backspace/staff-backspace.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -82,6 +81,7 @@ export class StaffComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.getAllStaffDetailByStatus();
   }
 

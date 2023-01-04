@@ -1,36 +1,29 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { IncomingMoneyService } from 'src/app/services/incoming-money.service';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { FutureMoneyCancellationService } from 'src/app/services/future-money-cancellation.service';
 import { Moment } from 'moment';
 import * as _moment from 'moment';
 const moment = _moment;
 
 @Component({
-  selector: 'app-incoming-money',
-  templateUrl: './incoming-money.component.html',
-  styleUrls: ['./incoming-money.component.scss'],
+  selector: 'app-future-money-cancellation',
+  templateUrl: './future-money-cancellation.component.html',
+  styleUrls: ['./future-money-cancellation.component.scss']
 })
-export class IncomingMoneyComponent implements OnInit {
-  incomingMoneyForm: FormGroup;
+export class FutureMoneyCancellationComponent {
+  futureMoneyCancellationForm: FormGroup;
   futureMoneyForm: FormGroup;
   futureMoneyStatus: boolean = false;
-  incominMoneyStatus:boolean=true;
   dateNow: FormControl;
   dateInput: any;
-  answer: number = 0;
 
   constructor(
-    private incomingMoneyService: IncomingMoneyService,
+    private futureMoneyCancellationService: FutureMoneyCancellationService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<IncomingMoneyComponent>,
+    private dialogRef: MatDialogRef<FutureMoneyCancellationComponent>,
     private toastrService: ToastrService
   ) { }
 
@@ -41,22 +34,21 @@ export class IncomingMoneyComponent implements OnInit {
       Validators.required
     );
     this.dateInput = this.dateNow.value;
-    this.createIncomingMoneyForm();
+    this.createFutureMoneyCancellationForm();
   }
 
   addEvent(event: any) {
     let date: Moment = event.value;
     this.dateInput = date.format('YYYY-MM-DD');
-    this.createIncomingMoneyForm();
+    this.createFutureMoneyCancellationForm();
   }
 
-  createIncomingMoneyForm() {
-    this.incomingMoneyForm = this.formBuilder.group({
+  createFutureMoneyCancellationForm() {
+    this.futureMoneyCancellationForm = this.formBuilder.group({
       futureMoneyId: [this.data.futureMoneyId],
-      incomingAmount: [this.data.futureAmount],
-      incomingMoneyRegistrationDate: [this.dateInput, Validators.required],
-      inComingMoneyDescription: [''],
-      incomingMoneyStatus:[this.incominMoneyStatus],
+      futureMoneyCancellationAmount: [this.data.futureAmount],
+      futureMoneyCancellationRegistrationDate: [this.dateInput, Validators.required],
+      futureMoneyCancellationDescription: [''],
       userId: [this.data.userId],
       typeOfOperation: [this.data.typeOfOperation],
       customerCode: [this.data.customerCode],
@@ -72,15 +64,15 @@ export class IncomingMoneyComponent implements OnInit {
   }
 
   add() {
-    if (this.incomingMoneyForm.valid) {
-      let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
-      this.incomingMoneyService
-        .add(incomingMoneyModel)
+    if (this.futureMoneyCancellationForm.valid) {
+      let futureMoneyCancellationModel = Object.assign({}, this.futureMoneyCancellationForm.value);
+      this.futureMoneyCancellationService
+        .add(futureMoneyCancellationModel)
         .subscribe((response) => {
           this.toastrService.success(
             response.message, 'Başarılı');
-          this.incomingMoneyForm.reset();
-          this.dialogRef.close('incoming');
+          this.futureMoneyCancellationForm.reset();
+          this.dialogRef.close('futuremoneycancellation');
         },
           (responseError) => {
             if (responseError.error.ValidationErrors.length > 0) {
@@ -101,7 +93,6 @@ export class IncomingMoneyComponent implements OnInit {
       this.toastrService.error('Formunuz Eksik', 'Dikkat');
     }
   }
-
 
 
 }

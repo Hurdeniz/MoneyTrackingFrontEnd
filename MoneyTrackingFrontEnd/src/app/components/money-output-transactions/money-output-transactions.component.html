@@ -264,6 +264,20 @@
         />
       </mat-form-field>
     </div>
+    <div *ngIf="totalFutureMoneyCancellationAmountStatus" class="col" style="padding: 5px">
+      <mat-form-field  appearance="outline" color="accent" class="full-width">
+        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
+          >E-Gelecek İptal Tutarı</mat-label
+        >
+        <input
+
+          style="color: rgba(255, 255, 255, 0.87)"
+          matInput
+          disabled
+          value="{{ getSumsDto.totalFutureMoneyCancellationAmount | currency:'₺ ' }}"
+        />
+      </mat-form-field>
+    </div>
     <div class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"

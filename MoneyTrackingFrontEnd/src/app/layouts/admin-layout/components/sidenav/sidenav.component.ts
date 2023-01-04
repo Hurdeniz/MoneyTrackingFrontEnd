@@ -87,6 +87,11 @@ export class SidenavComponent implements OnInit {
       icon:'receipt_long',
       path:'IncomingMoney'
     },
+    {
+      name:'E-Gelecek İptal',
+      icon:'receipt_long',
+      path:'FutureMoneyCancellation'
+    },
 
   ];
   shipping:RouteInfo[]=[

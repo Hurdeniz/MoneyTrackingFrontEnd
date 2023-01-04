@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FutureMoneyTransactionsDeleteComponent } from './future-money-transactions-delete/future-money-transactions-delete.component';
 import { FutureMoneyTransactionsViewComponent } from './future-money-transactions-view/future-money-transactions-view.component';
+import { FutureMoneyCancellationComponent } from './future-money-cancellation/future-money-cancellation.component';
 import { IncomingMoneyComponent } from './incoming-money/incoming-money.component';
 import { PartialIncomingMoneyComponent } from './partial-incoming-money/partial-incoming-money.component';
 import { FutureMoneyService } from 'src/app/services/future-money.service';
@@ -13,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-future-money-transactions',
@@ -192,6 +194,21 @@ export class FutureMoneyTransactionsComponent implements OnInit {
         }
       });
   }
+
+  openFutureMoneyCancellationDialog(row: any) {
+    this.dialog
+      .open(FutureMoneyCancellationComponent, {
+        width: '350px',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        if (value === 'futuremoneycancellation') {
+          this.getAllFutureMoneyDetailByStatus();
+        }
+      });
+  }
+
 
   openIncomingDialog(row: any) {
     this.dialog

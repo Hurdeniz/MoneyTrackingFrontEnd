@@ -117,6 +117,11 @@ const routes: Routes = [
        loadChildren: () => import ("../../components/incoming-money/incoming-money.module").then(m => m.IncomingMoneyModule)
     },
     {
+      path: "FutureMoneyCancellation",
+      canActivate:[LoginGuard],
+       loadChildren: () => import ("../../components/future-money-cancellation/future-money-cancellation.module").then(m => m.FutureMoneyCancellationModule)
+    },
+    {
       path: "Satisfaction",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/satifaction/satifaction.module").then(m => m.SatifactionModule)

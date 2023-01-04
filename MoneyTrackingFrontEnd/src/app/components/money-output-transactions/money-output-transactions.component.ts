@@ -39,6 +39,7 @@ export class MoneyOutputTransactionsComponent {
     'totalCustomerPayAmount': 0,
     'totalExpenditureAmount': 0,
     'totalFutureMoneyAmount': 0,
+    'totalFutureMoneyCancellationAmount': 0,
     'totalIncomingMoneyAmount': 0,
     'totalMoneyDepositedAmount': 0,
     'totalMoneyOutputAmount': 0,
@@ -71,8 +72,9 @@ export class MoneyOutputTransactionsComponent {
   list: boolean = false;
   moneyOutputAdd: boolean = false;
   totalsByDayList: boolean = false;
-  cardPaymentInformation:boolean=false;
-  safeBoxInformation:boolean=false;
+  cardPaymentInformation: boolean = false;
+  safeBoxInformation: boolean = false;
+  totalFutureMoneyCancellationAmountStatus: boolean = true;
 
   constructor(
     private moneyOutputService: MoneyOutputService,
@@ -114,10 +116,10 @@ export class MoneyOutputTransactionsComponent {
         this.delete = true;
         this.update = true;
         this.list = true;
-        this.moneyOutputAdd=true;
-        this.totalsByDayList=true;
-        this.cardPaymentInformation=true;
-        this.safeBoxInformation=true;
+        this.moneyOutputAdd = true;
+        this.totalsByDayList = true;
+        this.cardPaymentInformation = true;
+        this.safeBoxInformation = true;
       }
     }
     else {
@@ -127,10 +129,10 @@ export class MoneyOutputTransactionsComponent {
           this.delete = true;
           this.update = true;
           this.list = true;
-          this.moneyOutputAdd=true;
-          this.totalsByDayList=true;
-          this.cardPaymentInformation=true;
-          this.safeBoxInformation=true;
+          this.moneyOutputAdd = true;
+          this.totalsByDayList = true;
+          this.cardPaymentInformation = true;
+          this.safeBoxInformation = true;
         }
 
       });
@@ -187,7 +189,12 @@ export class MoneyOutputTransactionsComponent {
       .subscribe(
         (response) => {
           this.getSumsDto = response.data;
-          this.totalSafeBox = (this.getSumsDto.totalMoneyOutputAmount + this.getSumsDto.turnover + this.getSumsDto.totalIncomingMoneyAmount) - (this.getSumsDto.totalCancellationAmount + this.getSumsDto.totalFutureMoneyAmount + this.getSumsDto.totalCentralPayAmount + this.getSumsDto.totalCustomerPayAmount + this.getSumsDto.totalMoneyDepositedAmount);
+          console.log(this.getSumsDto)
+          if(this.getSumsDto.totalFutureMoneyCancellationAmount==0)
+          {
+            this.totalFutureMoneyCancellationAmountStatus=false;
+          }
+          this.totalSafeBox = (this.getSumsDto.totalMoneyOutputAmount + this.getSumsDto.turnover + this.getSumsDto.totalIncomingMoneyAmount+this.getSumsDto.totalFutureMoneyCancellationAmount) - (this.getSumsDto.totalCancellationAmount + this.getSumsDto.totalFutureMoneyAmount + this.getSumsDto.totalCentralPayAmount + this.getSumsDto.totalCustomerPayAmount + this.getSumsDto.totalMoneyDepositedAmount);
           this.createSafeBoxForm();
 
         },
@@ -202,6 +209,7 @@ export class MoneyOutputTransactionsComponent {
       totalMoneyOutputAmount: [this.getSumsDto.totalMoneyOutputAmount],
       totalCancellationAmount: [this.getSumsDto.totalCancellationAmount],
       totalFutureMoneyAmount: [this.getSumsDto.totalFutureMoneyAmount],
+      totalFutureMoneyCancellationAmount: [this.getSumsDto.totalFutureMoneyCancellationAmount],
       totalIncomingMoneyAmount: [this.getSumsDto.totalIncomingMoneyAmount],
       totalCentralPayAmount: [this.getSumsDto.totalCentralPayAmount],
       totalCustomerPayAmount: [this.getSumsDto.totalCustomerPayAmount],
@@ -283,7 +291,7 @@ export class MoneyOutputTransactionsComponent {
       .open(MoneyOutputTransactionsDeleteComponent, {
         width: '30%',
         data: row,
-        disableClose:true
+        disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {

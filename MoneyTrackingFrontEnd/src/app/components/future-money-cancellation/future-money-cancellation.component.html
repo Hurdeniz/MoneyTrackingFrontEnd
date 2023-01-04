@@ -1,21 +1,10 @@
-<div id="future-money-transactions" class="example-container">
+<div id="future-money-callellation" class="example-container">
   <mat-card>
     <mat-card-actions class="card-actions">
       <div class="col-start">
-        <mat-card-title>Elden Gelecekler</mat-card-title>
+        <mat-card-title>Elden Gelecek İptalleri</mat-card-title>
       </div>
       <div class="col-end">
-        <button
-          *ngIf="futureMoneyAdd"
-          class="card-actions-button"
-          mat-button
-          matTooltip="Yeni"
-          matTooltipPosition="above"
-          (click)="openAddDialog()"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-
         <button
           class="card-actions-button"
           mat-button
@@ -23,7 +12,7 @@
           matTooltipPosition="above"
           printTitle="Money Tracking"
           styleSheetFile="../../../assets/Scss/print/print.scss"
-          printSectionId="future-money-transactions"
+          printSectionId="future-money-callellation"
           ngxPrint
         >
           <mat-icon>print</mat-icon>
@@ -43,11 +32,10 @@
           matTooltip="Yenile"
           matTooltipPosition="above"
           (click)="searchHide = false"
-          (click)="getAllFutureMoneyDetailByStatus()"
+          (click)="getAllFutureMoneyCancellationDetail()"
         >
           <mat-icon>refresh</mat-icon>
         </button>
-
         <button
           class="card-actions-button"
           mat-button
@@ -61,7 +49,6 @@
         </button>
       </div>
     </mat-card-actions>
-
     <mat-card-content class="card-content">
       <mat-progress-bar
         *ngIf="dataLoaded == false"
@@ -94,24 +81,27 @@
       </div>
       <section class="section-example-container mat-elevation-z8">
         <table
-          *ngIf="futureMoneyList"
+          *ngIf="list"
           mat-table
-          id="futureMoneyTable"
+          id="futureMoneyCancellationTable"
           [dataSource]="dataSource"
           matSort
         >
-          <ng-container matColumnDef="userNameSurname">
+          <ng-container matColumnDef="futureMoneyCancellationRegistrationDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Kasa Personel
+              İptal Tarihi
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.userNameSurname }}
+              {{ element.futureMoneyCancellationRegistrationDate | date : "dd.MM.yyyy" }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
+
           </ng-container>
 
           <ng-container matColumnDef="futureMoneyRegistrationDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              İşlem Tarihi
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.futureMoneyRegistrationDate | date : "dd.MM.yyyy" }}
             </td>
@@ -158,104 +148,39 @@
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <ng-container matColumnDef="transactionAmount">
+          <ng-container matColumnDef="futureMoneyCancellationAmount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              İşlem Tutarı
+              İptal Tutarı
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.transactionAmount | currency : "₺ " }}
+              {{ element.futureMoneyCancellationAmount | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalTransactionAmount() | currency : "₺ " }}
+              {{ getTotalIncomingAmount() | currency : "₺ " }}
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="amountPaid">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Ödenen Tutar
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.amountPaid | currency : "₺ " }}
-            </td>
-            <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalAmountPaid() | currency : "₺ " }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="futureAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Gelecek Tutar
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.futureAmount | currency : "₺ " }}
-            </td>
-            <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{ getTotalFutureAmount() | currency : "₺ " }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="description">
+          <ng-container matColumnDef="futureMoneyCancellationDescription">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Açıklama</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.description }}
+              {{ element.futureMoneyCancellationDescription }}
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <ng-container matColumnDef="actions" stickyEnd>
+          <ng-container matColumnDef="action" stickyEnd>
             <th class="action-header" mat-header-cell *matHeaderCellDef></th>
             <td class="action-cell" mat-cell *matCellDef="let element">
               <button
-                *ngIf="futureMoneyUpdate"
-                mat-icon-button
-                color="accent"
-                matTooltip="Düzenle"
-                matTooltipPosition="above"
-                (click)="openEditDialog(element)"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                *ngIf="futureMoneyDelete"
+                *ngIf="delete"
                 mat-icon-button
                 color="warn"
                 matTooltip="Sil"
-                matTooltipPosition="above"
+                matTooltipPosition="right"
                 (click)="openDeleteDialog(element)"
               >
                 <mat-icon>delete</mat-icon>
               </button>
-              <button
-                *ngIf="incomingMoneyAdd"
-                mat-icon-button
-                color="basic"
-                matTooltip="Ödeme Kapat"
-                matTooltipPosition="above"
-                (click)="openIncomingDialog(element)"
-              >
-                <mat-icon>check_box</mat-icon>
-              </button>
-              <button
-                *ngIf="partialIncomingMoneyAdd"
-                mat-icon-button
-                color="primary"
-                matTooltip="Kısmi Ödeme Al"
-                matTooltipPosition="above"
-                (click)="openPartialIncomingDialog(element)"
-              >
-                <mat-icon>toll</mat-icon>
-              </button>
-
-              <button
-              *ngIf="partialIncomingMoneyAdd"
-              mat-icon-button
-              color="warn"
-              matTooltip="İptal Et"
-              matTooltipPosition="above"
-              (click)="openFutureMoneyCancellationDialog(element)"
-            >
-              <mat-icon>cancel</mat-icon>
-            </button>
             </td>
             <td class="action-footer" mat-footer-cell *matFooterCellDef></td>
           </ng-container>
@@ -264,7 +189,6 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
         </table>
-
         <mat-paginator
           [pageSize]="10"
           [pageSizeOptions]="[10, 20, 30, 50, 100]"

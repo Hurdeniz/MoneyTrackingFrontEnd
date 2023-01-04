@@ -9,6 +9,7 @@ import { FutureMoneyTransactionsDeleteComponent } from './future-money-transacti
 import { IncomingMoneyComponent } from './incoming-money/incoming-money.component';
 import { PartialIncomingMoneyComponent } from './partial-incoming-money/partial-incoming-money.component';
 import { SharedModule } from '../shared/shared.module';
+import { FutureMoneyCancellationComponent } from './future-money-cancellation/future-money-cancellation.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SharedModule } from '../shared/shared.module';
     FutureMoneyTransactionsViewComponent,
     FutureMoneyTransactionsDeleteComponent,
     IncomingMoneyComponent,
-    PartialIncomingMoneyComponent
+    PartialIncomingMoneyComponent,
+    FutureMoneyCancellationComponent
   ],
   imports: [
     CommonModule,
