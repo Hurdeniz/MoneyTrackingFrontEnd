@@ -74,6 +74,7 @@ export class CardPaymentComponent implements OnInit {
       this.userRole = decode[role];
 
       console.log(decode);
+      console.log(this.userRole);
     }
 
     const arrayControl = Array.isArray(this.userRole);

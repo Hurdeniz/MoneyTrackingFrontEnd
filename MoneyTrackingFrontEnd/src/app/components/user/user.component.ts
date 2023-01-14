@@ -15,6 +15,8 @@ import { UserViewComponent } from './user-view/user-view.component';
 import * as XLSX from 'xlsx';
 import { UserPasswordResetComponent } from './user-password-reset/user-password-reset.component';
 import { UserStatusComponent } from './user-status/user-status.component';
+import { UserAddComponent } from './user-add/user-add.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -35,6 +37,7 @@ export class UserComponent {
   searchHide = false;
   filterText: '';
   isChecked = true;
+  userId: number;
   slideName: string = 'Aktif';
   status: boolean = true;
   tableActive: boolean = true;
@@ -70,10 +73,15 @@ export class UserComponent {
     if (this.isAuthenticated) {
       let token = localStorage.getItem('token');
       let decode = this.jwtHelper.decodeToken(token);
+      let userId = Object.keys(decode).filter((x) =>
+      x.endsWith('/nameidentifier')
+    )[0];
+    this.userId = decode[userId];
       let role = Object.keys(decode).filter((x) =>
         x.endsWith('/role')
       )[0];
       this.userRole = decode[role];
+      console.log(decode);
     }
 
     const arrayControl = Array.isArray(this.userRole);
@@ -112,7 +120,7 @@ export class UserComponent {
           this.updateStatus = true;
         }
         if (element == 'User.Operations') {
-          this.updateStatus = true;
+          this.userOperation = true;
         }
         if (element == 'User.GetAllUserByStatus') {
           this.list = true;
@@ -124,6 +132,8 @@ export class UserComponent {
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
+
+
 
 
   getAllUserByStatus() {
@@ -166,9 +176,8 @@ export class UserComponent {
 
   openAddDialog() {
     this.dialog
-      .open(UserViewComponent, {
+      .open(UserAddComponent, {
         width: '350px',
-        data: { status: true },
       })
       .afterClosed()
       .subscribe((value) => {
@@ -180,9 +189,9 @@ export class UserComponent {
 
   openEditDialog(row: any) {
     this.dialog
-      .open(UserViewComponent, {
+      .open(UserEditComponent, {
         width: '350px',
-        data: { status: false, row },
+        data:  row
       })
       .afterClosed()
       .subscribe((value) => {
@@ -192,51 +201,51 @@ export class UserComponent {
       });
   }
 
-  openUserOperationSettingDialog() {
-    this.dialog
-      .open(UserOperationsSettingComponent, {
-        width: '1000px',
-        height: '600px'
-      })
-      .afterClosed()
-      .subscribe((value) => {
-        if (value == undefined) {
-
-        } else {
-
-        }
-      });
-  }
-
-  openUserPasswordResetDialog(row: any) {
+  openUserPasswordResetDialog(row: any ) {
     this.dialog
       .open(UserPasswordResetComponent, {
-        width: '450px',
+        width: '550px',
         data: row,
         disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {
-        if (value === 'delete') {
+        if (value === 'updatePassword') {
           this.getAllUserByStatus();
         }
       });
   }
 
-  openUserStatusDialog(row: any) {
+  openUserStatusDialog(row: any, status:boolean) {
     this.dialog
       .open(UserStatusComponent, {
         width: '450px',
-        data: row,
+        data: {row,status},
         disableClose: true
       })
       .afterClosed()
       .subscribe((value) => {
-        if (value === 'delete') {
+        if (value === 'userStatus') {
           this.getAllUserByStatus();
         }
       });
   }
+
+
+//   openUserOperationSettingDialog(dataUserId:any) {
+
+//     this.dialog
+//     .open(UserOperationsSettingComponent, {
+// height:'90%',
+//       data:{userId:dataUserId},
+//     })
+//     .afterClosed()
+
+//   }
+
+
+
+
 
 
 
@@ -250,3 +259,7 @@ export class UserComponent {
 
 
 }
+
+
+
+

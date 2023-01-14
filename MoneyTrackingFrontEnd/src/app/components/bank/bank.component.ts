@@ -56,6 +56,7 @@ export class BankComponent {
         x.endsWith('/role')
       )[0];
       this.userRole = decode[role];
+      console.log(this.userRole);
     }
 
     const arrayControl = Array.isArray(this.userRole);

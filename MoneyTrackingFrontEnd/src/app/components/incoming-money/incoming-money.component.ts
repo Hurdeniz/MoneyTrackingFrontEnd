@@ -102,8 +102,6 @@ export class IncomingMoneyComponent implements OnInit {
     );
   }
 
-
-
   openDeleteDialog(row: any) {
     this.dialog
       .open(IncomingMoneyDeleteComponent, {

@@ -6,7 +6,7 @@
       </div>
       <div class="col-end">
         <button
-          *ngIf="addButton; add"
+          *ngIf="addButton || add"
           class="card-actions-button"
           mat-button
           matTooltip="Yeni"
@@ -137,35 +137,49 @@
               >
                 <mat-icon>edit</mat-icon>
               </button>
-              <button
-                *ngIf="userOperation"
-                mat-icon-button
-                color="primary"
-                matTooltip="Yetki Ayarları"
-                matTooltipPosition="above"
-                (click)="openEditDialog(element)"
-              >
-                <mat-icon>manage_accounts</mat-icon>
-              </button>
+
               <button
                 *ngIf="updatePassword"
                 mat-icon-button
                 color="basic"
                 matTooltip="Şifre Sıfırla"
                 matTooltipPosition="above"
-
+                (click)="openUserPasswordResetDialog(element)"
               >
                 <mat-icon>lock_reset</mat-icon>
               </button>
+
               <button
-                *ngIf="updateStatus"
+                *ngIf="update"
+                mat-icon-button
+                color="accent"
+                matTooltip="Kullanıcı Yetkileri"
+                matTooltipPosition="above"
+              [routerLink]="['UserOperations/',element.userId]"
+              >
+                <mat-icon>manage_accounts</mat-icon>
+              </button>
+              <button
+                *ngIf="update"
+                mat-icon-button
+                color="basic"
+                matTooltip="Menu Yetkileri"
+                matTooltipPosition="above"
+              >
+                <mat-icon>admin_panel_settings</mat-icon>
+              </button>
+
+              <button
+                *ngIf="update"
                 mat-icon-button
                 color="warn"
                 matTooltip="Pasif Yap"
                 matTooltipPosition="right"
+                (click)="openUserStatusDialog(element,false)"
               >
                 <mat-icon>person_off</mat-icon>
               </button>
+
             </td>
           </ng-container>
 
@@ -222,6 +236,7 @@
                 color="accent"
                 matTooltip="Aktif Yap"
                 matTooltipPosition="right"
+                (click)="openUserStatusDialog(element,true)"
               >
                 <mat-icon>person_add</mat-icon>
               </button>

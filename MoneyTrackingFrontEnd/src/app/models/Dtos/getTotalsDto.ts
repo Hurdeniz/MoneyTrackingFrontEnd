@@ -1,4 +1,4 @@
-export interface GetSumsDto {
+export interface GetTotalsDto {
   totalCancellationAmount:number;
   totalCentralPayAmount:number;
   totalCustomerPayAmount:number;

@@ -20,7 +20,7 @@ const moment = _moment;
 export class IncomingMoneyComponent implements OnInit {
   incomingMoneyForm: FormGroup;
   futureMoneyForm: FormGroup;
-  futureMoneyStatus: boolean = false;
+  futureMoneyStatus: boolean=false;
   incominMoneyStatus:boolean=true;
   dateNow: FormControl;
   dateInput: any;
@@ -35,13 +35,13 @@ export class IncomingMoneyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.dateNow = new FormControl(
       moment().format('YYYY-MM-DD'),
       Validators.required
     );
     this.dateInput = this.dateNow.value;
     this.createIncomingMoneyForm();
+    console.log(this.data);
   }
 
   addEvent(event: any) {
@@ -72,6 +72,7 @@ export class IncomingMoneyComponent implements OnInit {
   }
 
   add() {
+    debugger
     if (this.incomingMoneyForm.valid) {
       let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
       this.incomingMoneyService

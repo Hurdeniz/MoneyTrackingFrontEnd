@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,9 +10,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from './models/myDateFormats';
-
-
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +21,7 @@ import { MY_DATE_FORMATS } from './models/myDateFormats';
     FormsModule,
     ReactiveFormsModule,
     MatMomentDateModule,
+
 
     ToastrModule.forRoot({
       progressBar: true,

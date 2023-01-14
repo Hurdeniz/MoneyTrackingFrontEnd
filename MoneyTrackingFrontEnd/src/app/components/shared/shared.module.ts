@@ -28,6 +28,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {NgxPrintModule} from 'ngx-print';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -60,7 +61,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     NgxPrintModule,
     MatSlideToggleModule,
     MatGridListModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule
 
   ],
   exports:[
@@ -90,7 +92,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatSlideToggleModule,
     NgxPrintModule,
     MatGridListModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule
 
   ]
 })

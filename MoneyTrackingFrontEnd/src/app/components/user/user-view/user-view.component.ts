@@ -1,18 +1,34 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
+
+interface Authorized {
+  id: number;
+  authorizedValue: string;
+}
 
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
   styleUrls: ['./user-view.component.scss']
 })
+
 export class UserViewComponent {
   userForm: FormGroup;
   actionBtnName: string;
   dialogTitle: string;
+  password:boolean;
+  authorizedId =new FormControl('',Validators.required);
+
+  authorizeds: Authorized[] = [
+    {id:1, authorizedValue: 'Kasa Şefi'},
+    {id:2, authorizedValue: 'Kasa Personeli'},
+    {id:3, authorizedValue: 'Müşteri Hizmetleri'},
+    {id:4, authorizedValue: 'Depo Personeli'},
+  ];
+
 
   constructor(
     private userService: UserService,
@@ -23,6 +39,8 @@ export class UserViewComponent {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data)
+
     if (this.data.status) {
 
       this.actionBtnName = 'Kaydet';
@@ -36,7 +54,9 @@ export class UserViewComponent {
 
   getForms() {
     this.createUserForm();
+    this.password=true;
     if (!this.data.status) {
+
       this.editUserForm();
     }
   }
@@ -44,10 +64,12 @@ export class UserViewComponent {
   createUserForm() {
     if (this.data.status) {
       this.userForm = this.formBuilder.group({
+        operationClaimId: [''],
+        menuClaimId: [''],
         email: ['', Validators.email],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        password: ['1111']
+        password: ['',Validators.required]
       });
     } else if (!this.data.status) {
       this.userForm = this.formBuilder.group({
@@ -62,15 +84,19 @@ export class UserViewComponent {
     }
   }
   editUserForm() {
+    this.password=false;
     this.userForm.controls['email'].setValue(
       this.data.row.email
     );
     this.userForm.controls['firstName'].setValue(this.data.row.firstName);
     this.userForm.controls['lastName'].setValue(this.data.row.lastName);
+   // this.userForm.controls['operationClaimId'].setValue(this.data.row.lastName);
   }
 
   statusControl() {
     if (this.data.status) {
+      this.userForm.controls['operationClaimId'].setValue(this.authorizedId.value);
+      this.userForm.controls['menuClaimId'].setValue(this.authorizedId.value);
       this.add();
     } else if (!this.data.status) {
       this.update();
@@ -78,7 +104,7 @@ export class UserViewComponent {
   }
 
   add() {
-    debugger
+debugger
     if (this.userForm.valid) {
       let userModel = Object.assign({}, this.userForm.value);
       this.userService.add(userModel).subscribe(
@@ -88,6 +114,7 @@ export class UserViewComponent {
           this.dialogRef.close('save');
         },
         (responseError) => {
+          console.log(responseError)
           if (responseError.error.ValidationErrors == undefined) {
             this.toastrService.error(responseError.error, 'Dikkat');
           } else {

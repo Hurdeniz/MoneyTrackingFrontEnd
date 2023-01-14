@@ -10,9 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MoneyOutputDetailsDto } from 'src/app/models/Dtos/moneyOutputDetailsDto';
 import { MoneyOutputService } from 'src/app/services/money-output.service';
 import { Moment } from 'moment';
-import * as XLSX from 'xlsx';
-import * as _moment from 'moment';
-import { GetSumsDto } from 'src/app/models/Dtos/getSumsDto';
+import { GetTotalsDto } from 'src/app/models/Dtos/getTotalsDto';
 import { SafeBoxService } from 'src/app/services/safe-box.service';
 import { SafeBoxInformationComponent } from './safe-box-information/safe-box-information.component';
 import { CardPaymentInformationComponent } from './card-payment-information/card-payment-information.component';
@@ -20,6 +18,8 @@ import { CardPaymentCountDto } from 'src/app/models/Dtos/cardPaymentCountDto';
 import { CardPaymentService } from 'src/app/services/card-payment.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from 'src/app/services/auth.service';
+import * as XLSX from 'xlsx';
+import * as _moment from 'moment';
 const moment = _moment;
 
 
@@ -33,7 +33,7 @@ const moment = _moment;
 export class MoneyOutputTransactionsComponent {
   jwtHelper: JwtHelperService = new JwtHelperService();
   moneyOutputDetailsDto: MoneyOutputDetailsDto[] = [];
-  getSumsDto: GetSumsDto = {
+  getTotalsDto: GetTotalsDto = {
     'totalCancellationAmount': 0,
     'totalCentralPayAmount': 0,
     'totalCustomerPayAmount': 0,
@@ -188,13 +188,13 @@ export class MoneyOutputTransactionsComponent {
       .totalsByDay(this.day)
       .subscribe(
         (response) => {
-          this.getSumsDto = response.data;
-          console.log(this.getSumsDto)
-          if(this.getSumsDto.totalFutureMoneyCancellationAmount==0)
+          this.getTotalsDto = response.data;
+          console.log(this.getTotalsDto)
+          if(this.getTotalsDto.totalFutureMoneyCancellationAmount==0)
           {
             this.totalFutureMoneyCancellationAmountStatus=false;
           }
-          this.totalSafeBox = (this.getSumsDto.totalMoneyOutputAmount + this.getSumsDto.turnover + this.getSumsDto.totalIncomingMoneyAmount+this.getSumsDto.totalFutureMoneyCancellationAmount) - (this.getSumsDto.totalCancellationAmount + this.getSumsDto.totalFutureMoneyAmount + this.getSumsDto.totalCentralPayAmount + this.getSumsDto.totalCustomerPayAmount + this.getSumsDto.totalMoneyDepositedAmount);
+          this.totalSafeBox = (this.getTotalsDto.totalMoneyOutputAmount + this.getTotalsDto.turnover + this.getTotalsDto.totalIncomingMoneyAmount+this.getTotalsDto.totalFutureMoneyCancellationAmount) - (this.getTotalsDto.totalCancellationAmount + this.getTotalsDto.totalFutureMoneyAmount + this.getTotalsDto.totalCentralPayAmount + this.getTotalsDto.totalCustomerPayAmount + this.getTotalsDto.totalMoneyDepositedAmount);
           this.createSafeBoxForm();
 
         },
@@ -206,14 +206,14 @@ export class MoneyOutputTransactionsComponent {
 
   createSafeBoxForm() {
     this.safeBoxForm = this.formBuilder.group({
-      totalMoneyOutputAmount: [this.getSumsDto.totalMoneyOutputAmount],
-      totalCancellationAmount: [this.getSumsDto.totalCancellationAmount],
-      totalFutureMoneyAmount: [this.getSumsDto.totalFutureMoneyAmount],
-      totalFutureMoneyCancellationAmount: [this.getSumsDto.totalFutureMoneyCancellationAmount],
-      totalIncomingMoneyAmount: [this.getSumsDto.totalIncomingMoneyAmount],
-      totalCentralPayAmount: [this.getSumsDto.totalCentralPayAmount],
-      totalCustomerPayAmount: [this.getSumsDto.totalCustomerPayAmount],
-      totalMonetaryDepositedAmount: [this.getSumsDto.totalMoneyDepositedAmount],
+      totalMoneyOutputAmount: [this.getTotalsDto.totalMoneyOutputAmount],
+      totalCancellationAmount: [this.getTotalsDto.totalCancellationAmount],
+      totalFutureMoneyAmount: [this.getTotalsDto.totalFutureMoneyAmount],
+      totalFutureMoneyCancellationAmount: [this.getTotalsDto.totalFutureMoneyCancellationAmount],
+      totalIncomingMoneyAmount: [this.getTotalsDto.totalIncomingMoneyAmount],
+      totalCentralPayAmount: [this.getTotalsDto.totalCentralPayAmount],
+      totalCustomerPayAmount: [this.getTotalsDto.totalCustomerPayAmount],
+      totalMonetaryDepositedAmount: [this.getTotalsDto.totalMoneyDepositedAmount],
       totalSafeBoxAmount: [this.totalSafeBox],
       date: [this.day],
       description: [''],
@@ -263,7 +263,6 @@ export class MoneyOutputTransactionsComponent {
       })
       .afterClosed()
       .subscribe((value) => {
-        console.log(value)
         if (value === 'save') {
           this.getAllMoneyOutputDetailByDay();
           this.totalsByDay();
@@ -306,7 +305,7 @@ export class MoneyOutputTransactionsComponent {
     this.dialog
       .open(SafeBoxInformationComponent, {
         width: '500px',
-        data: { getSums: this.getSumsDto, date: this.day, totalSafeBox: this.totalSafeBox }
+        data: { getSums: this.getTotalsDto, date: this.day, totalSafeBox: this.totalSafeBox }
       })
 
   }

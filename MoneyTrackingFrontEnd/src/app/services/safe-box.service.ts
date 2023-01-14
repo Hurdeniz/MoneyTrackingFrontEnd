@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetSumsDto } from '../models/Dtos/getSumsDto';
+import { GetTotalsDto } from '../models/Dtos/getTotalsDto';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
 import { SafeBox } from '../models/safeBox';
@@ -23,9 +23,9 @@ export class SafeBoxService {
     return this.httpClient.get<ListResponseModel<SafeBox>>(newPath);
   }
 
-  totalsByDay(date:string): Observable<SingleResponseModel<GetSumsDto>> {
-    let newPath = this.apiUrl + 'SafeBox/TotalSumsByDay?date='+date ;
-    return this.httpClient.get<SingleResponseModel<GetSumsDto>>(newPath);
+  totalsByDay(date:string): Observable<SingleResponseModel<GetTotalsDto>> {
+    let newPath = this.apiUrl + 'SafeBox/TotalsByDay?date='+date ;
+    return this.httpClient.get<SingleResponseModel<GetTotalsDto>>(newPath);
   }
 
   add(safeBox: SafeBox):Observable<ResponseModel>{
