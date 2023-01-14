@@ -11,6 +11,7 @@ import { UserStatusComponent } from './user-status/user-status.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserOperationStatusPipe } from 'src/app/Pipe/user-operation-status.pipe';
+import { UserMenuSettingComponent } from './user-menu-setting/user-menu-setting.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { UserOperationStatusPipe } from 'src/app/Pipe/user-operation-status.pipe
     UserStatusComponent,
     UserAddComponent,
     UserEditComponent,
-    UserOperationStatusPipe
+    UserOperationStatusPipe,
+    UserMenuSettingComponent
 
   ],
   imports: [

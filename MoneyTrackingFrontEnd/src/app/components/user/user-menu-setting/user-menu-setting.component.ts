@@ -1,31 +1,30 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UserOperationClaimsDto } from 'src/app/models/Dtos/userOperationClaimsDto';
+import { UserMenuClaimsDto } from 'src/app/models/Dtos/userMenuClaimsDto';
 import { UserService } from 'src/app/services/user.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-user-operations-setting',
-  templateUrl: './user-operations-setting.component.html',
-  styleUrls: ['./user-operations-setting.component.scss']
+  selector: 'app-user-menu-setting',
+  templateUrl: './user-menu-setting.component.html',
+  styleUrls: ['./user-menu-setting.component.scss']
 })
-export class UserOperationsSettingComponent {
+export class UserMenuSettingComponent {
   userId: string | null | undefined;
-  userOperationClaim: UserOperationClaimsDto[] = [];
+  userMenuClaim: UserMenuClaimsDto[] = [];
   dataLoaded = false;
   searchHide = false;
   filterText: '';
   displayedColumns: string[] = ['description', 'status'];
-  dataSource: MatTableDataSource<UserOperationClaimsDto> = new MatTableDataSource<UserOperationClaimsDto>();
+  dataSource: MatTableDataSource<UserMenuClaimsDto> = new MatTableDataSource<UserMenuClaimsDto>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  userOperationForm: FormGroup;
+  userMenuForm: FormGroup;
 
 
   constructor(
@@ -41,14 +40,15 @@ export class UserOperationsSettingComponent {
         this.userId = params.get('id');
       }
     );
-    this.getAllUserOperationClaim();
+    this.getAllUserMenuClaim();
   }
 
-  getAllUserOperationClaim() {
-    this.userService.getAllUserOperationClaims(this.userId).subscribe(
+
+  getAllUserMenuClaim() {
+    this.userService.getAllUserMenuClaims(this.userId).subscribe(
       (response) => {
-        this.userOperationClaim = response.data;
-        this.dataSource = new MatTableDataSource<UserOperationClaimsDto>(this.userOperationClaim);
+        this.userMenuClaim = response.data;
+        this.dataSource = new MatTableDataSource<UserMenuClaimsDto>(this.userMenuClaim);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.dataLoaded = true;
@@ -64,39 +64,39 @@ export class UserOperationsSettingComponent {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
 
-  userOperationStatus(row:any) {
+  userMenuStatus(row:any) {
     if (row.status) {
-      this.updateUserOperationForm(row.status,row.userOperationClaimId,row.userId,row.operationClaimId);
+      this.updateUserMenuForm(row.status,row.userOperationClaimId,row.userId,row.operationClaimId);
     this.update();
     }
     else {
-      this.updateUserOperationForm(row.status,row.userOperationClaimId,row.userId,row.operationClaimId);
+      this.updateUserMenuForm(row.status,row.userOperationClaimId,row.userId,row.operationClaimId);
     this.update();
     }
   }
 
-  updateUserOperationForm(status:boolean,userOperationClaimId:number,userId:number,operationClaimId:number) {
+  updateUserMenuForm(status:boolean,userOperationClaimId:number,userId:number,operationClaimId:number) {
     if (status) {
-      this.userOperationForm = this.formBuilder.group({
-        userOperationClaimId: [userOperationClaimId],
+      this.userMenuForm = this.formBuilder.group({
+        userMenuClaimId: [userOperationClaimId],
         userId: [userId],
-        operationClaimId: [operationClaimId],
+        menuClaimId: [operationClaimId],
         status: [status]
       });
     } else {
-      this.userOperationForm = this.formBuilder.group({
-        userOperationClaimId: [userOperationClaimId],
+      this.userMenuForm = this.formBuilder.group({
+        userMenuClaimId: [userOperationClaimId],
         userId: [userId],
-        operationClaimId: [operationClaimId],
+        menuClaimId: [operationClaimId],
         status: [status]
       });
     }
   }
 
   update() {
-    if (this.userOperationForm.valid) {
-      let userOperationModel = Object.assign({}, this.userOperationForm.value);
-      this.userService.updateOperationClaim(userOperationModel).subscribe(
+    if (this.userMenuForm.valid) {
+      let userMenuModel = Object.assign({}, this.userMenuForm.value);
+      this.userService.updateMenuClaim(userMenuModel).subscribe(
         (response) => {
           this.toastrService.success(response.message, 'Başarılı');
         },
@@ -125,16 +125,12 @@ export class UserOperationsSettingComponent {
   }
 
   exportXlsx() {
-    let element = document.getElementById('userOperationsTable');
+    let element = document.getElementById('userMenuTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Kullanıcı Yetkileri');
-    XLSX.writeFile(wb, 'Kullanıcı Yetkileri.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, 'Kullanıcı Menü Yetkileri');
+    XLSX.writeFile(wb, 'Kullanıcı Menü Yetkileri.xlsx');
   }
-
-
-
-
 
 
 

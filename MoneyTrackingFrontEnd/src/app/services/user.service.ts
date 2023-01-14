@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserForAddDto } from '../models/Dtos/userForAddDto';
 import { UserForPasswordUpdateDto } from '../models/Dtos/userForPasswordUpdateDto';
+import { UserMenuClaimsDto } from '../models/Dtos/userMenuClaimsDto';
 import { UserOperationClaimsDto } from '../models/Dtos/userOperationClaimsDto';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
@@ -31,6 +32,11 @@ export class UserService {
     return this.httpClient.get<ListResponseModel<UserOperationClaimsDto>>(newPath);
   }
 
+  getAllUserMenuClaims(userId:any): Observable<ListResponseModel<UserMenuClaimsDto>> {
+    let newPath = this.apiUrl + 'User/GetAllUserMenuClaims?userId='+userId;
+    return this.httpClient.get<ListResponseModel<UserMenuClaimsDto>>(newPath);
+  }
+
   add(userForAddDto: UserForAddDto): Observable<ResponseModel> {
     return this.httpClient.post<ResponseModel>(this.apiUrl + 'User/Add', userForAddDto)
   }
@@ -49,6 +55,10 @@ export class UserService {
 
   updateOperationClaim(userOperationClaim: UserOperationClaim): Observable<ResponseModel> {
     return this.httpClient.post<ResponseModel>(this.apiUrl + 'UserOperation/Update', userOperationClaim)
+  }
+
+  updateMenuClaim(userMenuClaim: UserMenuClaim): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + 'UserMenu/Update', userMenuClaim)
   }
 
 
