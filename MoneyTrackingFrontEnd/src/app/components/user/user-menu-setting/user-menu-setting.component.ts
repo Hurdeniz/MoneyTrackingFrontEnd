@@ -66,28 +66,28 @@ export class UserMenuSettingComponent {
 
   userMenuStatus(row:any) {
     if (row.status) {
-      this.updateUserMenuForm(row.status,row.userOperationClaimId,row.userId,row.operationClaimId);
+      this.updateUserMenuForm(row.status,row.userMenuClaimId,row.userId,row.menuClaimId);
     this.update();
     }
     else {
-      this.updateUserMenuForm(row.status,row.userOperationClaimId,row.userId,row.operationClaimId);
+      this.updateUserMenuForm(row.status,row.userMenuClaimId,row.userId,row.menuClaimId);
     this.update();
     }
   }
 
-  updateUserMenuForm(status:boolean,userOperationClaimId:number,userId:number,operationClaimId:number) {
+  updateUserMenuForm(status:boolean,userMenuClaimId:number,userId:number,menuClaimId:number) {
     if (status) {
       this.userMenuForm = this.formBuilder.group({
-        userMenuClaimId: [userOperationClaimId],
+        userMenuClaimId: [userMenuClaimId],
         userId: [userId],
-        menuClaimId: [operationClaimId],
+        menuClaimId: [menuClaimId],
         status: [status]
       });
     } else {
       this.userMenuForm = this.formBuilder.group({
-        userMenuClaimId: [userOperationClaimId],
+        userMenuClaimId: [userMenuClaimId],
         userId: [userId],
-        menuClaimId: [operationClaimId],
+        menuClaimId: [menuClaimId],
         status: [status]
       });
     }

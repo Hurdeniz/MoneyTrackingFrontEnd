@@ -72,7 +72,7 @@ const routes: Routes = [
        loadChildren: () => import ("../../components/staff-task/staff-task.module").then(m => m.StaffTaskModule)
     },
     {
-      path: "ShipmentList",
+      path: "ShipmentListAdd",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/shipment-list/shipment-list.module").then(m => m.ShipmentListModule)
     },
@@ -82,7 +82,7 @@ const routes: Routes = [
        loadChildren: () => import ("../../components/shipment-list-result/shipment-list-result.module").then(m => m.ShipmentListResultModule)
     },
     {
-      path: "ResearchList",
+      path: "ResearchListAdd",
       canActivate:[LoginGuard],
        loadChildren: () => import ("../../components/research-list/research-list.module").then(m => m.ResearchListModule)
     },

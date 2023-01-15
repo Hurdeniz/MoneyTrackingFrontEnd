@@ -1,112 +1,271 @@
-<h1 style="margin-top: 20px; text-align: center;">Hürdeniz Yener</h1>
-<h4 style="text-align: center;">Hoşgeldiniz</h4>
+<h1 class="user-name">{{ userName }}</h1>
+<h5 class="user-role-name"> {{userRoleName}}</h5>
+<h3 class="welcome">Hoşgeldiniz</h3>
 <mat-divider></mat-divider>
 
-<h4>Kasa</h4>
-<mat-divider></mat-divider>
+<mat-selection-list [multiple]="false">
 
-<mat-selection-list [multiple]="false"  class="scroller">
+  <mat-list-option class="dash-list-option" [routerLink]="['FutureMoneyCancellation']">
+    <mat-icon matListItemIcon class="dash-list-option-icon">
+      dashboard</mat-icon
+    >
+    Dashboard
+  </mat-list-option>
 
-  <mat-list-option
-  *ngFor="let safetyboxs of safetyBox"
-  [routerLink]="[safetyboxs.path]"
->
+  <mat-divider></mat-divider>
 
-  {{ safetyboxs.name }}
-</mat-list-option>
-<mat-list-option
-*ngFor="let safetyboxs of safetyBox"
-[routerLink]="[safetyboxs.path]"
->
-<mat-icon mat-list-icon>{{ safetyboxs.icon }}</mat-icon>
-{{ safetyboxs.name }}
-</mat-list-option>
-  <!-- <mat-accordion>
-    <mat-expansion-panel>
+  <mat-accordion>
+    <mat-expansion-panel *ngIf="safetyBox">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon mat-list-icon>currency_exchange</mat-icon>
         </mat-panel-title>
         <mat-panel-description> Kasa </mat-panel-description>
       </mat-expansion-panel-header>
+
       <mat-list-option
-        *ngFor="let safetyboxs of safetyBox"
-        [routerLink]="[safetyboxs.path]"
-      >
-        <mat-icon mat-list-icon>{{ safetyboxs.icon }}</mat-icon>
-        {{ safetyboxs.name }}
+      *ngIf="adminShowAllForm || moneyOutputTransactionShowForm"
+      class="list-option" [routerLink]="['MoneyOutputTransactions']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          price_check</mat-icon
+        >
+        Günlük Kasa
       </mat-list-option>
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || moneyDepositedShowForm"
+      class="list-option" [routerLink]="['MoneyDeposited']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          account_balance</mat-icon
+        >
+       Para Yatırma
+      </mat-list-option>
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || customerPayShowForm"
+      class="list-option" [routerLink]="['CustomerPay']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          add_business</mat-icon
+        >
+       Firma Ödemesi
+      </mat-list-option>
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || centralPayShowForm"
+      class="list-option" [routerLink]="['CentralPay']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          domain_add</mat-icon
+        >
+     Merkez Ödemesi
+      </mat-list-option>
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || cancellationShowForm"
+      class="list-option" [routerLink]="['Cancellation']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          money_off</mat-icon
+        >
+     İptal İşlemi
+      </mat-list-option>
+
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || monetaryDeficitShowForm"
+      class="list-option" [routerLink]="['MonetaryDeficit']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          newspaper</mat-icon
+        >
+     Kasa Açıkları
+      </mat-list-option>
+
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffShowForm"
+      class="list-option" [routerLink]="['Staff']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          groups</mat-icon
+        >
+     Personeller
+      </mat-list-option>
+
+      <mat-list-option
+       *ngIf="adminShowAllForm || staffShowAllForm || collectMoneyShowForm"
+      class="list-option" [routerLink]="['CollectMoney']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          calculate</mat-icon
+        >
+     Kasa Topla
+      </mat-list-option>
+
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffShowAllForm || serviceShowAllForm || moneyOutputShowForm"
+      class="list-option" [routerLink]="['MoneyOutput']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          point_of_sale</mat-icon
+        >
+     Kasa Çıkış
+      </mat-list-option>
+
+
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffShowAllForm || cardPaymentShowForm"
+      class="list-option" [routerLink]="['CardPayment']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          credit_card</mat-icon
+        >
+       Kredi Kartı
+      </mat-list-option>
+
+
+      <mat-list-option
+       *ngIf="adminShowAllForm || staffShowAllForm || expenditureShowForm"
+      class="list-option" [routerLink]="['Expenditure']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          article</mat-icon
+        >
+       Masraf
+      </mat-list-option>
+
+
+      <mat-list-option
+       *ngIf="adminShowAllForm || staffShowAllForm || futureMoneyShowForm"
+      class="list-option" [routerLink]="['FutureMoney']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          how_to_reg</mat-icon
+        >
+        E-Gelecek
+      </mat-list-option>
+
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffShowAllForm || noteShowForm"
+      class="list-option" [routerLink]="['Note']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          description</mat-icon
+        >
+     Notlar
+      </mat-list-option>
+
     </mat-expansion-panel>
-    <mat-divider style="background-color: #69f0ae"></mat-divider>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon mat-list-icon>currency_exchange</mat-icon>
+          <mat-icon mat-list-icon>how_to_reg</mat-icon>
         </mat-panel-title>
         <mat-panel-description> E-Gelecek </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option
-        *ngFor="let futureMoneys of futureMoney"
-        [routerLink]="[futureMoneys.path]"
-      >
-        <mat-icon mat-list-icon>{{ futureMoneys.icon }}</mat-icon>
-        {{ futureMoneys.name }}
-      </mat-list-option>
-    </mat-expansion-panel>
-    <mat-divider style="background-color: #69f0ae"></mat-divider>
 
-     <mat-expansion-panel>
+      <mat-list-option class="list-option" [routerLink]="['FutureMoneyTransactions']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          assignment_ind</mat-icon
+        >
+        E-Gelecekler
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['IncomingMoney']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          assignment_turned_in</mat-icon
+        >
+        E-Gelenler
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['FutureMoneyCancellation']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          content_paste_off</mat-icon
+        >
+        E-Gelecek İptaller
+      </mat-list-option>
+
+
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon mat-list-icon>local_shipping</mat-icon>
         </mat-panel-title>
         <mat-panel-description> Sevkiyat </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let shippings of shipping" routerLink="{{shippings.path}}">
-        <mat-icon mat-list-icon>{{ shippings.icon }}</mat-icon>
-        {{ shippings.name }}
+
+      <mat-list-option class="list-option" [routerLink]="['ShipmentListAdd']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          add_location_alt</mat-icon
+        >
+        Sevkiyat Oluştur
       </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['ResearchListAdd']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          add_home_work</mat-icon
+        >
+        Sor Oluştur
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['ShipmentListResult']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          fact_check</mat-icon
+        >
+        Sevkiyat Sonuç
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['ShipmentResearchList']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          view_list</mat-icon
+        >
+        Sevkiyat Listesi
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['Satisfaction']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          support_agent</mat-icon
+        >
+        Memnuniyet
+      </mat-list-option>
+
+
     </mat-expansion-panel>
-    <mat-divider style="background-color: #69f0ae"></mat-divider>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon mat-list-icon>person</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description> Personel </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let staffs of staff" [routerLink]="[staffs.path]">
-        <mat-icon mat-list-icon>{{ staffs.icon }}</mat-icon>
-        {{ staffs.name }}
-      </mat-list-option>
-    </mat-expansion-panel>
-    <mat-divider style="background-color: #69f0ae"></mat-divider>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon mat-list-icon>person</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description> Kullanıcı </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let users of user"[routerLink]="[users.path]">
-        <mat-icon mat-list-icon>{{ users.icon }}</mat-icon>
-        {{ users.name }}
-      </mat-list-option>
-    </mat-expansion-panel>
-    <mat-divider style="background-color: #69f0ae"></mat-divider>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon mat-list-icon>person</mat-icon>
+          <mat-icon mat-list-icon>settings</mat-icon>
         </mat-panel-title>
         <mat-panel-description> Ayarlar </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list-option *ngFor="let settings of setting" [routerLink]="[settings.path]">
-        <mat-icon mat-list-icon>{{ settings.icon }}</mat-icon>
-        {{ settings.name }}
+
+      <mat-list-option class="list-option" [routerLink]="['User']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          person_outline</mat-icon
+        >
+        Kullanıcılar
       </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['Bank']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          account_balance</mat-icon
+        >
+        Bankalar
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['StaffTask']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          add_task</mat-icon
+        >
+        Görevler
+      </mat-list-option>
+
+      <mat-list-option class="list-option" [routerLink]="['StaffEpisode']">
+        <mat-icon matListItemIcon class="list-option-icon">
+          format_list_bulleted</mat-icon
+        >
+        Bölümler
+      </mat-list-option>
+
+
     </mat-expansion-panel>
-  </mat-accordion> -->
+  </mat-accordion>
 </mat-selection-list>
 
-<button (click)="openFullscreen()"></button>
