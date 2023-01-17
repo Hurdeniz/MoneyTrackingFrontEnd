@@ -35,6 +35,16 @@
         <button
         class="card-actions-button"
         mat-button
+        matTooltip="Günlük Kasa Detayları"
+        matTooltipPosition="above"
+        [routerLink]="['SafeBoxDetails']"
+      >
+        <mat-icon>payments</mat-icon>
+      </button>
+
+        <button
+        class="card-actions-button"
+        mat-button
         matTooltip="Kredi Kartı Detayları"
         matTooltipPosition="above"
         (click)="openCardPaymentInformationDialog()"
@@ -90,8 +100,8 @@
       <div class="search-input-box">
         <mat-form-field
           *ngIf="searchHide"
-          appearance="outline"
-          style="width: 60%"
+          appearance="fill"
+          class="search"
           color="accent"
         >
           <mat-label>Ara</mat-label>
@@ -225,7 +235,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
+    <div *ngIf="totalCancellationAmountStatus" class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
           >İptal Tutarı</mat-label
@@ -238,7 +248,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
+    <div *ngIf="totalFutureMoneyAmountStatus" class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
           >E-Gelecek Tutarı</mat-label
@@ -251,7 +261,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
+    <div *ngIf="totalIncomingMoneyAmountStatus" class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
           >E-Gelen Tutarı</mat-label
@@ -278,7 +288,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
+    <div *ngIf="totalCentralPayAmountStatus" class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
           >Merkez Ödemesi</mat-label
@@ -291,7 +301,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
+    <div *ngIf="totalCustomerPayAmountStatus" class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
           >Firma Ödemesi</mat-label
@@ -304,7 +314,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
+    <div *ngIf="totalMoneyDepositedAmountStatus" class="col" style="padding: 5px">
       <mat-form-field appearance="outline" color="accent" class="full-width">
         <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
           >Para Yatırma</mat-label

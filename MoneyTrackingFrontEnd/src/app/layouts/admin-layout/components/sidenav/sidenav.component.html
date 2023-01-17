@@ -5,7 +5,7 @@
 
 <mat-selection-list [multiple]="false">
 
-  <mat-list-option class="dash-list-option" [routerLink]="['FutureMoneyCancellation']">
+  <mat-list-option class="dash-list-option" [routerLink]="['Dashboard']">
     <mat-icon matListItemIcon class="dash-list-option-icon">
       dashboard</mat-icon
     >
@@ -149,7 +149,7 @@
 
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="futureMoney">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon mat-list-icon>how_to_reg</mat-icon>
@@ -157,21 +157,27 @@
         <mat-panel-description> E-Gelecek </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-list-option class="list-option" [routerLink]="['FutureMoneyTransactions']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || futureMoneyTransactionShowForm"
+      class="list-option" [routerLink]="['FutureMoneyTransactions']">
         <mat-icon matListItemIcon class="list-option-icon">
           assignment_ind</mat-icon
         >
         E-Gelecekler
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['IncomingMoney']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || incomingMoneyShowForm"
+      class="list-option" [routerLink]="['IncomingMoney']">
         <mat-icon matListItemIcon class="list-option-icon">
           assignment_turned_in</mat-icon
         >
         E-Gelenler
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['FutureMoneyCancellation']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || futureMoneyCancellationShowForm"
+      class="list-option" [routerLink]="['FutureMoneyCancellation']">
         <mat-icon matListItemIcon class="list-option-icon">
           content_paste_off</mat-icon
         >
@@ -182,7 +188,7 @@
 
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="shipment">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon mat-list-icon>local_shipping</mat-icon>
@@ -190,35 +196,45 @@
         <mat-panel-description> Sevkiyat </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-list-option class="list-option" [routerLink]="['ShipmentListAdd']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffShowAllForm || serviceShowAllForm || shipmentListAddShowForm"
+      class="list-option" [routerLink]="['ShipmentListAdd']">
         <mat-icon matListItemIcon class="list-option-icon">
           add_location_alt</mat-icon
         >
         Sevkiyat Oluştur
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['ResearchListAdd']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || serviceShowAllForm || researchListAddShowForm"
+      class="list-option" [routerLink]="['ResearchListAdd']">
         <mat-icon matListItemIcon class="list-option-icon">
           add_home_work</mat-icon
         >
         Sor Oluştur
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['ShipmentListResult']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || serviceShowAllForm || shipmentListResultShowForm"
+      class="list-option" [routerLink]="['ShipmentListResult']">
         <mat-icon matListItemIcon class="list-option-icon">
           fact_check</mat-icon
         >
         Sevkiyat Sonuç
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['ShipmentResearchList']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffShowAllForm || serviceShowAllForm || shipmentAndResearchListShowForm"
+      class="list-option" [routerLink]="['ShipmentResearchList']">
         <mat-icon matListItemIcon class="list-option-icon">
           view_list</mat-icon
         >
         Sevkiyat Listesi
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['Satisfaction']">
+      <mat-list-option
+      *ngIf="adminShowAllForm ||serviceShowAllForm || satisfactionShowForm"
+      class="list-option" [routerLink]="['Satisfaction']">
         <mat-icon matListItemIcon class="list-option-icon">
           support_agent</mat-icon
         >
@@ -228,7 +244,7 @@
 
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf=" setting">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon mat-list-icon>settings</mat-icon>
@@ -236,28 +252,36 @@
         <mat-panel-description> Ayarlar </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-list-option class="list-option" [routerLink]="['User']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || userShowForm"
+      class="list-option" [routerLink]="['User']">
         <mat-icon matListItemIcon class="list-option-icon">
           person_outline</mat-icon
         >
         Kullanıcılar
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['Bank']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || bankShowForm "
+      class="list-option" [routerLink]="['Bank']">
         <mat-icon matListItemIcon class="list-option-icon">
           account_balance</mat-icon
         >
         Bankalar
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['StaffTask']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffTaskShowForm "
+      class="list-option" [routerLink]="['StaffTask']">
         <mat-icon matListItemIcon class="list-option-icon">
           add_task</mat-icon
         >
         Görevler
       </mat-list-option>
 
-      <mat-list-option class="list-option" [routerLink]="['StaffEpisode']">
+      <mat-list-option
+      *ngIf="adminShowAllForm || staffEpisodeShowForm "
+      class="list-option" [routerLink]="['StaffEpisode']">
         <mat-icon matListItemIcon class="list-option-icon">
           format_list_bulleted</mat-icon
         >

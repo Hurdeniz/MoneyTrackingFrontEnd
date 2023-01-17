@@ -37,7 +37,7 @@ export class SidenavComponent implements OnInit {
   futureMoneyCancellationShowForm: boolean = false;
   shipmentListAddShowForm: boolean = false;
   shipmentAndResearchListShowForm: boolean = false;
-  researchListShowForm: boolean = false;
+  researchListAddShowForm: boolean = false;
   shipmentListResultShowForm: boolean = false;
   satisfactionShowForm: boolean = false;
   staffShowForm: boolean = false;
@@ -71,6 +71,7 @@ export class SidenavComponent implements OnInit {
         x.endsWith('/role')
       )[0];
       this.userRole = decode[role];
+      console.log(this.userRole)
     }
 
     const arrayControl = Array.isArray(this.userRole);
@@ -79,23 +80,22 @@ export class SidenavComponent implements OnInit {
         this.adminShowAllForm = true;
         this.userRoleName='Admin';
         this.safetyBox=true;
+        this.futureMoney=true;
+        this.shipment=true;
+        this.setting=true;
       }
       if (this.userRole.toString() == 'StaffShowAllForm') {
         this.staffShowAllForm = true;
         this.userRoleName='Kasa Personeli';
         this.safetyBox=true;
+        this.shipment=true;
+
       }
       if (this.userRole.toString() == 'ServiceShowAllForm') {
         this.serviceShowAllForm = true;
         this.userRoleName='Müşteri Hizmetleri';
         this.safetyBox=true;
-      }
-
-      if (this.userRole ) {
-        this.adminShowAllForm = false;
-        this.staffShowAllForm = false;
-        this.serviceShowAllForm = false;
-        this.userRoleName='Yetki Yok';
+        this.shipment=true;
 
       }
 
@@ -106,16 +106,21 @@ export class SidenavComponent implements OnInit {
           this.adminShowAllForm = true;
           this.userRoleName='Admin';
           this.safetyBox=true;
+          this.futureMoney=true;
+          this.shipment=true;
+          this.setting=true;
         }
         if (this.userRole.toString() == 'StaffShowAllForm') {
           this.staffShowAllForm = true;
           this.userRoleName='Kasa Personeli';
           this.safetyBox=true;
+          this.shipment=true;
         }
         if (this.userRole.toString() == 'ServiceShowAllForm') {
           this.serviceShowAllForm = true;
           this.userRoleName='Müşteri Hizmetleri';
           this.safetyBox=true;
+          this.shipment=true;
         }
         if (element == 'MoneyOutputTransactionShowForm') {
           this.moneyOutputTransactionShowForm = true;
@@ -167,28 +172,35 @@ export class SidenavComponent implements OnInit {
         }
         if (element == 'FutureMoneyTransactionShowForm') {
           this.futureMoneyTransactionShowForm = true;
+          this.futureMoney=true;
         }
         if (element == 'IncomingMoneyShowForm') {
           this.incomingMoneyShowForm = true;
+          this.futureMoney=true;
         }
         if (element == 'FutureMoneyCancellationShowForm') {
           this.futureMoneyCancellationShowForm = true;
+          this.futureMoney=true;
         }
         if (element == 'ShipmentListAddShowForm') {
-
         this.shipmentListAddShowForm = true;
+        this.shipment=true;
         }
         if (element == 'ShipmentAndResearchListShowForm') {
           this.shipmentAndResearchListShowForm = true;
+          this.shipment=true;
         }
-        if (element == 'ResearchListShowForm') {
-          this.researchListShowForm = true;
+        if (element == 'ResearchListAddShowForm') {
+          this.researchListAddShowForm = true;
+          this.shipment=true;
         }
         if (element == 'ShipmentListResultShowForm') {
           this.shipmentListResultShowForm = true;
+          this.shipment=true;
         }
         if (element == 'SatisfactionShowForm') {
           this.satisfactionShowForm = true;
+          this.shipment=true;
         }
         if (element == 'StaffShowForm') {
 

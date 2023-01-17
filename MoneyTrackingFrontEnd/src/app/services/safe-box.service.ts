@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Count } from '../models/Dtos/count';
 import { GetTotalsDto } from '../models/Dtos/getTotalsDto';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
@@ -26,6 +27,11 @@ export class SafeBoxService {
   totalsByDay(date:string): Observable<SingleResponseModel<GetTotalsDto>> {
     let newPath = this.apiUrl + 'SafeBox/TotalsByDay?date='+date ;
     return this.httpClient.get<SingleResponseModel<GetTotalsDto>>(newPath);
+  }
+
+  countByDate(date:string): Observable<SingleResponseModel<Count>> {
+    let newPath = this.apiUrl + 'SafeBox/GetSafeBoxCountByDate?date='+date ;
+    return this.httpClient.get<SingleResponseModel<Count>>(newPath);
   }
 
   add(safeBox: SafeBox):Observable<ResponseModel>{

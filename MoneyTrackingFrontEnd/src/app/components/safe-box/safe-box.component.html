@@ -1,0 +1,243 @@
+<div id="safe-box" class="example-container">
+  <mat-card>
+    <mat-card-actions class="card-actions">
+      <div class="col-start">
+        <mat-card-title>Günlük Kasa İşlemleri</mat-card-title>
+      </div>
+      <div class="col-end">
+
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Filtre"
+          matTooltipPosition="above"
+          (click)="openFilterDialog()"
+
+        >
+          <mat-icon>filter_alt</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yazdır"
+          matTooltipPosition="above"
+          printTitle="Money Tracking"
+          styleSheetFile="../../../assets/Scss/print/print.scss"
+          printSectionId="safe-box"
+          ngxPrint
+        >
+          <mat-icon>print</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Excel"
+          matTooltipPosition="above"
+          (click)="exportXlsx()"
+        >
+          <mat-icon>description</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Yenile"
+          matTooltipPosition="above"
+          (click)="searchHide = false"
+          (click)="getAllSafeBoxByDate()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          class="card-actions-button"
+          mat-button
+          matTooltip="Ara"
+          matTooltipPosition="above"
+          (click)="searchHide = !searchHide"
+          (click)="filterText = ''"
+          (click)="filterDataSource()"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </mat-card-actions>
+    <mat-card-content class="card-content">
+      <mat-progress-bar
+        *ngIf="dataLoaded == false"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      <div class="search-input-box">
+        <mat-form-field
+          class="search"
+          *ngIf="searchHide"
+          appearance="fill"
+          color="accent"
+        >
+          <mat-label>Ara</mat-label>
+          <input
+            matInput
+            [(ngModel)]="filterText"
+            (keyup)="filterDataSource()"
+            placeholder="Aranacak Kelimeyi Yazınız."
+          />
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="filterText = ''"
+            (click)="filterDataSource()"
+          >
+            <mat-icon>{{ filterText ? "clear" : "search" }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <section class="section-example-container mat-elevation-z8">
+        <table
+          *ngIf="list"
+          mat-table
+          id="safeBoxTable"
+          [dataSource]="dataSource"
+          matSort
+        >
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.date | date : "yyyy-MM-dd" }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalSafeBoxAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Toplam Kasa</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalSafeBoxAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{ getSafeBoxAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalMoneyOutputAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Günün Kasası</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalMoneyOutputAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{ getTotalMoneyOutputAmount() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalCancellationAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>İptal Tutarı</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalCancellationAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{ getCancellationAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalFutureMoneyAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelecek Tutar</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalFutureMoneyAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{  getFutureMoneyAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalFutureMoneyCancellationAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelecek Tutar İptal</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalFutureMoneyCancellationAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{  getFutureMoneyCancellationAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalIncomingMoneyAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelen Tutar</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalIncomingMoneyAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{  getIncomingMoneyAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalCentralPayAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Merkez Ödemesi</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalCentralPayAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{ getCentralPayAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="totalCustomerPayAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Firma Ödemesi</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalCustomerPayAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{ getCustomerPayAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="totalMonetaryDepositedAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Para Yatırma</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalMonetaryDepositedAmount | currency : "₺ " }}
+            </td>
+            <td class="td-footer" mat-footer-cell *matFooterCellDef>
+              {{ getMonetaryDepositedAmountTotals() | currency : "₺ " }}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Açıklama</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.description }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <ng-container matColumnDef="action" stickyEnd>
+            <th class="action-header" mat-header-cell *matHeaderCellDef></th>
+            <td class="action-cell" mat-cell *matCellDef="let element">
+
+              <button
+                *ngIf="delete"
+                mat-icon-button
+                color="warn"
+                matTooltip="Sil"
+                matTooltipPosition="right"
+                (click)="openDeleteDialog(element)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+            <td class="action-footer" mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+
+        <mat-paginator
+          [pageSize]="10"
+          [pageSizeOptions]="[10, 20, 30, 50, 100]"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>

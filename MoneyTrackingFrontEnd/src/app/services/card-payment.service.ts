@@ -5,6 +5,7 @@ import { CardPayment } from '../models/cardPayment';
 import { CardPaymentCountDto } from '../models/Dtos/cardPaymentCountDto';
 import { CardPaymetDetailsDto } from '../models/Dtos/cardPaymentDetailsDto';
 import { CardPaymentGroupByBankNameDto } from '../models/Dtos/cardPaymentGroupByBankNameDto';
+import { Count } from '../models/Dtos/count';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
@@ -29,9 +30,14 @@ export class CardPaymentService {
     return this.httpClient.get<ListResponseModel<CardPaymentGroupByBankNameDto>>(newPath);
   }
 
-  countByDate(date:string): Observable<SingleResponseModel<CardPaymentCountDto>> {
+  // countByDate(date:string): Observable<SingleResponseModel<CardPaymentCountDto>> {
+  //   let newPath = this.apiUrl + 'CardPayment/CountByDate?date='+date ;
+  //   return this.httpClient.get<SingleResponseModel<CardPaymentCountDto>>(newPath);
+  // }
+
+  countByDate(date:string): Observable<SingleResponseModel<Count>> {
     let newPath = this.apiUrl + 'CardPayment/CountByDate?date='+date ;
-    return this.httpClient.get<SingleResponseModel<CardPaymentCountDto>>(newPath);
+    return this.httpClient.get<SingleResponseModel<Count>>(newPath);
   }
 
   add(cardPayment: CardPayment):Observable<ResponseModel>{

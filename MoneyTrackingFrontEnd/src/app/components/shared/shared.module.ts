@@ -30,7 +30,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
-
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [],
@@ -63,7 +63,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatGridListModule,
     MatTabsModule,
     MatCheckboxModule,
-    MatTreeModule
+    MatTreeModule,
+    LayoutModule
 
   ],
   exports:[
@@ -95,7 +96,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatGridListModule,
     MatTabsModule,
     MatCheckboxModule,
-    MatTreeModule
+    MatTreeModule,
+    LayoutModule
 
   ]
 })

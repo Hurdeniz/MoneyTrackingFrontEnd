@@ -20,6 +20,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from 'src/app/services/auth.service';
 import * as XLSX from 'xlsx';
 import * as _moment from 'moment';
+import { Count } from 'src/app/models/Dtos/count';
 const moment = _moment;
 
 
@@ -45,7 +46,9 @@ export class MoneyOutputTransactionsComponent {
     'totalMoneyOutputAmount': 0,
     'turnover': 0,
   };
-  cardPaymentCountDto: CardPaymentCountDto;
+  cardPaymentCountDto: Count;
+  safeBoxCountDto: Count;
+
   safeBoxForm: FormGroup;
   totalSafeBox: number;
   dataLoaded = false;
@@ -75,6 +78,12 @@ export class MoneyOutputTransactionsComponent {
   cardPaymentInformation: boolean = false;
   safeBoxInformation: boolean = false;
   totalFutureMoneyCancellationAmountStatus: boolean = true;
+  totalCancellationAmountStatus: boolean = true;
+  totalFutureMoneyAmountStatus: boolean = true;
+  totalIncomingMoneyAmountStatus:boolean=true;
+  totalCentralPayAmountStatus:boolean=true;
+  totalCustomerPayAmountStatus:boolean=true;
+  totalMoneyDepositedAmountStatus:boolean=true;
 
   constructor(
     private moneyOutputService: MoneyOutputService,
@@ -96,6 +105,7 @@ export class MoneyOutputTransactionsComponent {
     this.totalsByDay();
     this.createSafeBoxForm();
     this.cardPaymentCount();
+    this.safeBoxCount();
   }
 
   tokenAndUserControl() {
@@ -155,6 +165,7 @@ export class MoneyOutputTransactionsComponent {
     this.getAllMoneyOutputDetailByDay();
     this.totalsByDay();
     this.cardPaymentCount();
+    this.safeBoxCount();
 
   }
 
@@ -180,6 +191,14 @@ export class MoneyOutputTransactionsComponent {
   cardPaymentCount() {
     this.cardPaymentService.countByDate(this.day).subscribe((response) => {
       this.cardPaymentCountDto = response.data;
+      console.log(this.cardPaymentCountDto);
+    })
+  }
+
+  safeBoxCount() {
+    this.safeBoxService.countByDate(this.day).subscribe((response) => {
+      this.safeBoxCountDto = response.data;
+      console.log(this.safeBoxCountDto);
     })
   }
 
@@ -190,11 +209,28 @@ export class MoneyOutputTransactionsComponent {
         (response) => {
           this.getTotalsDto = response.data;
           console.log(this.getTotalsDto)
-          if(this.getTotalsDto.totalFutureMoneyCancellationAmount==0)
-          {
-            this.totalFutureMoneyCancellationAmountStatus=false;
+          if (this.getTotalsDto.totalFutureMoneyCancellationAmount == 0) {
+            this.totalFutureMoneyCancellationAmountStatus = false;
           }
-          this.totalSafeBox = (this.getTotalsDto.totalMoneyOutputAmount + this.getTotalsDto.turnover + this.getTotalsDto.totalIncomingMoneyAmount+this.getTotalsDto.totalFutureMoneyCancellationAmount) - (this.getTotalsDto.totalCancellationAmount + this.getTotalsDto.totalFutureMoneyAmount + this.getTotalsDto.totalCentralPayAmount + this.getTotalsDto.totalCustomerPayAmount + this.getTotalsDto.totalMoneyDepositedAmount);
+          if (this.getTotalsDto.totalCancellationAmount == 0) {
+            this.totalCancellationAmountStatus = false;
+          }
+          if (this.getTotalsDto.totalFutureMoneyAmount == 0) {
+            this.totalFutureMoneyAmountStatus = false;
+          }
+          if (this.getTotalsDto.totalIncomingMoneyAmount == 0) {
+            this.totalIncomingMoneyAmountStatus = false;
+          }
+          if (this.getTotalsDto.totalCentralPayAmount == 0) {
+            this.totalCentralPayAmountStatus = false;
+          }
+          if (this.getTotalsDto.totalCustomerPayAmount == 0) {
+            this.totalCustomerPayAmountStatus = false;
+          }
+          if (this.getTotalsDto.totalMoneyDepositedAmount == 0) {
+            this.totalMoneyDepositedAmountStatus = false;
+          }
+          this.totalSafeBox = (this.getTotalsDto.totalMoneyOutputAmount + this.getTotalsDto.turnover + this.getTotalsDto.totalIncomingMoneyAmount + this.getTotalsDto.totalFutureMoneyCancellationAmount) - (this.getTotalsDto.totalCancellationAmount + this.getTotalsDto.totalFutureMoneyAmount + this.getTotalsDto.totalCentralPayAmount + this.getTotalsDto.totalCustomerPayAmount + this.getTotalsDto.totalMoneyDepositedAmount);
           this.createSafeBoxForm();
 
         },
@@ -256,10 +292,14 @@ export class MoneyOutputTransactionsComponent {
 
 
   openAddDialog() {
+    if (this.safeBoxCountDto.count > 0) {
+      this.toastrService.info('Günlük Kasa Çıkışı Kayıdı Vardır. Kasa Çıkışı Ekleyemezsiniz. Önce Günlük Kasa Kaydını Silin.', 'Bilgi')
+    }
+    else {
     this.dialog
       .open(MoneyOutputTransactionsViewComponent, {
         width: '25%',
-        data: { status: true },
+        data: { status: true , date:this.day},
       })
       .afterClosed()
       .subscribe((value) => {
@@ -268,9 +308,14 @@ export class MoneyOutputTransactionsComponent {
           this.totalsByDay();
         }
       });
+    }
   }
 
   openEditDialog(row: any) {
+    if (this.safeBoxCountDto.count > 0) {
+      this.toastrService.info('Günlük Kasa Çıkışı Kayıdı Vardır.Kasa Çıkışında Düzenleme Yapamazsınız. Önce Günlük Kasa Kaydını Silin.', 'Bilgi')
+    }
+    else {
     this.dialog
       .open(MoneyOutputTransactionsViewComponent, {
         width: '25%',
@@ -283,6 +328,7 @@ export class MoneyOutputTransactionsComponent {
           this.totalsByDay();
         }
       });
+    }
   }
 
   openDeleteDialog(row: any) {
@@ -319,7 +365,7 @@ export class MoneyOutputTransactionsComponent {
         .open(CardPaymentInformationComponent, {
           width: '300px',
           data: this.day
-        })
+        });
     }
   }
 

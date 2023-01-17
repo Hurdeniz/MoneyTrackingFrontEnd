@@ -1,0 +1,10 @@
+<mat-dialog-content>
+  Günlük Kasayı Silmek İstediğinize Emin Misiniz ?
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button mat-dialog-close>Hayır</button>
+  <button mat-raised-button mat-dialog-close color="warn" (click)="delete()">
+    Evet
+  </button>
+</mat-dialog-actions>

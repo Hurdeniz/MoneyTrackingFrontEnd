@@ -3,6 +3,7 @@ export interface SafeBox {
   totalMoneyOutputAmount:number;
   totalCancellationAmount:number;
   totalFutureMoneyAmount:number;
+  totalFutureMoneyCancellationAmount:number;
   totalIncomingMoneyAmount:number;
   totalCentralPayAmount:number;
   totalCustomerPayAmount:number;
@@ -11,3 +12,5 @@ export interface SafeBox {
   date:Date;
   description:string;
 }
+
+

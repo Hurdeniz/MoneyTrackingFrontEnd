@@ -38,12 +38,10 @@ export class MoneyOutputTransactionsViewComponent {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data)
     this.getAllUserByStatus();
     if (this.data.status) {
-      this.dateNow = new FormControl(
-        moment().format('YYYY-MM-DD'),
-        Validators.required
-      );
+      this.dateNow = new FormControl(this.data.date, Validators.required);
       this.dateInput = this.dateNow.value;
       this.actionBtnName = 'Kaydet';
       this.dialogTitle = 'Kasa Çıkışı Ekle';

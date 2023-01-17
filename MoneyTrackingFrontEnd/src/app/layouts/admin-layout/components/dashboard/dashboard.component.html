@@ -1,0 +1,21 @@
+<div class="grid-container">
+  <mat-grid-list cols="5" rowHeight="120px">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="deneme">
+          <span class="material-symbols-outlined">
+            person
+            </span>
+          <mat-card-title>
+            <h1 style="margin: 0px;" class="mt-1">Kullanıcı</h1>
+            <h1 class="mt-1">15</h1>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <div>Card Content Here</div>
+          <div>Card Content Here</div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
