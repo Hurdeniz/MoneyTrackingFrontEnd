@@ -81,7 +81,6 @@ export class UserComponent {
         x.endsWith('/role')
       )[0];
       this.userRole = decode[role];
-      console.log(decode);
     }
 
     const arrayControl = Array.isArray(this.userRole);
@@ -132,9 +131,6 @@ export class UserComponent {
   filterDataSource() {
     this.dataSource.filter = this.filterText.trim().toLocaleLowerCase();
   }
-
-
-
 
   getAllUserByStatus() {
     this.userService.getAllUserByStatus(this.status).subscribe(
@@ -230,23 +226,6 @@ export class UserComponent {
         }
       });
   }
-
-
-//   openUserOperationSettingDialog(dataUserId:any) {
-
-//     this.dialog
-//     .open(UserOperationsSettingComponent, {
-// height:'90%',
-//       data:{userId:dataUserId},
-//     })
-//     .afterClosed()
-
-//   }
-
-
-
-
-
 
 
   exportXlsx() {

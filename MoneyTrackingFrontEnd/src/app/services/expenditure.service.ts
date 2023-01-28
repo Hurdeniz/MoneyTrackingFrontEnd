@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ExpenditureDetailsDto } from '../models/Dtos/expenditureDetailsDto';
+import { Sum } from '../models/Dtos/sum';
 import { Expenditure } from '../models/expenditure';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
+import { SingleResponseModel } from '../models/singleResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,11 @@ export class ExpenditureService {
   getAllExpenditureDetailByUserIdAndDate(userId:number, startDate:string , endDate:string): Observable<ListResponseModel<ExpenditureDetailsDto>> {
     let newPath = this.apiUrl + 'Expenditure/GetAllExpenditureDetailByUserIdAndDate?userId='+userId+'&startDate='+startDate+'&endDate='+endDate;
     return this.httpClient.get<ListResponseModel<ExpenditureDetailsDto>>(newPath);
+  }
+
+  getSumByDateAndUser(date:string , userId:number): Observable<SingleResponseModel<Sum>> {
+    let newPath = this.apiUrl + 'Expenditure/GetSumByDateAndUser?date='+date+'&userId='+userId ;
+    return this.httpClient.get<SingleResponseModel<Sum>>(newPath);
   }
 
   add(expenditure: Expenditure):Observable<ResponseModel>{

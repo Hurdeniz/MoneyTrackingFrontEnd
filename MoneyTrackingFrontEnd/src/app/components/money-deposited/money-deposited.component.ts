@@ -54,6 +54,7 @@ export class MoneyDepositedComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.getAllMoneyDepositedDetailByDate();
   }
 

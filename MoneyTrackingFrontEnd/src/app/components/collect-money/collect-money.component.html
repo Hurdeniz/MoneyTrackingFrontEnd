@@ -1,8 +1,6 @@
 <form [formGroup]="collectMoneyForm" class="collect-form">
   <div class="container-fluid">
-    <div
-      class="row center-xs center-sm center-md center-lg center-xl bottom-xs bottom-sm bottom-md bottom-lg bottom-xl form-row"
-    >
+    <div class="row center-xs center-sm center-md center-lg center-xl">
       <div class="col">
         <mat-form-field appearance="outline" color="accent">
           <mat-label>Bozuk</mat-label>
@@ -46,28 +44,20 @@
         </mat-form-field>
       </div>
     </div>
-    <div
-      class="row center-xs center-sm center-md center-lg center-xl button-row"
-    >
-      <div class="col">
-        <button
-          class="total-button"
-          mat-raised-button
-          color="primary"
-          (click)="topla()"
-        >
-          Hesapla
-        </button>
-      </div>
+    <div class="row center-xs center-sm center-md center-lg center-xl">
+      <button
+        class="total-button"
+        mat-raised-button
+        color="primary"
+        (click)="topla()"
+      >
+        Hesapla
+      </button>
     </div>
-    <div
-      class="row center-xs center-sm center-md center-lg center-xl button-row"
-    >
-      <div class="col">
-        <button class="answer" mat-stroked-button color="accent">
-          Toplam Para : {{ answer }} ₺
-        </button>
-      </div>
+    <div class="row center-xs center-sm center-md center-lg center-xl">
+      <button class="answer" mat-stroked-button color="accent">
+        Toplam Para : {{ answer | currency:"₺ " }}
+      </button>
     </div>
   </div>
 </form>

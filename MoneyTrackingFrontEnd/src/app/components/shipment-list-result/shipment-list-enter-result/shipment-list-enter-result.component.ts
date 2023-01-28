@@ -4,7 +4,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ShipmentListService } from 'src/app/services/shipment-list.service';

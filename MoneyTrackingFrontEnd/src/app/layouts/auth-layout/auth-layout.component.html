@@ -3,10 +3,10 @@
     <div class="line"></div>
     <div class="line"></div>
   </div>
-
-  <div class="title">
-    <div class="mat-headline">Kullanıcı Giriş</div>
-  </div>
+<img class="login-image" src="../../../assets/img/user.png">
+  <!-- <div class="title" style="height:50px">
+    <div class="mat-headline" style="font-size: 25px;">Kullanıcı Giriş</div>
+  </div> -->
   <div class="content">
     <form [formGroup]="loginForm">
       <mat-form-field
@@ -17,7 +17,7 @@
         <mat-label>E-Mail</mat-label>
         <input type="text" formControlName="email" matInput [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option> </mat-option>
+          <mat-option *ngFor="let user of users" [value]="user.email" > {{user.email}}</mat-option>
         </mat-autocomplete>
       </mat-form-field>
 

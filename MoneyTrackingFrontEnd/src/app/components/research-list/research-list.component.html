@@ -1,4 +1,4 @@
-<mat-drawer-container autosize>
+<mat-drawer-container autosize class="shipment-container">
   <mat-drawer #sidenav mode="side" position="end" class="shipment-sidenav">
     <h1 class="shipment-title">Sor Oluştur</h1>
 
@@ -85,7 +85,11 @@
 
       <div class="row">
         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-form-field
+            appearance="outline"
+            color="accent"
+            class="full-width"
+          >
             <mat-label>Açıklama</mat-label>
             <textarea
               matInput
@@ -106,14 +110,14 @@
         Kaydet
       </button>
       <button
-      mat-button
-      class="shipment-close-button"
-      mat-stroked-button
-      color="basic"
-      (click)="sidenav.close()"
-    >
-      Kapat
-    </button>
+        mat-button
+        class="shipment-close-button"
+        mat-stroked-button
+        color="basic"
+        (click)="sidenav.close()"
+      >
+        Kapat
+      </button>
     </form>
   </mat-drawer>
 
@@ -126,7 +130,7 @@
           </div>
           <div class="col-end">
             <button
-            *ngIf="add"
+              *ngIf="add"
               class="card-actions-button"
               mat-button
               matTooltip="Yeni"
@@ -151,7 +155,8 @@
               matTooltipPosition="above"
               printTitle="Money Tracking"
               styleSheetFile="../../../assets/Scss/print/shipment-list-print.scss"
-              printSectionId="researchList" ngxPrint
+              printSectionId="researchList"
+              ngxPrint
             >
               <mat-icon>print</mat-icon>
             </button>
@@ -194,7 +199,7 @@
           ></mat-progress-bar>
           <div class="search-input-box">
             <mat-form-field
-            class="search"
+              class="search"
               *ngIf="searchHide"
               appearance="fill"
               color="accent"
@@ -219,7 +224,7 @@
           </div>
           <section class="section-example-container mat-elevation-z8">
             <table
-            *ngIf="list"
+              *ngIf="list"
               mat-table
               id="researchListTable"
               [dataSource]="dataSource"
@@ -228,7 +233,7 @@
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ element.date | date: "dd.MM.yyyy" }}
+                  {{ element.date | date : "dd.MM.yyyy" }}
                 </td>
               </ng-container>
 
@@ -278,10 +283,14 @@
               </ng-container>
 
               <ng-container matColumnDef="action" stickyEnd>
-                <th class="action-header" mat-header-cell *matHeaderCellDef></th>
+                <th
+                  class="action-header"
+                  mat-header-cell
+                  *matHeaderCellDef
+                ></th>
                 <td class="action-cell" mat-cell *matCellDef="let element">
                   <button
-                  *ngIf="update"
+                    *ngIf="update"
                     mat-icon-button
                     color="accent"
                     matTooltip="Düzenle"
@@ -292,7 +301,7 @@
                     <mat-icon>edit</mat-icon>
                   </button>
                   <button
-                  *ngIf="delete"
+                    *ngIf="delete"
                     mat-icon-button
                     color="warn"
                     matTooltip="Sil"

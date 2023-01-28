@@ -155,7 +155,7 @@
                 color="accent"
                 matTooltip="Kullanıcı Yetkileri"
                 matTooltipPosition="above"
-              [routerLink]="['UserOperations/',element.userId]"
+                [routerLink]="['UserOperations/', element.userId]"
               >
                 <mat-icon>manage_accounts</mat-icon>
               </button>
@@ -165,7 +165,7 @@
                 color="basic"
                 matTooltip="Menu Yetkileri"
                 matTooltipPosition="above"
-                [routerLink]="['UserMenu/',element.userId]"
+                [routerLink]="['UserMenu/', element.userId]"
               >
                 <mat-icon>admin_panel_settings</mat-icon>
               </button>
@@ -176,11 +176,10 @@
                 color="warn"
                 matTooltip="Pasif Yap"
                 matTooltipPosition="right"
-                (click)="openUserStatusDialog(element,false)"
+                (click)="openUserStatusDialog(element, false)"
               >
                 <mat-icon>person_off</mat-icon>
               </button>
-
             </td>
           </ng-container>
 
@@ -237,7 +236,7 @@
                 color="accent"
                 matTooltip="Aktif Yap"
                 matTooltipPosition="right"
-                (click)="openUserStatusDialog(element,true)"
+                (click)="openUserStatusDialog(element, true)"
               >
                 <mat-icon>person_add</mat-icon>
               </button>

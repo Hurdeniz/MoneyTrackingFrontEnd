@@ -101,7 +101,7 @@
           <ng-container matColumnDef="futureMoneyRegistrationDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.futureMoneyRegistrationDate | date : "yyyy-MM-dd" }}
+              {{ element.futureMoneyRegistrationDate | date : "dd.MM.yyyy" }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
           </ng-container>

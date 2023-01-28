@@ -1,4 +1,4 @@
-@mixin example-container{
+@mixin example-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,7 @@
       padding-left: 15px;
       padding-right: 15px;
 
-      .card-title{
+      .card-title {
         margin: 0px;
       }
 
@@ -26,7 +26,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        .search{
+        .search {
           width: 100%;
         }
       }
@@ -43,27 +43,20 @@
 
           td.mat-column-action {
             width: 150px;
-
           }
-
         }
       }
     }
   }
-
 }
 
-//ANA FORM
 mat-icon {
   margin: 0px !important;
 }
 
 .example-container {
-@include example-container();
+  @include example-container();
 }
-
-//view
-
 .form-dialog {
   .dialog-title {
     text-align: center;
@@ -85,48 +78,42 @@ mat-icon {
   }
 }
 
-//sevkiyat
-mat-drawer-container{
+.shipment-container {
   height: 92%;
-.shipment-sidenav {
-  padding: 10px;
+  .shipment-sidenav {
+    padding: 10px;
 
-  .shipment-title {
-    text-align: center;
-  }
+    .shipment-title {
+      text-align: center;
+    }
 
-  .shipment-add-form {
-    .row {
-      margin: 0px;
-      .col {
-        padding: 0;
-        .full-width {
-          width: 100%;
+    .shipment-add-form {
+      .row {
+        margin: 0px;
+        .col {
+          padding: 0;
+          .full-width {
+            width: 100%;
+          }
         }
       }
+      .shipment-add-button {
+        width: 100%;
+        margin: 0;
+      }
+      .shipment-close-button {
+        width: 100%;
+        margin-top: 10px;
+      }
     }
-    .shipment-add-button {
-      width: 100%;
-      margin: 0;
-    }
-    .shipment-close-button {
-      width: 100%;
-      margin-top: 10px;
-    }
-
+  }
+  .example-container {
+    @include example-container();
   }
 }
-.example-container{
-  @include example-container();
-}
 
-}
-
-
-//money output
-
-.container-fluid{
-  .row{
+.container-fluid {
+  .row {
     margin: 0px;
 
     .mat-mdc-form-field-subscript-wrapper {

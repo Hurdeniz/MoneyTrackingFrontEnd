@@ -1,0 +1,31 @@
+.user-name {
+  margin-top: 15px !important;
+  margin-bottom: 0px !important;
+  text-align: center !important;
+}
+
+.user-role-name {
+  margin-bottom: 0px !important;
+  text-align: center !important;
+}
+
+.welcome {
+  text-align: center !important;
+  margin-bottom: 10px !important;
+}
+
+.dash-list-option {
+  margin-bottom: 8px;
+  padding: 0px 16px 0px 16px !important;
+  .dash-list-option-icon {
+    margin-right: 8px !important;
+    color: $white
+  }
+}
+
+.list-option {
+  padding: 0px 16px 0px 16px !important;
+  .list-option-icon {
+    margin-right: 8px !important;
+  }
+}

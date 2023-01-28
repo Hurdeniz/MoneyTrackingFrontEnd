@@ -4,7 +4,6 @@
       <div class="col-start">
         <mat-card-title>Kasa Çıkışları</mat-card-title>
       </div>
-
       <div class="col-center">
         <mat-form-field appearance="outline" color="accent">
           <mat-label>Tarih Seçiniz</mat-label>
@@ -31,27 +30,24 @@
         >
           <mat-icon>add</mat-icon>
         </button>
-
         <button
-        class="card-actions-button"
-        mat-button
-        matTooltip="Günlük Kasa Detayları"
-        matTooltipPosition="above"
-        [routerLink]="['SafeBoxDetails']"
-      >
-        <mat-icon>payments</mat-icon>
-      </button>
-
+          class="card-actions-button"
+          mat-button
+          matTooltip="Günlük Kasa Detayları"
+          matTooltipPosition="above"
+          [routerLink]="['SafeBoxDetails']"
+        >
+          <mat-icon>payments</mat-icon>
+        </button>
         <button
-        class="card-actions-button"
-        mat-button
-        matTooltip="Kredi Kartı Detayları"
-        matTooltipPosition="above"
-        (click)="openCardPaymentInformationDialog()"
-      >
-        <mat-icon>credit_card</mat-icon>
-      </button>
-
+          class="card-actions-button"
+          mat-button
+          matTooltip="Kredi Kartı Detayları"
+          matTooltipPosition="above"
+          (click)="openCardPaymentInformationDialog()"
+        >
+          <mat-icon>credit_card</mat-icon>
+        </button>
         <button
           class="card-actions-button"
           mat-button
@@ -207,165 +203,160 @@
   </mat-card>
 </div>
 
-<div class="container-fluid" style="padding: 10px">
+<div class="container-fluid money-output-container">
   <div class="row center-xs center-sm center-md center-lg center-xl">
-    <div class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >Kasa Tutarı</mat-label
-        >
+    <div class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">Kasa Tutarı</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalMoneyOutputAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalMoneyOutputAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >Devir Tutarı</mat-label
-        >
+    <div class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">Devir Tutarı</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.turnover | currency:'₺ ' }}"
+          value="{{ getTotalsDto.turnover | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalCancellationAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >İptal Tutarı</mat-label
-        >
+    <div *ngIf="totalCancellationAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">İptal Tutarı</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalCancellationAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalCancellationAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalFutureMoneyAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >E-Gelecek Tutarı</mat-label
-        >
+    <div *ngIf="totalFutureMoneyAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">E-Gelecek Tutarı</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalFutureMoneyAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalFutureMoneyAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalIncomingMoneyAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >E-Gelen Tutarı</mat-label
-        >
+    <div *ngIf="totalIncomingMoneyAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">E-Gelen Tutarı</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalIncomingMoneyAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalIncomingMoneyAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalFutureMoneyCancellationAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field  appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >E-Gelecek İptal Tutarı</mat-label
-        >
+    <div *ngIf="totalFutureMoneyCancellationAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">E-Gelecek İptal Tutarı</mat-label>
         <input
-
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalFutureMoneyCancellationAmount | currency:'₺ ' }}"
+          value="{{
+            getTotalsDto.totalFutureMoneyCancellationAmount | currency : '₺ '
+          }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalCentralPayAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >Merkez Ödemesi</mat-label
-        >
+    <div *ngIf="totalCentralPayAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">Merkez Ödemesi</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalCentralPayAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalCentralPayAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalCustomerPayAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >Firma Ödemesi</mat-label
-        >
+    <div *ngIf="totalCustomerPayAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">Firma Ödemesi</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalCustomerPayAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalCustomerPayAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
-    <div *ngIf="totalMoneyDepositedAmountStatus" class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent" class="full-width">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >Para Yatırma</mat-label
-        >
+    <div *ngIf="totalMoneyDepositedAmountStatus" class="col">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label class="label">Para Yatırma</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ getTotalsDto.totalMoneyDepositedAmount | currency:'₺ ' }}"
+          value="{{ getTotalsDto.totalMoneyDepositedAmount | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
   </div>
   <div class="row center-xs center-sm center-md center-lg center-xl">
-    <div class="col" style="padding: 5px">
-      <mat-form-field appearance="outline" color="accent"style="width: 400px">
-        <mat-label style="color: rgba(255, 255, 255, 0.87); text-align: center"
-          >Toplam Para</mat-label
-        >
+    <div class="col">
+      <mat-form-field class="total-money" appearance="outline" color="accent">
+        <mat-label class="label">Toplam Para</mat-label>
         <input
-          style="color: rgba(255, 255, 255, 0.87)"
+          class="input"
           matInput
           disabled
-          value="{{ totalSafeBox | currency:'₺ '}}"
+          value="{{ totalSafeBox | currency : '₺ ' }}"
         />
       </mat-form-field>
     </div>
   </div>
   <div class="row center-xs center-sm center-md center-lg center-xl">
-    <div [formGroup]="safeBoxForm" class="col" style="padding: 5px">
+    <div [formGroup]="safeBoxForm" class="col">
       <mat-form-field
+        class="description-text"
         appearance="outline"
         color="accent"
-        class="full-width"
-        style="width: 400px"
-
       >
         <mat-label>Açıklama</mat-label>
-        <textarea matInput style="height: 110px"  formControlName="description"></textarea>
+        <textarea
+          matInput
+          class="description-textarea"
+          formControlName="description"
+        ></textarea>
       </mat-form-field>
     </div>
   </div>
 
   <div class="row center-xs center-sm center-md center-lg center-xl">
-    <div class="col" style="padding: 5px">
-      <button mat-raised-button color="primary" style="width: 150px;" (click)="openSafeBoxInformationDialog()">Göster</button>
+    <div class="col">
+      <button
+        class="button-save-information"
+        mat-raised-button
+        color="primary"
+        (click)="openSafeBoxInformationDialog()"
+      >
+        Göster
+      </button>
     </div>
-    <div class="col" style="padding: 5px">
-      <button mat-raised-button color="primary" style="width:150px" (click)="addSafeBox()" >Kaydet</button>
+    <div class="col">
+      <button
+        class="button-save-information"
+        mat-raised-button
+        color="primary"
+        (click)="addSafeBox()"
+      >
+        Kaydet
+      </button>
     </div>
-
-
-</div>
+  </div>
 </div>

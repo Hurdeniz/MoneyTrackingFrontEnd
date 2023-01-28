@@ -114,7 +114,7 @@ export class StaffTaskComponent {
   openAddDialog() {
     this.dialog
       .open(StaffTaskViewComponent, {
-        width: '20%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -128,7 +128,7 @@ export class StaffTaskComponent {
   openEditDialog(row: any) {
     this.dialog
       .open(StaffTaskViewComponent, {
-        width: '20%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -142,7 +142,7 @@ export class StaffTaskComponent {
   openDeleteDialog(row: any) {
     this.dialog
       .open(StaffTaskDeleteComponent, {
-        width: '20%',
+        width: '450px',
         data: row,
         disableClose: true
       })

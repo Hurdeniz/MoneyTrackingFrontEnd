@@ -1,0 +1,30 @@
+.money-output-container {
+  padding: 10px;
+
+  .col {
+    padding: 5px;
+
+    .label {
+      color: $input-color;
+    }
+
+    .input {
+      color: $input-color;
+    }
+
+    .total-money {
+      width: 434px;
+    }
+    .description-text {
+      width: 434px;
+    }
+
+    .description-textarea {
+      height: 110px;
+    }
+
+    .button-save-information {
+      width: 212px;
+    }
+  }
+}

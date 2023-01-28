@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -12,12 +14,14 @@ import { ToastrService } from 'ngx-toastr';
 
 
 export class AuthLayoutComponent implements OnInit {
-
+  users: User[] = [];
+  status: boolean = true;
   hide = true;
   loginForm: FormGroup;
 
 
   constructor(
+    private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -26,6 +30,18 @@ export class AuthLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.createLoginForm();
+    this.getAllUserByStatus();
+  }
+
+  getAllUserByStatus() {
+    this.userService.getAllUserByStatus(this.status).subscribe(
+      (response) => {
+        this.users = response.data;
+      },
+      (responseError) => {
+        this.toastrService.error(responseError.data.message, 'Dikkat');
+      }
+    );
   }
 
   createLoginForm() {

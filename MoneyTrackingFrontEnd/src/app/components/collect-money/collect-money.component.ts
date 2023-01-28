@@ -7,7 +7,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./collect-money.component.scss'],
 })
 export class CollectMoneyComponent implements OnInit {
-  answer: Number = 0;
+  answer = 0;
   collectMoneyForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}

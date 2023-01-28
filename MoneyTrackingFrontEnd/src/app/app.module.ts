@@ -10,9 +10,11 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from './models/myDateFormats';
+import { NotFoundComponent } from './components/not-found/not-found/not-found.component';
+import { SharedModule } from './components/shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NotFoundComponent],
   imports: [
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -21,8 +23,7 @@ import { MY_DATE_FORMATS } from './models/myDateFormats';
     FormsModule,
     ReactiveFormsModule,
     MatMomentDateModule,
-
-
+    SharedModule,
     ToastrModule.forRoot({
       progressBar: true,
       closeButton: true,

@@ -17,7 +17,6 @@ import { MatButtonModule } from '@angular/material/button';
     ToolbarComponent,
     SidenavComponent,
     DashboardComponent,
-
   ],
   imports: [
     CommonModule,

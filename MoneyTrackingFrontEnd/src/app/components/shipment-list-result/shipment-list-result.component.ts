@@ -56,6 +56,7 @@ export class ShipmentListResultComponent {
   ) {}
 
   ngOnInit(): void {
+    this.tokenAndUserControl();
     this.getAllShipmentListDetailByStatusAndDate();
   }
 
@@ -72,25 +73,7 @@ export class ShipmentListResultComponent {
 
     const arrayControl = Array.isArray(this.userRole);
     if (arrayControl == false) {
-      if (this.userRole.toString() == 'Admin') {
-        this.add = true;
-        this.delete = true;
-        this.update = true;
-        this.list = true;
-      }
-      if (this.userRole.toString() == 'Staff') {
-        this.add = true;
-        this.delete = true;
-        this.update = true;
-        this.list = true;
-      }
-      if (this.userRole.toString() == 'Shipment') {
-        this.add = true;
-        this.delete = true;
-        this.update = true;
-        this.list = true;
-      }
-      if (this.userRole.toString() == 'Service') {
+      if (this.userRole.toString() == 'Admin' || 'Staff' || 'Shipment' || 'Service' ) {
         this.add = true;
         this.delete = true;
         this.update = true;

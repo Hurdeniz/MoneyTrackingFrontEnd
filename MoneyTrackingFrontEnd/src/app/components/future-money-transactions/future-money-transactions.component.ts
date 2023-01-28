@@ -227,7 +227,7 @@ export class FutureMoneyTransactionsComponent implements OnInit {
   openPartialIncomingDialog(row: any) {
     this.dialog
       .open(PartialIncomingMoneyComponent, {
-        width: '600px',
+        width: '350px',
         data: row,
       })
       .afterClosed()

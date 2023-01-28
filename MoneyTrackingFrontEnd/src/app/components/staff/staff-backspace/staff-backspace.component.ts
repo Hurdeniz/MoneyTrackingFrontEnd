@@ -47,7 +47,6 @@ export class StaffBackspaceComponent {
   }
 
   update() {
-    debugger
     if (this.staffForm.valid) {
       let staffModel = Object.assign({}, this.staffForm.value);
       this.staffService.update(staffModel).subscribe(

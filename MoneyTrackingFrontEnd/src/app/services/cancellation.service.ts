@@ -3,8 +3,10 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cancellation } from '../models/cancellation';
 import { CancellationDetailsDto } from '../models/Dtos/cancellationDetailsDto';
+import { Sum } from '../models/Dtos/sum';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
+import { SingleResponseModel } from '../models/singleResponseModel';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +30,11 @@ export class CancellationService {
     return this.httpClient.get<ListResponseModel<CancellationDetailsDto>>(
       newPath
     );
+  }
+
+  getSumByDateAndUser(date:string , userId:number): Observable<SingleResponseModel<Sum>> {
+    let newPath = this.apiUrl + 'Cancellation/GetSumByDateAndUser?date='+date+'&userId='+userId ;
+    return this.httpClient.get<SingleResponseModel<Sum>>(newPath);
   }
 
   add(cancellation: Cancellation): Observable<ResponseModel> {

@@ -1,212 +1,218 @@
-<!-- <div class="grid-container">
-  <mat-grid-list cols="4" rowHeight="120px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header class="deneme">
-          <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
+<div class="container-fluid dashboard-container">
+  <h1 mt-1 class="dashboard-title">Kasa Takip Sistemi</h1>
+  <mat-divider class="top-divider"></mat-divider>
 
-          <mat-card-title >
-         <h1 style="margin: 0px;" class="mt-1">Kullanıcı</h1>
-            <h1 class="mt-1">15</h1>
-
-               <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-
-          </mat-card-title>
-
-        </mat-card-header>
-   <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div> -->
-
-<div class="container-fluid"  style="padding: 10px">
-  <h1 mt-1 style="text-align: center; margin-top: 10px; font-size: 35px;">Kasa Takip Sistemi</h1>
-  <mat-divider style="margin-bottom: 10px;"></mat-divider>
-
-    <div class="row center-xs center-sm center-md center-lg center-xl">
-      <div class="col" style="padding: 5px">
-        <mat-card style="height: 80px; width: 230px;">
-          <mat-card-header class="deneme">
-          <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
-
-
-           <mat-card-title style="padding-right: 0px; width: 135px;">Kredi Kartı</mat-card-title>
-            <mat-card-subtitle style="padding-right: 0px; width: 135px;">₺ 2500</mat-card-subtitle>
-
-
-          </mat-card-header>
-
-        </mat-card>
-
-
-    </div>
-
-    <div class="col" style="padding: 5px">
-      <mat-card style="height: 80px; width: 230px;">
-        <mat-card-header class="deneme">
-        <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
-
-
-         <mat-card-title style="padding-right: 0px; width: 135px;">Masraf</mat-card-title>
-          <mat-card-subtitle style="padding-right: 0px; width: 135px;">3300 ₺</mat-card-subtitle>
-
-
-        </mat-card-header>
-
-      </mat-card>
-
-
-  </div>
-
-    <div class="col" style="padding: 5px">
-      <mat-card style="height: 80px; width: 230px;">
-        <mat-card-header class="deneme">
-        <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
-
-
-         <mat-card-title style="padding-right: 0px; width: 135px;">E-Gelecek</mat-card-title>
-          <mat-card-subtitle style="padding-right: 0px; width: 135px;">2500₺</mat-card-subtitle>
-
-
-        </mat-card-header>
-
-      </mat-card>
-
-
-    </div>
-
-    <div class="col" style="padding: 5px">
-      <mat-card style="height: 80px; width: 230px;">
-        <mat-card-header class="deneme">
-        <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
-
-
-         <mat-card-title style="padding-right: 0px; width: 135px;">E-Gelen</mat-card-title>
-          <mat-card-subtitle style="padding-right: 0px; width: 135px;">2500₺</mat-card-subtitle>
-
-
-        </mat-card-header>
-
-      </mat-card>
-
-
-    </div>
-
-    <div class="col" style="padding: 5px">
-      <mat-card style="height: 80px; width: 230px;">
-        <mat-card-header class="deneme">
-        <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
-
-
-         <mat-card-title style="padding-right: 0px; width: 135px;">Personel</mat-card-title>
-          <mat-card-subtitle style="padding-right: 0px; width: 135px;">25</mat-card-subtitle>
-
-
-        </mat-card-header>
-
-      </mat-card>
-
-    </div>
-
-    <div class="col" style="padding: 5px">
-      <mat-card style="height: 80px; width: 230px;">
-        <mat-card-header class="deneme">
-        <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="font-size: 50px;height: 50px;width: 50px;"></mat-icon>
-
-
-         <mat-card-title style="padding-right: 0px; width: 135px;">Kullanıcı</mat-card-title>
-          <mat-card-subtitle style="padding-right: 0px; width: 135px;">25</mat-card-subtitle>
-
-
-        </mat-card-header>
-
-      </mat-card>
-
-
-    </div>
-
-  </div>
-<mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
   <div class="row center-xs center-sm center-md center-lg center-xl">
+    <div class="col">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-icon
+            class="header-icon"
+            mat-card-avatar
+            fontIcon="credit_card"
+          ></mat-icon>
 
-  <div class="col-lg-5">
+          <mat-card-title class="dashboard-card-title"
+            >Kredi Kartı</mat-card-title
+          >
+          <mat-card-subtitle class="dashboard-card-title">{{
+            cardPaymentSum | currency : "₺ "
+          }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
 
-  <mat-card style="height:100%;">
-    <mat-card-header style="justify-content: center;align-items: center; margin-bottom: 10px;">
-    <mat-icon mat-card-avatar aria-hidden="false" aria-label="Example home icon" fontIcon="percent" style="font-size: 40px;height: 40px;width: 40px;"></mat-icon>
-    <mat-card-title style="font-size: 25px;" >Yüzde Hesapla</mat-card-title>
-  </mat-card-header>
-    <mat-divider style="margin:0px 0px 15px 0px;"></mat-divider>
+    <div class="col">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-icon
+            class="header-icon"
+            mat-card-avatar
+            fontIcon="article"
+          ></mat-icon>
 
-    <mat-card-content>
+          <mat-card-title class="dashboard-card-title">Masraf</mat-card-title>
+          <mat-card-subtitle class="dashboard-card-title">{{
+            expenditureSum | currency : "₺ "
+          }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
 
+    <div class="col">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-icon
+            class="header-icon"
+            mat-card-avatar
+            fontIcon="assignment_ind"
+          ></mat-icon>
 
-  <p>
-    <mat-form-field appearance="fill" color="accent" style="width:300px">
-      <mat-label>Banka Adı</mat-label>
-      <input
-        matInput
-        type="text"
-        formControlName="bankName"
-        placeholder="Banka Adı Giriniz."
-      />
-    </mat-form-field>  </p>
+          <mat-card-title class="dashboard-card-title"
+            >E-Gelecek</mat-card-title
+          >
+          <mat-card-subtitle class="dashboard-card-title">{{
+            futureMoneySum | currency : "₺ "
+          }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
 
-    <p>
-      <mat-form-field appearance="fill" color="accent" style="width:300px">
-        <mat-label>Banka Adı</mat-label>
-        <input
-          matInput
-          type="text"
-          formControlName="bankName"
-          placeholder="Banka Adı Giriniz."
-        />
-      </mat-form-field>  </p>
+    <div class="col">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-icon
+            class="header-icon"
+            mat-card-avatar
+            fontIcon="money_off"
+          ></mat-icon>
 
-      <p>
-        <button mat-raised-button color="primary" style="width: 300px;">Primary</button>
+          <mat-card-title class="dashboard-card-title">İptal</mat-card-title>
+          <mat-card-subtitle class="dashboard-card-title">{{
+            cancellationSum | currency : "₺ "
+          }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
 
-      </p>
+    <div class="col">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-icon
+            class="header-icon"
+            mat-card-avatar
+            fontIcon="local_shipping"
+          ></mat-icon>
 
+          <mat-card-title class="dashboard-card-title">Sevkiyat</mat-card-title>
+          <mat-card-subtitle class="dashboard-card-title">{{
+            shipmentListCount
+          }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
 
-      <p>
-        <button mat-stroked-button color="accent" style="width: 300px;">Accent</button>  </p>
+    <div class="col">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-icon
+            class="header-icon"
+            mat-card-avatar
+            fontIcon="groups"
+          ></mat-icon>
 
-
-
-        <p>
-          <button mat-stroked-button color="accent" style="width: 300px;">Accent</button> </p>
-
-    </mat-card-content>
-  </mat-card>
-
-
-
-
+          <mat-card-title class="dashboard-card-title">Sor</mat-card-title>
+          <mat-card-subtitle class="dashboard-card-title">{{
+            researchListCount
+          }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
   </div>
 
-  <mat-divider [inset]="true"></mat-divider>
+  <mat-divider class="bottom-divider"></mat-divider>
 
-  <div class="col-lg-5">
-
-    <mat-card style="height: 100%;">
-      <mat-card-content>
-        <div class="section-example-container mat-elevation-z8">
-          <table
-            mat-table
-            id="noteTable"
-            [dataSource]="dataSource"
-            matSort
+  <div class="row center-xs center-sm center-md center-lg center-xl">
+    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5 col-xl-5 percent-col">
+      <mat-card class="percent-card">
+        <mat-card-header class="percent-card-header">
+          <mat-icon
+            class="percent-header-icon"
+            mat-card-avatar
+            fontIcon="percent"
+          ></mat-icon>
+          <mat-card-title class="percent-card-title"
+            >Yüzde Hesapla</mat-card-title
           >
+        </mat-card-header>
+
+        <mat-divider class="percent-divider"></mat-divider>
+
+        <mat-card-content>
+          <p>
+            <mat-form-field
+              class="percent-input-width"
+              appearance="outline"
+              color="accent"
+            >
+              <mat-label>Tutar ₺</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="Tutar"
+                placeholder="Tutar Giriniz"
+              />
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field
+              class="percent-input-width"
+              appearance="outline"
+              color="accent"
+            >
+              <mat-label>Yüzde %</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="bankName"
+                placeholder="Yüzde Giriniz"
+              />
+            </mat-form-field>
+          </p>
+
+          <p>
+            <button
+              mat-raised-button
+              color="primary"
+              class="percent-input-width"
+            >
+              Hesapla
+            </button>
+          </p>
+
+          <p>
+            <mat-form-field
+              class="percent-input-width"
+              appearance="outline"
+              color="accent"
+            >
+              <mat-label>İskonto</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="bankName"
+                placeholder="Yüzde Giriniz"
+              />
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field
+              class="percent-input-width"
+              appearance="outline"
+              color="accent"
+            >
+              <mat-label>Tutar</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="bankName"
+                placeholder="Yüzde Giriniz"
+              />
+            </mat-form-field></p
+        ></mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5 col-xl-5 note-col">
+      <mat-card class="note-card">
+        <mat-card-content>
+          <table mat-table id="noteTable" [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
               <td mat-cell *matCellDef="let element">
-                {{ element.date | date: "yyyy-MM-dd" }}
+                {{ element.date | date : "dd.MM.yyyy" }}
               </td>
             </ng-container>
 
@@ -217,192 +223,12 @@
               </td>
             </ng-container>
 
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-
-          <mat-paginator
-            [pageSize]="5"
-            [pageSizeOptions]="[5,10, 20, 30, 50, 100]"
-            showFirstLastButtons
-          >
-          </mat-paginator>
-        </div>
-    </mat-card-content>
-  </mat-card>
-
+          <mat-paginator [pageSize]="5" showFirstLastButtons> </mat-paginator>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
-  </div>
-
-  <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider>
-  <div class="row center-xs center-sm center-md center-lg center-xl">
-
-
-
-    <mat-card>
-
-
-      <mat-card-content>
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-            <section class="section-example-container mat-elevation-z8">
-              <h1 style="margin: 0px; padding: 5px">Sevkiyat Listesi</h1>
-              <table
-                mat-table
-                id="shipmentListTable"
-                [dataSource]="dataSourceShipment"
-                matSort
-              >
-                <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.date | date : "dd.MM.yyyy" }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="customerCode">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Müşteri Kodu
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.customerCode }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="customerNameSurname">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Adı Soyadı
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.customerNameSurname }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="promissoryNumber">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Senet Numarası
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.promissoryNumber }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="adress">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Adres</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.adress }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="result">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Sonuç</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.result }}
-                  </td>
-                </ng-container>
-
-                <tr
-                  mat-header-row
-                  *matHeaderRowDef="displayedColumnsShipment"
-                ></tr>
-                <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumnsShipment"
-                ></tr>
-              </table>
-
-              <mat-paginator
-                [pageSize]="50"
-                [pageSizeOptions]="[10, 20, 30, 50, 100]"
-                showFirstLastButtons
-              >
-              </mat-paginator>
-            </section>
-          </div>
-
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-            <section class="section-example-container mat-elevation-z8">
-              <h1 style="margin: 0px; padding: 5px">Sor Listesi</h1>
-              <table
-                mat-table
-                id="researchListTable"
-                [dataSource]="dataSourceResearch"
-                matSort
-              >
-                <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.date | date : "dd.MM.yyyy" }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="shipmentNumber">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Sıra</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.shipmentNumber }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="customerCode">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Müşteri Kodu
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.customerCode }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="customerNameSurname">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Adı Soyadı
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.customerNameSurname }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="promissoryNumber">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Senet Numarası
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.promissoryNumber }}
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="description">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Açıklama
-                  </th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.description }}
-                  </td>
-                </ng-container>
-
-                <tr
-                  mat-header-row
-                  *matHeaderRowDef="displayedColumnsResearch"
-                ></tr>
-                <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumnsResearch"
-                ></tr>
-              </table>
-
-              <mat-paginator
-                [pageSize]="50"
-                [pageSizeOptions]="[10, 20, 30, 50, 100]"
-                showFirstLastButtons
-              >
-              </mat-paginator>
-            </section>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  </div>
-
-
-
+</div>

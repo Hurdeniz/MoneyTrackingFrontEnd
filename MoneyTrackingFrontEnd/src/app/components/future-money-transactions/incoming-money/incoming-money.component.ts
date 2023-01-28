@@ -72,7 +72,6 @@ export class IncomingMoneyComponent implements OnInit {
   }
 
   add() {
-    debugger
     if (this.incomingMoneyForm.valid) {
       let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
       this.incomingMoneyService

@@ -1,0 +1,91 @@
+.dashboard-container {
+  padding: 10px;
+
+  .dashboard-title {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 35px;
+  }
+
+  .top-divider {
+    margin-bottom: 10px;
+  }
+
+  .bottom-divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .col {
+    padding: 5px;
+
+    .dashboard-card {
+      height: 80px;
+      width: 230px;
+
+      .dashboard-card-header {
+        display: flex;
+        width: 200px;
+        text-align: end;
+
+        .header-icon {
+          font-size: 50px;
+          height: 50px;
+          width: 50px;
+        }
+
+        .dashboard-card-title {
+          padding-right: 0px;
+          width: 135px;
+        }
+      }
+    }
+  }
+
+  .percent-col {
+    margin: 5px;
+
+    .percent-card {
+      height: 100%;
+
+      .percent-card-header {
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .percent-header-icon {
+          font-size: 40px;
+          height: 40px;
+          width: 40px;
+        }
+
+        .percent-card-title {
+          font-size: 25px;
+        }
+      }
+    }
+
+    .percent-divider {
+      margin-bottom: 15px;
+    }
+
+    .percent-input-width {
+      width: 300px;
+    }
+  }
+
+  .note-col {
+    margin: 5px;
+    .note-card {
+      height: 100%;
+
+      table {
+        width: 100%;
+
+        .mat-column-date {
+          width: 130px;
+        }
+      }
+    }
+  }
+}

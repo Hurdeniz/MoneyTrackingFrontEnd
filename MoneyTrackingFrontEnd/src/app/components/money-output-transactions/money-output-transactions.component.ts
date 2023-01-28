@@ -14,7 +14,6 @@ import { GetTotalsDto } from 'src/app/models/Dtos/getTotalsDto';
 import { SafeBoxService } from 'src/app/services/safe-box.service';
 import { SafeBoxInformationComponent } from './safe-box-information/safe-box-information.component';
 import { CardPaymentInformationComponent } from './card-payment-information/card-payment-information.component';
-import { CardPaymentCountDto } from 'src/app/models/Dtos/cardPaymentCountDto';
 import { CardPaymentService } from 'src/app/services/card-payment.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from 'src/app/services/auth.service';
@@ -48,7 +47,6 @@ export class MoneyOutputTransactionsComponent {
   };
   cardPaymentCountDto: Count;
   safeBoxCountDto: Count;
-
   safeBoxForm: FormGroup;
   totalSafeBox: number;
   dataLoaded = false;
@@ -189,16 +187,14 @@ export class MoneyOutputTransactionsComponent {
   }
 
   cardPaymentCount() {
-    this.cardPaymentService.countByDate(this.day).subscribe((response) => {
+    this.cardPaymentService.getCountByDate(this.day).subscribe((response) => {
       this.cardPaymentCountDto = response.data;
-      console.log(this.cardPaymentCountDto);
     })
   }
 
   safeBoxCount() {
     this.safeBoxService.countByDate(this.day).subscribe((response) => {
       this.safeBoxCountDto = response.data;
-      console.log(this.safeBoxCountDto);
     })
   }
 
@@ -208,7 +204,6 @@ export class MoneyOutputTransactionsComponent {
       .subscribe(
         (response) => {
           this.getTotalsDto = response.data;
-          console.log(this.getTotalsDto)
           if (this.getTotalsDto.totalFutureMoneyCancellationAmount == 0) {
             this.totalFutureMoneyCancellationAmountStatus = false;
           }

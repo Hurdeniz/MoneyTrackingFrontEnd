@@ -69,6 +69,7 @@ export class StaffComponent implements OnInit {
   update: boolean = false;
   list: boolean = false;
   statusOff: boolean = false;
+  statusBackspace: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -104,6 +105,7 @@ export class StaffComponent implements OnInit {
         this.update = true;
         this.list = true;
         this.statusOff=true;
+        this.statusBackspace=true;
       }
     }
     else {
@@ -113,6 +115,8 @@ export class StaffComponent implements OnInit {
           this.delete = true;
           this.update = true;
           this.list = true;
+          this.statusOff=true;
+          this.statusBackspace=true;
         }
         if (element == 'Staff.Add') {
           this.add = true;
@@ -122,9 +126,6 @@ export class StaffComponent implements OnInit {
         }
         if (element == 'Staff.Update') {
           this.update = true;
-        }
-        if (element == 'Staff.UpdateStatus') {
-          this.statusOff=true;
         }
         if (element == 'Staff.GetAllStaffDetailByStatus') {
           this.list = true;

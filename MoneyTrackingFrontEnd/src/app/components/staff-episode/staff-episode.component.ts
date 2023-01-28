@@ -116,7 +116,7 @@ export class StaffEpisodeComponent {
   openAddDialog() {
     this.dialog
       .open(StaffEpisodeViewComponent, {
-        width: '20%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -130,7 +130,7 @@ export class StaffEpisodeComponent {
   openEditDialog(row: any) {
     this.dialog
       .open(StaffEpisodeViewComponent, {
-        width: '20%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -144,7 +144,7 @@ export class StaffEpisodeComponent {
   openDeleteDialog(row: any) {
     this.dialog
       .open(StaffEpisodeDeleteComponent, {
-        width: '20%',
+        width: '460px',
         data: row,
         disableClose:true
       })

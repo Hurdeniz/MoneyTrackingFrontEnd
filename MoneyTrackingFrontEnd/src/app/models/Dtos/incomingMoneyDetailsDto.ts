@@ -15,5 +15,5 @@ export interface IncomingMoneyDetailsDto {
   inComingMoneyDescription:string;
   futureMoneyDescription:string;
   futureMoneyStatus:boolean;
-  incomingMoneyStatus:true;
+  incomingMoneyStatus:boolean;
 }

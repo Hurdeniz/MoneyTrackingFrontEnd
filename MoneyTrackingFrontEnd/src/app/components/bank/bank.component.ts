@@ -113,7 +113,7 @@ export class BankComponent {
   openAddDialog() {
     this.dialog
       .open(BankViewComponent, {
-        width: '20%',
+        width: '400px',
         data: { status: true },
       })
       .afterClosed()
@@ -127,7 +127,7 @@ export class BankComponent {
   openEditDialog(row: any) {
     this.dialog
       .open(BankViewComponent, {
-        width: '20%',
+        width: '400px',
         data: { status: false, row },
       })
       .afterClosed()
@@ -141,7 +141,7 @@ export class BankComponent {
   openDeleteDialog(row: any) {
     this.dialog
       .open(BankDeleteComponent, {
-        width: '20%',
+        width: '450px',
         data: row,
         disableClose:true
       })

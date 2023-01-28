@@ -1,0 +1,18 @@
+.not-found-body{
+  background-color: $not-found-background;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .not-found-title{
+    color: $white;
+    font-size: 35px;
+  }
+
+  .main-form-button{
+    width: 300px;
+    height: 40px;
+  }
+}

@@ -28,6 +28,8 @@ export class PartialIncomingMoneyComponent implements OnInit {
   amountPaid: number;
   dateNow: FormControl;
   dateInput: any;
+ // amountPaidAnswer:number;
+  //futureMoneyAnswer:number;
 
   constructor(
     private incomingMoneyService: IncomingMoneyService,
@@ -45,6 +47,8 @@ export class PartialIncomingMoneyComponent implements OnInit {
     this.customerNameSurname = this.data.customerNameSurname;
     this.promissoryNumber = this.data.promissoryNumber;
     this.amountPaid = this.data.amountPaid;
+
+    console.log(this.data);
 
     this.dateNow = new FormControl(
       moment().format('YYYY-MM-DD'),
@@ -81,6 +85,7 @@ export class PartialIncomingMoneyComponent implements OnInit {
   }
 
   control() {
+
     let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
     if (this.data.futureAmount < incomingMoneyModel.incomingAmount) {
       this.toastrService.error(
@@ -93,20 +98,28 @@ export class PartialIncomingMoneyComponent implements OnInit {
         'Dikkat'
       );
     } else {
+
       let futureMoneyAnswer =
-        this.data.futureAmount - incomingMoneyModel.incomingAmount;
-      let amountPaidAnswer =
-        this.data.amountPaid + incomingMoneyModel.incomingAmount;
-      this.futureAmount = futureMoneyAnswer;
-      this.incomingMoneyForm.controls['amountPaid'].setValue(amountPaidAnswer);
-      this.incomingMoneyForm.controls['futureAmount'].setValue(
-        futureMoneyAnswer
-      );
-      this.add();
+      this.data.futureAmount - incomingMoneyModel.incomingAmount;
+    let amountPaidAnswer =
+      this.data.amountPaid + incomingMoneyModel.incomingAmount;
+    this.futureAmount = futureMoneyAnswer;
+    this.incomingMoneyForm.controls['amountPaid'].setValue(amountPaidAnswer);
+    this.incomingMoneyForm.controls['futureAmount'].setValue(
+      futureMoneyAnswer
+    );
+
+
+//    console.log(incomingMoneyModel);
+
+    this.add();
+
     }
   }
 
+
   add() {
+
     if (this.incomingMoneyForm.valid) {
       let incomingMoneyModel = Object.assign({}, this.incomingMoneyForm.value);
       this.incomingMoneyService

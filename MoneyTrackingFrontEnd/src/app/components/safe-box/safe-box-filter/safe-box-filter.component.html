@@ -1,12 +1,16 @@
 <div class="form-dialog">
   <h1 mat-dialog-title class="dialog-title">Tarih Aralığı Seçiniz</h1>
-  <mat-divider ></mat-divider>
+  <mat-divider></mat-divider>
 
-  <mat-dialog-content class="dialog-content" >
+  <mat-dialog-content class="dialog-content">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <form [formGroup]="dateForm">
-          <mat-form-field appearance="outline" color="accent" class="full-width">
+          <mat-form-field
+            appearance="outline"
+            color="accent"
+            class="full-width"
+          >
             <mat-label>Tarih Aralığı</mat-label>
             <mat-date-range-input [rangePicker]="DateRangePicker">
               <input
@@ -32,9 +36,9 @@
   </mat-dialog-content>
 
   <mat-divider></mat-divider>
-  <mat-dialog-actions class="dialog-actions" >
+  <mat-dialog-actions class="dialog-actions">
     <button
-    class="actions-button"
+      class="actions-button"
       mat-raised-button
       [disabled]="dateForm.invalid"
       color="primary"
@@ -43,4 +47,4 @@
       Göster
     </button>
   </mat-dialog-actions>
-  </div>
+</div>

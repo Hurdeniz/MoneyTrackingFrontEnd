@@ -44,7 +44,7 @@
       ></mat-progress-bar>
       <div class="search-input-box">
         <mat-form-field
-        class="search"
+          class="search"
           *ngIf="searchHide"
           appearance="fill"
           color="accent"
@@ -69,7 +69,6 @@
       </div>
       <section class="section-example-container mat-elevation-z8">
         <table mat-table id="userMenuTable" [dataSource]="dataSource" matSort>
-
           <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Yetki Adı</th>
             <td mat-cell *matCellDef="let element">
@@ -80,14 +79,24 @@
           <ng-container matColumnDef="status" stickyEnd>
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Durumu</th>
             <td mat-cell *matCellDef="let element">
-              <mat-checkbox [(ngModel)]="element.status" (change)="userMenuStatus(element)">{{element.status | userOperationStatus }}</mat-checkbox>
-
+              <mat-checkbox
+                [(ngModel)]="element.status"
+                (change)="userMenuStatus(element)"
+                >{{ element.status | userOperationStatus }}</mat-checkbox
+              >
             </td>
           </ng-container>
 
-
-          <tr class="action-header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr class="action-cell" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr
+            class="action-header"
+            mat-header-row
+            *matHeaderRowDef="displayedColumns"
+          ></tr>
+          <tr
+            class="action-cell"
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+          ></tr>
         </table>
         <mat-paginator
           [pageSize]="100"

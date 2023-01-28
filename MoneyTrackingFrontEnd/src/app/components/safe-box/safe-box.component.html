@@ -5,14 +5,12 @@
         <mat-card-title>Günlük Kasa İşlemleri</mat-card-title>
       </div>
       <div class="col-end">
-
         <button
           class="card-actions-button"
           mat-button
           matTooltip="Filtre"
           matTooltipPosition="above"
           (click)="openFilterDialog()"
-
         >
           <mat-icon>filter_alt</mat-icon>
         </button>
@@ -102,13 +100,15 @@
           <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarih</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.date | date : "yyyy-MM-dd" }}
+              {{ element.date | date : "dd.MM.yyyy" }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>Toplam</td>
           </ng-container>
 
           <ng-container matColumnDef="totalSafeBoxAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Toplam Kasa</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Toplam Kasa
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalSafeBoxAmount | currency : "₺ " }}
             </td>
@@ -118,7 +118,9 @@
           </ng-container>
 
           <ng-container matColumnDef="totalMoneyOutputAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Günün Kasası</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Günün Kasası
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalMoneyOutputAmount | currency : "₺ " }}
             </td>
@@ -128,7 +130,9 @@
           </ng-container>
 
           <ng-container matColumnDef="totalCancellationAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>İptal Tutarı</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              İptal Tutarı
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalCancellationAmount | currency : "₺ " }}
             </td>
@@ -138,37 +142,45 @@
           </ng-container>
 
           <ng-container matColumnDef="totalFutureMoneyAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelecek Tutar</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Gelecek Tutar
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalFutureMoneyAmount | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{  getFutureMoneyAmountTotals() | currency : "₺ " }}
+              {{ getFutureMoneyAmountTotals() | currency : "₺ " }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="totalFutureMoneyCancellationAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelecek Tutar İptal</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Gelecek Tutar İptal
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalFutureMoneyCancellationAmount | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{  getFutureMoneyCancellationAmountTotals() | currency : "₺ " }}
+              {{ getFutureMoneyCancellationAmountTotals() | currency : "₺ " }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="totalIncomingMoneyAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gelen Tutar</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Gelen Tutar
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalIncomingMoneyAmount | currency : "₺ " }}
             </td>
             <td class="td-footer" mat-footer-cell *matFooterCellDef>
-              {{  getIncomingMoneyAmountTotals() | currency : "₺ " }}
+              {{ getIncomingMoneyAmountTotals() | currency : "₺ " }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="totalCentralPayAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Merkez Ödemesi</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Merkez Ödemesi
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalCentralPayAmount | currency : "₺ " }}
             </td>
@@ -177,9 +189,10 @@
             </td>
           </ng-container>
 
-
           <ng-container matColumnDef="totalCustomerPayAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Firma Ödemesi</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Firma Ödemesi
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalCustomerPayAmount | currency : "₺ " }}
             </td>
@@ -188,9 +201,10 @@
             </td>
           </ng-container>
 
-
           <ng-container matColumnDef="totalMonetaryDepositedAmount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Para Yatırma</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Para Yatırma
+            </th>
             <td mat-cell *matCellDef="let element">
               {{ element.totalMonetaryDepositedAmount | currency : "₺ " }}
             </td>
@@ -198,7 +212,6 @@
               {{ getMonetaryDepositedAmountTotals() | currency : "₺ " }}
             </td>
           </ng-container>
-
 
           <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Açıklama</th>
@@ -211,7 +224,6 @@
           <ng-container matColumnDef="action" stickyEnd>
             <th class="action-header" mat-header-cell *matHeaderCellDef></th>
             <td class="action-cell" mat-cell *matCellDef="let element">
-
               <button
                 *ngIf="delete"
                 mat-icon-button

@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardPayment } from '../models/cardPayment';
-import { CardPaymentCountDto } from '../models/Dtos/cardPaymentCountDto';
 import { CardPaymetDetailsDto } from '../models/Dtos/cardPaymentDetailsDto';
 import { CardPaymentGroupByBankNameDto } from '../models/Dtos/cardPaymentGroupByBankNameDto';
 import { Count } from '../models/Dtos/count';
+import { Sum } from '../models/Dtos/sum';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
@@ -30,14 +30,14 @@ export class CardPaymentService {
     return this.httpClient.get<ListResponseModel<CardPaymentGroupByBankNameDto>>(newPath);
   }
 
-  // countByDate(date:string): Observable<SingleResponseModel<CardPaymentCountDto>> {
-  //   let newPath = this.apiUrl + 'CardPayment/CountByDate?date='+date ;
-  //   return this.httpClient.get<SingleResponseModel<CardPaymentCountDto>>(newPath);
-  // }
-
-  countByDate(date:string): Observable<SingleResponseModel<Count>> {
-    let newPath = this.apiUrl + 'CardPayment/CountByDate?date='+date ;
+  getCountByDate(date:string): Observable<SingleResponseModel<Count>> {
+    let newPath = this.apiUrl + 'CardPayment/GetCountByDate?date='+date ;
     return this.httpClient.get<SingleResponseModel<Count>>(newPath);
+  }
+
+  getSumByDateAndUser(date:string , userId:number): Observable<SingleResponseModel<Sum>> {
+    let newPath = this.apiUrl + 'CardPayment/GetSumByDateAndUser?date='+date+'&userId='+userId ;
+    return this.httpClient.get<SingleResponseModel<Sum>>(newPath);
   }
 
   add(cardPayment: CardPayment):Observable<ResponseModel>{
