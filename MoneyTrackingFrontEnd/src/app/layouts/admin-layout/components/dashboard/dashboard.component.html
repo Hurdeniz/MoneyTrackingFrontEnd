@@ -1,5 +1,4 @@
 <div class="container-fluid dashboard-container">
-  <h1 mt-1 class="dashboard-title">Kasa Takip Sistemi</h1>
   <mat-divider class="top-divider"></mat-divider>
 
   <div class="row center-xs center-sm center-md center-lg center-xl">
@@ -172,17 +171,15 @@
           </p>
 
           <p>
-            <mat-form-field
-              class="percent-input-width"
-              appearance="outline"
-              color="accent"
-            >
-              <mat-label>İskonto</mat-label>
+            <mat-form-field class="percent-input-width" color="accent" appearance="outline">
+              <mat-label class="percent-input-label">İskonto</mat-label>
               <input
+                class="percent-input"
                 matInput
                 type="number"
                 formControlName="bankName"
-                placeholder="Yüzde Giriniz"
+                disabled
+
               />
             </mat-form-field>
           </p>
@@ -193,12 +190,14 @@
               appearance="outline"
               color="accent"
             >
-              <mat-label>Tutar</mat-label>
+              <mat-label class="percent-input-label">Tutar</mat-label>
               <input
+                class="percent-input"
                 matInput
                 type="number"
                 formControlName="bankName"
-                placeholder="Yüzde Giriniz"
+                disabled
+
               />
             </mat-form-field></p
         ></mat-card-content>

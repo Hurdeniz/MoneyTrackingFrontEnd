@@ -40,12 +40,6 @@ export class ToolbarComponent implements OnInit {
 
   }
 
-  fullScreenStatus(){
-    console.log(this.screenStatus);
-
-  }
-
-
   openFullscreen() {
     if (this.element.requestFullscreen) {
       this.element.requestFullscreen();

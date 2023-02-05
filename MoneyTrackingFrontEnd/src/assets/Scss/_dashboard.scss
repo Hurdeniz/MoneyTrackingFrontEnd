@@ -1,11 +1,7 @@
 .dashboard-container {
   padding: 10px;
 
-  .dashboard-title {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 35px;
-  }
+
 
   .top-divider {
     margin-bottom: 10px;
@@ -71,6 +67,13 @@
 
     .percent-input-width {
       width: 300px;
+
+      .percent-input-label{
+        color: $white;
+      }
+      .percent-input{
+        color: $white;
+      }
     }
   }
 
